@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <title>Tribute & Funeral Banner Maker | श्रद्धांजलि बॅनर | शोक संदेश बॅनर</title>
+  <meta name="description" content="Create beautiful memorial banners with our easy-to-use generator. Customize with photos, text, and designs to honor your loved ones.">
+  <meta name="keywords" content="memorial banner, funeral banner, tribute banner, banner generator, custom banners, marathi daskriya banner, shokakul banner generator, nidhan bannar generator">
+  <style>
+    body {
+      font-family: 'Devanagari', sans-serif;
+      background-color: #f0f0f0;
+      text-align: center;
+    }
+
+    .container {
+      margin: 20px auto;
+      max-width: 1100px;
+    }
+
+    canvas {
+      border: 2px solid #333;
+      background: #fff;
+    }
+
+    input, textarea, button {
+      margin: 6px;
+      padding: 8px;
+      width: 90%;
+      font-size: 16px;
+    }
+
+    input[type="file"] {
+      width: auto;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      text-align: left;
+      margin-top: 10px;
+    }
+
+    form {
+      text-align: left;
+      background: #fff;
+      padding: 15px;
+      border: 1px solid #ccc;
+      margin-bottom: 20px;
+    }
+
+    #downloadBtn {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #388e3c;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    #downloadBtn:hover {
+      background-color: #2e7d32;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>श्रद्धांजली बॅनर जनरेटर</h2>
+
+  <form id="bannerForm">
+    <label>पूर्ण नाव:</label>
+    <input type="text" id="name" value="कै. गोपीनाथ जनाजी रामाणे">
+
+    <label>वय:</label>
+    <input type="number" id="age" value="६४">
+
+    <label>निधन दिनांक:</label>
+    <input type="text" id="deathDate" value="२६/०३/२०२५">
+
+    <label>श्रद्धांजली संदेश:</label>
+    <textarea id="message" rows="2">तुमचं अस्तित्व सर्व काही होतं...</textarea>
+
+    <label>दशक्रिया माहिती:</label>
+    <textarea id="ritualInfo" rows="2">०४/०४/२०२५ रोजी सकाळी ८.०० वा. लांबेश्वर मंदिर, मोरावे गाव, उरण</textarea>
+
+    <label>कुटुंब सदस्य:</label>
+    <textarea id="family" rows="4">श्रीमती. अरुणा गोपीनाथ रामाणे, श्री. विशाल गोपीनाथ रामाणे, सौ. शितल मंदलिक...</textarea>
+
+    <label>छायाचित्र:</label>
+    <input type="file" id="photo" accept="image/*"><br>
+
+    <button type="button" onclick="generateBanner()">बॅनर तयार करा</button>
+  </form>
+
+  <canvas id="bannerCanvas" width="1100" height="800"></canvas><br>
+  <button id="downloadBtn" onclick="downloadImage()">Download as PNG</button>
+</div>
+
+<script>
+function wrapText(context, text, x, y, maxWidth, lineHeight) {
+  const words = text.split(' ');
+  let line = '';
+  for(let n = 0; n < words.length; n++) {
+    let testLine = line + words[n] + ' ';
+    let metrics = context.measureText(testLine);
+    let testWidth = metrics.width;
+    if (testWidth > maxWidth && n > 0) {
+      context.fillText(line, x, y);
+      line = words[n] + ' ';
+      y += lineHeight;
+    } else {
+      line = testLine;
+    }
+  }
+  context.fillText(line, x, y);
+}
+
+function generateBanner() {
+  const name = document.getElementById('name').value;
+  const age = document.getElementById('age').value;
+  const deathDate = document.getElementById('deathDate').value;
+  const message = document.getElementById('message').value;
+  const ritualInfo = document.getElementById('ritualInfo').value;
+  const family = document.getElementById('family').value;
+  const photoInput = document.getElementById('photo');
+
+  const canvas = document.getElementById('bannerCanvas');
+  const ctx = canvas.getContext('2d');
+
+  // Reset canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // background gradient
+  const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+  gradient.addColorStop(0, '#b3e5fc');
+  gradient.addColorStop(1, '#fce4ec');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // header text
+  ctx.fillStyle = '#b71c1c';
+  ctx.font = 'bold 40px sans-serif';
+  ctx.fillText(name, 330, 80);
+
+  ctx.font = '20px sans-serif';
+  ctx.fillStyle = '#000';
+  ctx.fillText(`(वय: ${age} वर्षे)`, 330, 115);
+  ctx.fillText(`निधन दिनांक: ${deathDate}`, 330, 145);
+
+  // quote
+  ctx.font = 'italic 22px sans-serif';
+  ctx.fillStyle = '#880e4f';
+  wrapText(ctx, message, 330, 180, 720, 28);
+
+  // ritual info
+  ctx.fillStyle = '#1b5e20';
+  ctx.font = 'bold 20px sans-serif';
+  ctx.fillText("◆ दशक्रिया विधी ◆", 330, 250);
+
+  ctx.font = '18px sans-serif';
+  wrapText(ctx, ritualInfo, 330, 280, 700, 26);
+
+  // family
+  ctx.fillStyle = '#3e2723';
+  ctx.font = 'bold 20px sans-serif';
+  ctx.fillText("शोकाकुल :", 330, 350);
+
+  ctx.font = '16px sans-serif';
+  wrapText(ctx, family, 330, 380, 720, 22);
+
+  // footer text
+  ctx.fillStyle = '#d32f2f';
+  ctx.font = 'bold 26px sans-serif';
+  ctx.fillText("भावपूर्ण श्रद्धांजली", 100, 700);
+
+  // photo
+  const file = photoInput.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(evt) {
+      const img = new Image();
+      img.onload = function() {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(180, 250, 110, 0, Math.PI * 2, true);
+        ctx.closePath();
+        ctx.clip();
+        ctx.drawImage(img, 70, 140, 220, 220);
+        ctx.restore();
+      };
+      img.src = evt.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+function downloadImage() {
+  const canvas = document.getElementById('bannerCanvas');
+  const link = document.createElement('a');
+  link.download = 'shraddhanjali-banner.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+</script>
+
+</body>
+</html>
