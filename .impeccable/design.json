@@ -1,0 +1,212 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-05-31T00:00:00Z",
+  "title": "Design System: श्रद्धांजलि बॅनर",
+  "extensions": {
+    "colorMeta": {
+      "devotional-maroon": {
+        "role": "primary",
+        "displayName": "Devotional Maroon",
+        "canonical": "oklch(18% 0.13 320)",
+        "tonalRamp": ["#1a0010", "#300020", "#460137", "#6e0352", "#a02470", "#c37a9a", "#dfb8cc", "#f5e4ef"]
+      },
+      "devotional-magenta": {
+        "role": "primary",
+        "displayName": "Devotional Magenta",
+        "canonical": "oklch(45% 0.25 310)",
+        "tonalRamp": ["#210018", "#42002e", "#690051", "#920079", "#a805a1", "#c840b8", "#db8fd3", "#f0cfed"]
+      },
+      "marigold-amber": {
+        "role": "secondary",
+        "displayName": "Marigold Amber",
+        "canonical": "oklch(72% 0.17 62)",
+        "tonalRamp": ["#3d2000", "#6b3800", "#9c5500", "#cc7800", "#f39c12", "#f7be60", "#fad99a", "#fef4e0"]
+      },
+      "ceremony-mauve": {
+        "role": "secondary",
+        "displayName": "Ceremony Mauve",
+        "canonical": "oklch(52% 0.18 295)",
+        "tonalRamp": ["#160026", "#2c0050", "#520093", "#6f2abc", "#894dce", "#ab7fe0", "#c8b2eb", "#e8daf5"]
+      },
+      "ritual-parchment": {
+        "role": "neutral",
+        "displayName": "Ritual Parchment",
+        "canonical": "oklch(97% 0.008 82)",
+        "tonalRamp": ["#2a2620", "#4a4438", "#726c60", "#9c9488", "#c4beb6", "#dedad4", "#eeece8", "#faf8f0"]
+      },
+      "deep-plum": {
+        "role": "neutral",
+        "displayName": "Deep Plum",
+        "canonical": "oklch(13% 0.12 330)",
+        "tonalRamp": ["#0e0008", "#1c0014", "#360128", "#560240", "#7a1060", "#a0508a", "#c898b8", "#ead8e4"]
+      },
+      "near-black": {
+        "role": "neutral",
+        "displayName": "Near Black",
+        "canonical": "oklch(17% 0 0)",
+        "tonalRamp": ["#080808", "#121212", "#1c1c1c", "#313131", "#484848", "#797979", "#b0b0b0", "#e8e8e8"]
+      },
+      "surface-white": {
+        "role": "neutral",
+        "displayName": "Surface White",
+        "canonical": "oklch(100% 0 0)",
+        "tonalRamp": ["#1a1a1a", "#333333", "#555555", "#808080", "#aaaaaa", "#cccccc", "#eeeeee", "#ffffff"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Deceased's name on the banner. The single most prominent text element. Never used in UI chrome."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Ceremony title on banner and page section headers. Rozha One carries the weight of formal announcement."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Memorial message, ceremony details, family names. Max 65ch for memorial message field."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Form field labels. Bold, clearly associated, never muted gray on white."
+      }
+    },
+    "shadows": [
+      {
+        "name": "structural-lift",
+        "value": "0 10px 30px rgba(0,0,0,0.2)",
+        "purpose": "Banner preview card only. Communicates this is the output object, not a UI surface."
+      },
+      {
+        "name": "section-ambient",
+        "value": "0 5px 15px rgba(0,0,0,0.1)",
+        "purpose": "Form section grouping. Subtle depth cue only."
+      }
+    ],
+    "motion": [
+      {
+        "name": "theme-transition",
+        "value": "background 0.5s ease, color 0.5s ease",
+        "purpose": "Banner theme color switch. Deliberately unhurried at 500ms — this is not a playful UI."
+      },
+      {
+        "name": "state-transition",
+        "value": "background-color 0.25s ease, border-color 0.25s ease",
+        "purpose": "Button hover and input focus state changes."
+      }
+    ],
+    "breakpoints": [
+      { "name": "mobile", "value": "375px" },
+      { "name": "tablet", "value": "768px" },
+      { "name": "desktop", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button (Generate)",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Primary task trigger. Grounded, ceremonial weight. Deep maroon with white text.",
+      "html": "<button class=\"ds-btn-primary\">बॅनर तयार करा</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; background: #460137; color: #ffffff; font-family: 'Tiro Devanagari Marathi', Georgia, serif; font-size: 1rem; font-weight: 700; line-height: 1.4; padding: 12px 28px; border: none; border-radius: 10px; cursor: pointer; transition: background-color 0.25s ease; } .ds-btn-primary:hover { background: #6e0352; } .ds-btn-primary:focus-visible { outline: 3px solid #894dce; outline-offset: 3px; } .ds-btn-primary:active { background: #300020; } .ds-btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }"
+    },
+    {
+      "name": "Download Button",
+      "kind": "button",
+      "refersTo": "button-download",
+      "description": "The culmination action. Marigold amber — warmth of completion.",
+      "html": "<button class=\"ds-btn-download\">बॅनर डाउनलोड करा</button>",
+      "css": ".ds-btn-download { display: inline-flex; align-items: center; justify-content: center; background: #f39c12; color: #212121; font-family: 'Tiro Devanagari Marathi', Georgia, serif; font-size: 1rem; font-weight: 700; line-height: 1.4; padding: 12px 32px; border: none; border-radius: 10px; cursor: pointer; transition: background-color 0.25s ease; } .ds-btn-download:hover { background: #cc7800; } .ds-btn-download:focus-visible { outline: 3px solid #894dce; outline-offset: 3px; } .ds-btn-download:active { background: #9c5500; } .ds-btn-download:disabled { opacity: 0.4; cursor: not-allowed; }"
+    },
+    {
+      "name": "Form Input",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "Standard text input. Warm-bordered, quiet focus state.",
+      "html": "<div class=\"ds-field\"><label class=\"ds-label\" for=\"ds-input-demo\">नाव</label><input class=\"ds-input\" id=\"ds-input-demo\" type=\"text\" placeholder=\"ज्ञानेश्वर जनाजी रामाणे\"></div>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 6px; } .ds-label { font-family: 'Tiro Devanagari Marathi', Georgia, serif; font-size: 0.875rem; font-weight: 700; line-height: 1.4; color: #212121; } .ds-input { font-family: 'Tiro Devanagari Marathi', Georgia, serif; font-size: 1rem; font-weight: 400; line-height: 1.65; color: #212121; background: #ffffff; border: 1px solid #d0c8cc; border-radius: 8px; padding: 10px 14px; width: 100%; box-sizing: border-box; transition: border-color 0.25s ease; } .ds-input:focus { outline: none; border-color: #460137; } .ds-input::placeholder { color: #8a8085; }"
+    },
+    {
+      "name": "Page Header",
+      "kind": "custom",
+      "refersTo": "button-primary",
+      "description": "Site header bar. Deep maroon — replaces the current purple gradient which is explicitly anti-reference.",
+      "html": "<header class=\"ds-header\"><h1 class=\"ds-header-title\">श्रद्धांजलि बॅनर</h1><p class=\"ds-header-sub\">Memorial Banner Generator</p></header>",
+      "css": ".ds-header { background: #460137; padding: 24px 32px; text-align: center; } .ds-header-title { font-family: 'Rozha One', Georgia, serif; font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 400; color: #ffffff; margin: 0 0 4px 0; line-height: 1.2; letter-spacing: 0.01em; } .ds-header-sub { font-family: 'Tiro Devanagari Marathi', Georgia, serif; font-size: 0.875rem; font-weight: 400; color: rgba(255,255,255,0.75); margin: 0; line-height: 1.4; }"
+    },
+    {
+      "name": "Banner Card",
+      "kind": "card",
+      "refersTo": "banner-card",
+      "description": "The preview output container. Lifted with the structural shadow; parchment background for the traditional theme.",
+      "html": "<div class=\"ds-banner-card\"><div style=\"padding:24px;text-align:center;font-family:'Rozha One',Georgia,serif;font-size:1.25rem;color:#460137;\">बॅनर पूर्वावलोकन</div></div>",
+      "css": ".ds-banner-card { background: #faf8f0; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); overflow: hidden; position: relative; transition: background 0.5s ease; }"
+    },
+    {
+      "name": "Theme Swatch Selector",
+      "kind": "custom",
+      "refersTo": "banner-card",
+      "description": "Aspirational theme picker: direct-tap color swatches replacing the dropdown. Active theme shows maroon ring.",
+      "html": "<div class=\"ds-theme-swatches\" role=\"radiogroup\" aria-label=\"बॅनर रंग निवडा\"><button class=\"ds-swatch ds-swatch--active\" style=\"background:radial-gradient(circle,#faf8f0,#f5f2e9)\" aria-label=\"परंपरागत\" aria-pressed=\"true\"></button><button class=\"ds-swatch\" style=\"background:linear-gradient(135deg,#ffeaa7,#fab1a0)\" aria-label=\"सूर्यास्त\" aria-pressed=\"false\"></button><button class=\"ds-swatch\" style=\"background:linear-gradient(120deg,#a1c4fd,#c2e9fb)\" aria-label=\"सागर\" aria-pressed=\"false\"></button><button class=\"ds-swatch\" style=\"background:linear-gradient(135deg,#f5f5f5,#e0e0e0)\" aria-label=\"क्लासिक\" aria-pressed=\"false\"></button></div>",
+      "css": ".ds-theme-swatches { display: flex; gap: 12px; flex-wrap: wrap; } .ds-swatch { width: 48px; height: 48px; border-radius: 10px; border: 2px solid transparent; cursor: pointer; transition: border-color 0.2s ease, transform 0.15s ease; } .ds-swatch:hover { transform: scale(1.08); } .ds-swatch:focus-visible { outline: 3px solid #894dce; outline-offset: 3px; } .ds-swatch--active { border-color: #460137; box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #460137; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Marigold Threshold",
+    "overview": "This system is built around a single physical scene: the entrance to a memorial space — marigold garlands draped over a doorway, the amber glow of oil lamps against deep maroon cloth, the smell of incense. It is warm without being festive. Devotional without being cold. Every decision is measured against that threshold: does this belong in that space?\n\nThe audience arrives in grief. Many are on Android phones, under time pressure, often in a household where an elder has just died. The interface cannot demand attention or add friction. It earns trust by being exactly what the moment needs: familiar, quiet, precise. The Devanagari script is not a translation layer — it is the native tongue of this tool.\n\nThis system explicitly rejects the generic startup palette (purple gradients, white surfaces, blue CTAs), the cold government form aesthetic, and the Western funeral parlor visual vocabulary. Warmth is carried by color temperature and typography, not by decoration or noise.",
+    "keyCharacteristics": [
+      "Devotional color vocabulary rooted in Maharashtrian ritual (maroon, amber, mauve, parchment)",
+      "Devanagari-first typography: Rozha One for ceremony weight, Tiro Devanagari Marathi for text",
+      "Mobile-native layout: large touch targets, generous text, no pinch-to-zoom",
+      "Flat-at-rest elevation; shadow appears only as structural containment on the banner card",
+      "Transitions at 0.5s ease for theme switches — intentionally unhurried"
+    ],
+    "rules": [
+      {
+        "name": "The Parchment Rule",
+        "body": "Ritual Parchment (#faf8f0) is reserved for the banner output. The page body is never parchment. Backgrounds are either the deep maroon of the header or the clean white of the form surface.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Magenta Rule",
+        "body": "Devotional Magenta appears only on the primary name display within the banner. It does not appear on buttons, links, or labels. Its rarity is the point.",
+        "section": "colors"
+      },
+      {
+        "name": "The Script-First Rule",
+        "body": "Font size, line height, and letter spacing are calibrated for Devanagari letterforms. If an adjustment improves Latin rendering but harms Devanagari readability, Devanagari wins.",
+        "section": "typography"
+      },
+      {
+        "name": "The No All-Caps Rule",
+        "body": "Form labels are never set in all-caps. Devanagari does not have a case system; applying an uppercase transform to mixed scripts produces inconsistent output and signals a Latin-first design reflex.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat-By-Default Rule",
+        "body": "Shadows are not feedback mechanisms. They are spatial anchors. No shadow increases on hover or focus; depth is fixed at rest.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do use Devotional Maroon (#460137) as the page header background, replacing the purple gradient entirely.",
+      "Do set all form labels in Tiro Devanagari Marathi at minimum 0.875rem, 700 weight, Near Black — never muted gray on white.",
+      "Do maintain 4.5:1 contrast for all body text. The memorial message, family names, and ceremony details must be readable.",
+      "Do use Marigold Amber (#f39c12) for the download action.",
+      "Do treat Devanagari letterforms as the primary calibration target for all font decisions.",
+      "Do keep hover and focus transitions at 0.3s–0.5s ease. This is an unhurried interface.",
+      "Do ensure all touch targets are minimum 44×44px. Many users are on mobile phones, in grief."
+    ],
+    "donts": [
+      "Don't use the #667eea → #764ba2 purple gradient anywhere. It is a generic startup aesthetic, explicitly wrong for this context.",
+      "Don't use Bootstrap's default blue primary or green success colors on any visible button.",
+      "Don't use Ritual Parchment (#faf8f0) as the page body background. It belongs to the printed banner output only.",
+      "Don't use government-form-style layouts: cold single-column stacked fields with no warmth or visual grouping.",
+      "Don't use dark navy, silver, or black-rose aesthetics. That is the Western funeral parlor vocabulary, not Maharashtrian Hindu ritual culture.",
+      "Don't use cheerful, energetic, or festive UI language anywhere.",
+      "Don't set labels in all-caps. Devanagari has no uppercase.",
+      "Don't use gradient text (background-clip: text). Emphasis via weight, size, or color only.",
+      "Don't add border-left stripe accents to cards or form sections."
+    ]
+  }
+}
