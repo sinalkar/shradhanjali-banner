@@ -612,6 +612,44 @@
     }
     .community-foot:empty { display: none; }
 
+    /* ─── SPEAKER / ORGANIZER PHOTO STYLING ─── */
+    .photo-col.right .photo-frame-background {
+        display: none !important; /* Hide mourning frame for living preacher/organizer */
+    }
+    .photo-col.right .photo-frame {
+        width: 100% !important;
+        aspect-ratio: 1 / 1 !important;
+        border-radius: 50% !important;
+        border: 4px double var(--gold) !important; /* Premium double golden border */
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2) !important;
+        margin: 0 !important;
+        background: #efe6d4 !important;
+    }
+    .photo-col.right .photo-frame-container {
+        aspect-ratio: 1 / 1 !important;
+        width: 210px !important; /* Proportional refined scale for preacher profile */
+        height: 210px !important;
+        margin-top: 10px;
+    }
+    .speaker-badge {
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 110;
+        background: var(--header-bg); /* Deep devotional maroon */
+        color: var(--gold-light); /* Metallic gold text */
+        font-family: 'Rozha One', serif;
+        font-size: 13px;
+        padding: 3px 14px 4px;
+        border-radius: 20px;
+        border: 1px solid var(--gold);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        white-space: nowrap;
+        letter-spacing: 0.03em;
+        line-height: 1.2;
+    }
+
     @media (max-width: 480px) {
         .floral { width: 104px; height: 104px; }
         .banner-lamp { width: 36px; }
@@ -932,6 +970,7 @@
                                     <div class="photo-frame">
                                         <img id="secondPhotoPreview" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE1MCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiNmMGYwZjAiLz48dGV4dCB4PSI3NSIgeT0iODAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5OTk5OTkiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9ImJvbGQiPkZvdG8gMjwvdGV4dD48L3N2Zz4=" alt="दुसरा फोटो (पर्यायी)">
                                     </div>
+                                    <div class="speaker-badge" data-i18n="label.organizerBadge">प्रवचनकार / आयोजक</div>
                                 </div>
                             </div>
                         </div>
@@ -999,7 +1038,8 @@
         'label.themeColor': 'बॅनर रंग निवडा',
         'label.format':     'डाउनलोड फॉर्मेट',
         'label.photo':      'मुख्य फोटो अपलोड करा',
-        'label.photo2':     'दुसरा फोटो (पर्यायी)',
+        'label.photo2':     'प्रवचनकार / आयोजक फोटो (पर्यायी)',
+        'label.organizerBadge': 'प्रवचनकार / आयोजक',
         'label.name':       'नाव',
         'label.age':        'वय',
         'label.deathDate':  'मृत्यू दिनांक',
@@ -1059,7 +1099,8 @@
         'label.themeColor': 'बैनर रंग चुनें',
         'label.format':     'डाउनलोड फॉर्मेट',
         'label.photo':      'मुख्य फोटो अपलोड करें',
-        'label.photo2':     'दूसरा फोटो (वैकल्पिक)',
+        'label.photo2':     'प्रवचनकार / आयोजक फोटो (वैकल्पिक)',
+        'label.organizerBadge': 'प्रवचनकार / आयोजक',
         'label.name':       'नाम',
         'label.age':        'आयु',
         'label.deathDate':  'मृत्यु तिथि',
@@ -1119,7 +1160,8 @@
         'label.themeColor': 'Select Banner Color',
         'label.format':     'Download Format',
         'label.photo':      'Upload Main Photo',
-        'label.photo2':     'Second Photo (optional)',
+        'label.photo2':     'Speaker / Organizer Photo (optional)',
+        'label.organizerBadge': 'Speaker / Organizer',
         'label.name':       'Name',
         'label.age':        'Age',
         'label.deathDate':  'Date of Passing',
