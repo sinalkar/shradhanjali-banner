@@ -1,0 +1,76 @@
+name: Create Tag & Release
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'                # Don't trigger releases on pure markdown/documentation changes
+      - '.gitignore'           # Don't trigger on gitignore changes
+      - 'LICENSE'              # Don't trigger on license changes
+      - '.github/workflows/**' # Don't trigger on pipeline file edits themselves to avoid loops
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate Code Integrity
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Validate manifest.json Syntax
+        run: |
+          echo "Validating manifest.json format..."
+          node -e "JSON.parse(require('fs').readFileSync('manifest.json', 'utf8'))"
+
+      - name: Validate sw.js Service Worker Syntax
+        run: |
+          echo "Checking sw.js javascript syntax..."
+          node --check sw.js
+
+  release:
+    name: Generate Tag & Release
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Essential: Grant GITHUB_TOKEN write access to push tags and releases
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetches full repository history and all tags
+
+      - name: Generate Tag & Changelog
+        id: tagger
+        uses: mathieudutour/github-tag-action@v6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          default_bump: patch
+          release_branches: main
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tagger.outputs.new_tag }}
+          name: Release ${{ steps.tagger.outputs.new_tag }}
+          body: |
+            ## 🌸 What's New in ${{ steps.tagger.outputs.new_tag }}
+            
+            ${{ steps.tagger.outputs.changelog }}
+            
+            ---
+            *Automatically tagged and published by [GitHub Actions Workflow](https://github.com/${{ github.repository }}/actions).*
+          draft: false
+          prerelease: false
+          generate_release_notes: true # Leverages GitHub's native engine to compile perfect, categorized logs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
