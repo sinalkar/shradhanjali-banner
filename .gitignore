@@ -1,0 +1,24 @@
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Agent & AI Tool Directories (Local Assistant configurations)
+.agents/
+.claude/
+.gemini/
+.impeccable/
+.opencode/
+
+# Local personal test images (Unused in production code)
+mama.jpg
+photo-2024-11-10-09-42-39.jpg
+cf60c3a0-bdb1-4dd6-a98b-c856ecc8cf3e.jpg

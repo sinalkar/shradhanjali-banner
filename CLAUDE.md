@@ -47,3 +47,6 @@ Then open `http://localhost:8080/index.html`.
 - Bootstrap 5.3.3
 - html2canvas (loaded inline via CDN script tag in index.html)
 - Google Fonts: Rozha One, Tiro Devanagari Marathi
+
+
+## claude --resume 9da9117d-3bc7-4ff3-8f06-301c1fb26320
