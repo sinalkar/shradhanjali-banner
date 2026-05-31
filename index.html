@@ -573,9 +573,11 @@
 
     /* Samai oil lamp, top-left */
     .banner-lamp {
-        position: absolute; top: 20px; left: 26px; z-index: 3;
+        position: absolute; top: 20px; z-index: 3;
         width: 46px; display: flex; flex-direction: column; align-items: center;
     }
+    .banner-lamp.left { left: 26px; }
+    .banner-lamp.right { right: 26px; }
     .banner-lamp .lamp-flame {
         width: 13px; height: 26px;
         background: linear-gradient(to top, #f5a500 0%, #ffe880 55%, transparent 100%);
@@ -1006,7 +1008,13 @@
                         <div class="floral fl-tr" aria-hidden="true"></div>
                         <div class="floral fl-bl" aria-hidden="true"></div>
                         <div class="floral fl-br" aria-hidden="true"></div>
-                        <div class="banner-lamp" aria-hidden="true">
+                        <div class="banner-lamp left" aria-hidden="true">
+                            <div class="lamp-flame"></div>
+                            <div class="lamp-bowl"></div>
+                            <div class="lamp-stem"></div>
+                            <div class="lamp-base"></div>
+                        </div>
+                        <div class="banner-lamp right" aria-hidden="true">
                             <div class="lamp-flame"></div>
                             <div class="lamp-bowl"></div>
                             <div class="lamp-stem"></div>
