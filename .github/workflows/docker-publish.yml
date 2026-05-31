@@ -84,6 +84,11 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Verify Docker Hub login
+        run: |
+          echo "Logged in as: ${{ secrets.DOCKERHUB_USERNAME }}"
+          docker info | grep Username || echo "WARNING: could not verify login"
+
       # Tags aligned with GitHub releases created by release.yml:
       #   tag push v1.2.3  → 1.2.3 + 1.2 + latest
       #   push to main     → latest + sha-<short>
@@ -100,6 +105,8 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+        with:
+          driver: docker-container   # Use container driver so login creds are passed through
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
@@ -111,6 +118,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          provenance: false          # Avoids extra manifest push that can trigger scope errors
 
       # Fetch release notes for this tag (if triggered by a version tag push)
       # Falls back to a generic message for plain main-branch pushes
