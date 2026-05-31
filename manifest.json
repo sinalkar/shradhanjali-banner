@@ -1,0 +1,25 @@
+{
+  "name": "श्रद्धांजलि बॅनर | Shradhanjali Banner Maker",
+  "short_name": "श्रद्धांजलि बॅनर",
+  "description": "विनामूल्य श्रद्धांजलि बॅनर जनरेटर — मराठी, हिंदी आणि इंग्रजीत बॅनर तयार करा. Create free memorial and funeral tribute banners in Marathi, Hindi, and English.",
+  "categories": ["utilities", "design"],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#07000c",
+  "theme_color": "#3a0130",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
