@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://shradhanjalibanner.in/banner-preview.jpg" alt="Shradhanjali Banner Preview" width="600"/>
+</p>
+
 # श्रद्धांजलि बॅनर — Shradhanjali Banner
 
 **Free, privacy-first memorial banner generator for Indian families.**  
