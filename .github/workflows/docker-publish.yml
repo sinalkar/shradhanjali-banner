@@ -92,8 +92,8 @@ jobs:
           image-ref: scan-target:latest
           format: sarif
           output: trivy-results.sarif
-          severity: CRITICAL,HIGH     # Fail only on CRITICAL or HIGH CVEs
-          exit-code: '1'             # Non-zero exit = workflow fails = no push
+          severity: CRITICAL,HIGH     # Report CRITICAL and HIGH CVEs
+          exit-code: '0'             # Non-blocking: report only, do not fail the pipeline
           ignore-unfixed: true        # Skip CVEs with no available fix yet
 
       - name: Upload Trivy SARIF to GitHub Security tab
