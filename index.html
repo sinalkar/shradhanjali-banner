@@ -1001,7 +1001,7 @@
                 </select>
 
                 <div class="banner-preview-wrapper">
-                    <div id="banner" class="banner has-second">
+                    <div id="banner" class="banner">
                         <div class="floral fl-tl" aria-hidden="true"></div>
                         <div class="floral fl-tr" aria-hidden="true"></div>
                         <div class="floral fl-bl" aria-hidden="true"></div>
@@ -2042,7 +2042,11 @@
 
     document.getElementById('secondPhoto').addEventListener('change', function(e) {
       const file = e.target.files?.[0];
-      if (!file) return;
+      if (!file) {
+        document.getElementById('banner').classList.remove('has-second');
+        updateBannerScale();
+        return;
+      }
       const reader = new FileReader();
       reader.onload = ev => {
         document.getElementById('secondPhotoPreview').src = ev.target.result;
