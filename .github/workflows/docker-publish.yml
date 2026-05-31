@@ -5,12 +5,12 @@ on:
     branches:
       - main
     tags:
-      - 'v*.*.*'             # Also triggers on version tags e.g. v1.2.3
+      - 'v*.*.*'             # Triggered by release.yml auto-tagging — carries version + changelog
     paths-ignore:
       - '**.md'
       - '.gitignore'
       - 'LICENSE'
-  workflow_dispatch:         # Allows manual trigger from Actions tab
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -25,6 +25,8 @@ env:
 #   1. secrets-scan   ─┐
 #   2. lint-dockerfile ─┴─ both must pass
 #   3. build-and-push   → docker.io/sanjaysinalkar/shradhanjali-banner
+#                         tags aligned with GitHub releases (v1.2.3 → 1.2.3, 1.2, latest)
+#                         Docker Hub description + changelog updated automatically
 # ─────────────────────────────────────────────────────────────────
 
 jobs:
@@ -39,7 +41,7 @@ jobs:
       - name: Checkout code (full history)
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # Full history so Gitleaks can scan all commits
+          fetch-depth: 0
 
       - name: Run Gitleaks
         uses: gitleaks/gitleaks-action@v2
@@ -70,7 +72,7 @@ jobs:
     needs: [secrets-scan, lint-dockerfile]
 
     permissions:
-      contents: read
+      contents: read   # Needed to read GitHub release notes
 
     steps:
       - name: Checkout repository
@@ -82,10 +84,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # Extracts metadata (tags, labels) for the Docker image.
-      # tags strategy:
-      #   push to main     → sanjaysinalkar/shradhanjali-banner:latest + :sha-<short>
-      #   push tag v1.2.3  → sanjaysinalkar/shradhanjali-banner:1.2.3 + :latest
+      # Tags aligned with GitHub releases created by release.yml:
+      #   tag push v1.2.3  → 1.2.3 + 1.2 + latest
+      #   push to main     → latest + sha-<short>
       - name: Extract Docker metadata
         id: meta
         uses: docker/metadata-action@v5
@@ -97,7 +98,6 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
 
-      # Build for both amd64 (servers) and arm64 (Apple Silicon / Raspberry Pi)
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -111,3 +111,54 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      # Fetch release notes for this tag (if triggered by a version tag push)
+      # Falls back to a generic message for plain main-branch pushes
+      - name: Fetch release changelog
+        id: changelog
+        run: |
+          TAG="${{ github.ref_name }}"
+          if [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            NOTES=$(gh release view "$TAG" --json body -q '.body' 2>/dev/null || echo "")
+            if [ -z "$NOTES" ]; then
+              NOTES="See [GitHub Releases](https://github.com/${{ github.repository }}/releases/tag/${TAG}) for full details."
+            fi
+            echo "has_release=true"  >> $GITHUB_OUTPUT
+            echo "tag=${TAG}"        >> $GITHUB_OUTPUT
+          else
+            NOTES="Latest build from \`main\` branch. See [all releases](https://github.com/${{ github.repository }}/releases) for versioned changelogs."
+            echo "has_release=false" >> $GITHUB_OUTPUT
+            echo "tag=latest"        >> $GITHUB_OUTPUT
+          fi
+          # Write notes to file (avoids multiline env var quoting issues)
+          echo "$NOTES" > /tmp/release_notes.md
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Prepend the changelog to the Docker Hub description and push it
+      - name: Update Docker Hub description with changelog
+        run: |
+          TAG="${{ steps.changelog.outputs.tag }}"
+          NOTES=$(cat /tmp/release_notes.md)
+
+          # Build a combined description: changelog block on top, then base description
+          cat > /tmp/dockerhub_full.md <<MARKDOWN
+          ## Latest Release: ${TAG}
+
+          ${NOTES}
+
+          ---
+
+          $(cat DOCKER_HUB_DESCRIPTION.md)
+          MARKDOWN
+
+          cp /tmp/dockerhub_full.md DOCKER_HUB_DESCRIPTION.md
+
+      - name: Push description to Docker Hub
+        uses: peter-evans/dockerhub-description@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: ${{ env.DOCKERHUB_IMAGE }}
+          readme-filepath: ./DOCKER_HUB_DESCRIPTION.md
+          short-description: "Free memorial banner generator — 12 Indian languages, 6 themes, WhatsApp/print/flex download"
