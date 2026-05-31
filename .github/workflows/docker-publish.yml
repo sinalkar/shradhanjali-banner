@@ -18,7 +18,7 @@ concurrency:
 
 env:
   GHCR_IMAGE: ghcr.io/sinalkar/shradhanjali-banner
-  DOCKERHUB_IMAGE: sanjaysinalkar/shradhanjali-banner
+  DOCKERHUB_IMAGE: sinalkar/shradhanjali-banner
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 # ─────────────────────────────────────────────────────────────────

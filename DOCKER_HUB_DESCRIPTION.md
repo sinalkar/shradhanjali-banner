@@ -8,8 +8,8 @@ Create customisable funeral/tribute announcement banners in 12 Indian languages 
 ## Quick Start
 
 ```bash
-docker pull sanjaysinalkar/shradhanjali-banner:latest
-docker run -d -p 8080:80 sanjaysinalkar/shradhanjali-banner:latest
+docker pull sinalkar/shradhanjali-banner:latest
+docker run -d -p 8080:80 sinalkar/shradhanjali-banner:latest
 ```
 
 Open [http://localhost:8080](http://localhost:8080) in your browser.
@@ -53,12 +53,12 @@ Default port: `80` inside the container.
 
 ```bash
 # Custom port mapping
-docker run -d -p 3000:80 sanjaysinalkar/shradhanjali-banner:latest
+docker run -d -p 3000:80 sinalkar/shradhanjali-banner:latest
 
 # With Docker Compose
 services:
   shradhanjali:
-    image: sanjaysinalkar/shradhanjali-banner:latest
+    image: sinalkar/shradhanjali-banner:latest
     ports:
       - "8080:80"
     restart: unless-stopped
