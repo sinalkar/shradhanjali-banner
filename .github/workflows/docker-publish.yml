@@ -1,0 +1,154 @@
+name: Build & Publish Docker Image
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*.*.*'             # Also triggers on version tags e.g. v1.2.3
+    paths-ignore:
+      - '**.md'
+      - '.gitignore'
+      - 'LICENSE'
+  workflow_dispatch:         # Allows manual trigger from Actions tab
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}   # e.g. sinalkar/shradhanjali-banner
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+# ─────────────────────────────────────────────────────────────────
+# PIPELINE ORDER:
+#   1. secrets-scan   ─┐
+#   2. lint-dockerfile  ├─ all must pass
+#   3. trivy-scan     ─┘
+#   4. build-and-push   (runs only if all 3 above succeed)
+# ─────────────────────────────────────────────────────────────────
+
+jobs:
+
+  # ── GATE 1: Secrets & credential leak detection ──────────────────
+  secrets-scan:
+    name: Secrets Leak Scan (Gitleaks)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # Full history so Gitleaks can scan all commits
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # ── GATE 2: Dockerfile linting ───────────────────────────────────
+  lint-dockerfile:
+    name: Dockerfile Lint (Hadolint)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Lint Dockerfile with Hadolint
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: Dockerfile
+          # DL3018: apk add without --no-cache (not applicable here, using nginx:alpine base)
+          # DL3008: apt-get pin versions (not applicable, no apt in this image)
+          ignore: DL3018,DL3008
+          failure-threshold: warning   # Fail on warnings or higher
+
+  # ── GATE 3: Build image locally + Trivy CVE scan ─────────────────
+  trivy-scan:
+    name: Container Vulnerability Scan (Trivy)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write   # Needed to upload SARIF results to GitHub Security tab
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image (local, no push)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          load: true            # Load into local daemon so Trivy can scan it
+          tags: scan-target:latest
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: scan-target:latest
+          format: sarif
+          output: trivy-results.sarif
+          severity: CRITICAL,HIGH     # Fail only on CRITICAL or HIGH CVEs
+          exit-code: '1'             # Non-zero exit = workflow fails = no push
+          ignore-unfixed: true        # Skip CVEs with no available fix yet
+
+      - name: Upload Trivy SARIF to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()   # Upload even if Trivy found issues, so they appear in Security tab
+        with:
+          sarif_file: trivy-results.sarif
+
+  # ── PUBLISH: Only runs after all 3 gates pass ────────────────────
+  build-and-push:
+    name: Build & Push to ghcr.io
+    runs-on: ubuntu-latest
+    needs: [secrets-scan, lint-dockerfile, trivy-scan]   # All 3 gates must pass
+
+    permissions:
+      contents: read
+      packages: write       # Required to push to GitHub Container Registry
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Extracts metadata (tags, labels) for the Docker image.
+      # tags strategy:
+      #   push to main     → ghcr.io/owner/repo:latest + ghcr.io/owner/repo:sha-<short>
+      #   push tag v1.2.3  → ghcr.io/owner/repo:1.2.3 + ghcr.io/owner/repo:latest
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha,prefix=sha-,format=short
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}   # Built-in token — no PAT needed
+
+      # Build for both amd64 (servers) and arm64 (Apple Silicon / Raspberry Pi)
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
