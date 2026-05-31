@@ -5,7 +5,7 @@ on:
     branches:
       - main
     tags:
-      - 'v*.*.*'             # Triggered by release.yml auto-tagging — carries version + changelog
+      - 'v*.*.*'
     paths-ignore:
       - '**.md'
       - '.gitignore'
@@ -17,6 +17,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  GHCR_IMAGE: ghcr.io/sinalkar/shradhanjali-banner
   DOCKERHUB_IMAGE: sanjaysinalkar/shradhanjali-banner
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
@@ -24,9 +25,9 @@ env:
 # PIPELINE ORDER:
 #   1. secrets-scan   ─┐
 #   2. lint-dockerfile ─┴─ both must pass
-#   3. build-and-push   → docker.io/sanjaysinalkar/shradhanjali-banner
-#                         tags aligned with GitHub releases (v1.2.3 → 1.2.3, 1.2, latest)
-#                         Docker Hub description + changelog updated automatically
+#   3. build-and-push   → ghcr.io  (always works, no extra creds)
+#                       → Docker Hub (requires DOCKERHUB_USERNAME + DOCKERHUB_TOKEN)
+#                         both tagged to match GitHub releases
 # ─────────────────────────────────────────────────────────────────
 
 jobs:
@@ -67,36 +68,42 @@ jobs:
 
   # ── PUBLISH: Only runs after both gates pass ─────────────────────
   build-and-push:
-    name: Build & Push to Docker Hub
+    name: Build & Push (ghcr.io + Docker Hub)
     runs-on: ubuntu-latest
     needs: [secrets-scan, lint-dockerfile]
 
     permissions:
-      contents: read   # Needed to read GitHub release notes
+      contents: read
+      packages: write    # Required for ghcr.io push via GITHUB_TOKEN
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # ── Login to ghcr.io (no secrets needed — GITHUB_TOKEN is automatic)
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── Login to Docker Hub
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Verify Docker Hub login
-        run: |
-          echo "Logged in as: ${{ secrets.DOCKERHUB_USERNAME }}"
-          docker info | grep Username || echo "WARNING: could not verify login"
-
-      # Tags aligned with GitHub releases created by release.yml:
-      #   tag push v1.2.3  → 1.2.3 + 1.2 + latest
-      #   push to main     → latest + sha-<short>
+      # Tags aligned with GitHub releases (v1.2.3 → 1.2.3, 1.2, latest + sha)
+      # Both registries get the same tags in one build
       - name: Extract Docker metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.DOCKERHUB_IMAGE }}
+          images: |
+            ${{ env.GHCR_IMAGE }}
+            ${{ env.DOCKERHUB_IMAGE }}
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=sha,prefix=sha-,format=short
@@ -105,10 +112,9 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-        with:
-          driver: docker-container   # Use container driver so login creds are passed through
 
-      - name: Build and push Docker image
+      # Single build — pushed to both registries simultaneously
+      - name: Build and push to ghcr.io + Docker Hub
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -116,50 +122,35 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          provenance: false
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          provenance: false          # Avoids extra manifest push that can trigger scope errors
 
-      # Fetch release notes for this tag (if triggered by a version tag push)
-      # Falls back to a generic message for plain main-branch pushes
+      # ── Update Docker Hub description with latest changelog ───────
       - name: Fetch release changelog
         id: changelog
         run: |
           TAG="${{ github.ref_name }}"
           if [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             NOTES=$(gh release view "$TAG" --json body -q '.body' 2>/dev/null || echo "")
-            if [ -z "$NOTES" ]; then
-              NOTES="See [GitHub Releases](https://github.com/${{ github.repository }}/releases/tag/${TAG}) for full details."
-            fi
-            echo "has_release=true"  >> $GITHUB_OUTPUT
-            echo "tag=${TAG}"        >> $GITHUB_OUTPUT
+            [ -z "$NOTES" ] && NOTES="See [GitHub Releases](https://github.com/${{ github.repository }}/releases/tag/${TAG}) for full details."
+            echo "tag=${TAG}" >> $GITHUB_OUTPUT
           else
             NOTES="Latest build from \`main\` branch. See [all releases](https://github.com/${{ github.repository }}/releases) for versioned changelogs."
-            echo "has_release=false" >> $GITHUB_OUTPUT
-            echo "tag=latest"        >> $GITHUB_OUTPUT
+            echo "tag=latest" >> $GITHUB_OUTPUT
           fi
-          # Write notes to file (avoids multiline env var quoting issues)
           echo "$NOTES" > /tmp/release_notes.md
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Prepend the changelog to the Docker Hub description and push it
-      - name: Update Docker Hub description with changelog
+      - name: Prepend changelog to Docker Hub description
         run: |
           TAG="${{ steps.changelog.outputs.tag }}"
-          NOTES=$(cat /tmp/release_notes.md)
-
-          # Build a combined description: changelog block on top, then base description
-          cat > /tmp/dockerhub_full.md <<MARKDOWN
-          ## Latest Release: ${TAG}
-
-          ${NOTES}
-
-          ---
-
-          $(cat DOCKER_HUB_DESCRIPTION.md)
-          MARKDOWN
-
+          printf "## Latest Release: %s\n\n%s\n\n---\n\n%s" \
+            "$TAG" \
+            "$(cat /tmp/release_notes.md)" \
+            "$(cat DOCKER_HUB_DESCRIPTION.md)" \
+            > /tmp/dockerhub_full.md
           cp /tmp/dockerhub_full.md DOCKER_HUB_DESCRIPTION.md
 
       - name: Push description to Docker Hub
