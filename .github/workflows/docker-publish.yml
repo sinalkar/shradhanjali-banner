@@ -17,15 +17,14 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}   # e.g. sinalkar/shradhanjali-banner
+  DOCKERHUB_IMAGE: sanjaysinalkar/shradhanjali-banner
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 # ─────────────────────────────────────────────────────────────────
 # PIPELINE ORDER:
 #   1. secrets-scan   ─┐
 #   2. lint-dockerfile ─┴─ both must pass
-#   3. build-and-push   (runs only if both above succeed)
+#   3. build-and-push   → docker.io/sanjaysinalkar/shradhanjali-banner
 # ─────────────────────────────────────────────────────────────────
 
 jobs:
@@ -61,46 +60,42 @@ jobs:
         uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile: Dockerfile
-          # DL3018: apk add without --no-cache (not applicable here, using nginx:alpine base)
-          # DL3008: apt-get pin versions (not applicable, no apt in this image)
           ignore: DL3018,DL3008
-          failure-threshold: warning   # Fail on warnings or higher
+          failure-threshold: warning
 
   # ── PUBLISH: Only runs after both gates pass ─────────────────────
   build-and-push:
-    name: Build & Push to ghcr.io
+    name: Build & Push to Docker Hub
     runs-on: ubuntu-latest
-    needs: [secrets-scan, lint-dockerfile]   # Both gates must pass
+    needs: [secrets-scan, lint-dockerfile]
 
     permissions:
       contents: read
-      packages: write       # Required to push to GitHub Container Registry
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       # Extracts metadata (tags, labels) for the Docker image.
       # tags strategy:
-      #   push to main     → ghcr.io/owner/repo:latest + ghcr.io/owner/repo:sha-<short>
-      #   push tag v1.2.3  → ghcr.io/owner/repo:1.2.3 + ghcr.io/owner/repo:latest
+      #   push to main     → sanjaysinalkar/shradhanjali-banner:latest + :sha-<short>
+      #   push tag v1.2.3  → sanjaysinalkar/shradhanjali-banner:1.2.3 + :latest
       - name: Extract Docker metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.DOCKERHUB_IMAGE }}
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=sha,prefix=sha-,format=short
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
-
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}   # Built-in token — no PAT needed
 
       # Build for both amd64 (servers) and arm64 (Apple Silicon / Raspberry Pi)
       - name: Set up Docker Buildx
