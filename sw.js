@@ -1,4 +1,4 @@
-const CACHE_NAME = 'shradhanjali-cache-v2';
+const CACHE_NAME = 'shradhanjali-cache-v3';
 
 // Static resources to cache immediately on installation
 const PRECACHE_ASSETS = [
