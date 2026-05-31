@@ -8,6 +8,7 @@ const PRECACHE_ASSETS = [
   './bg_photoframe.png',
   './banner-preview.jpg',
   './manifest.json',
+  './favicon.ico',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/favicon-32x32.png',
