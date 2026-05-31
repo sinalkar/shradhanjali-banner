@@ -725,74 +725,6 @@
             <section class="form-panel">
                 <h2 class="panel-heading" data-i18n="heading.form">बॅनर माहिती भरा</h2>
 
-                <!-- Theme picker -->
-                <div class="theme-picker">
-                    <p class="picker-label" data-i18n="label.themeColor">बॅनर रंग निवडा</p>
-                    <div class="theme-swatches" role="radiogroup" aria-label="बॅनर रंग">
-                        <button class="theme-swatch active" data-theme-value="traditional" aria-label="परंपरागत" aria-pressed="true">
-                            <span class="swatch-preview" style="background:radial-gradient(circle,#fbf7ec,#ecddbf)"></span>
-                            <span class="swatch-label" data-i18n="theme.traditional">परंपरागत</span>
-                        </button>
-                        <button class="theme-swatch" data-theme-value="sunset" aria-label="सूर्यास्त" aria-pressed="false">
-                            <span class="swatch-preview" style="background:linear-gradient(135deg,#ffeaa7,#fab1a0)"></span>
-                            <span class="swatch-label" data-i18n="theme.sunset">सूर्यास्त</span>
-                        </button>
-                        <button class="theme-swatch" data-theme-value="ocean" aria-label="सागर" aria-pressed="false">
-                            <span class="swatch-preview" style="background:linear-gradient(120deg,#a1c4fd,#c2e9fb)"></span>
-                            <span class="swatch-label" data-i18n="theme.ocean">सागर</span>
-                        </button>
-                        <button class="theme-swatch" data-theme-value="classic" aria-label="क्लासिक" aria-pressed="false">
-                            <span class="swatch-preview" style="background:linear-gradient(135deg,#f5f5f5,#e0e0e0)"></span>
-                            <span class="swatch-label" data-i18n="theme.classic">क्लासिक</span>
-                        </button>
-                        <button class="theme-swatch" data-theme-value="golden" aria-label="सोने" aria-pressed="false">
-                            <span class="swatch-preview" style="background:linear-gradient(135deg,#1e0a00,#3d1a00);box-shadow:inset 0 0 0 1px rgba(212,160,23,0.6)"></span>
-                            <span class="swatch-label" data-i18n="theme.golden">सोने</span>
-                        </button>
-                        <button class="theme-swatch" data-theme-value="lavender" aria-label="आकाश" aria-pressed="false">
-                            <span class="swatch-preview" style="background:linear-gradient(135deg,#e8d5f5,#c9b0e8)"></span>
-                            <span class="swatch-label" data-i18n="theme.lavender">आकाश</span>
-                        </button>
-                    </div>
-                </div>
-                <!-- Hidden select retained for JS compatibility -->
-                <select id="colorTheme" style="display:none" aria-hidden="true">
-                    <option value="traditional">परंपरागत</option>
-                    <option value="sunset">सूर्यास्त</option>
-                    <option value="ocean">सागर</option>
-                    <option value="classic">क्लासिक</option>
-                    <option value="golden">सोने</option>
-                    <option value="lavender">आकाश</option>
-                </select>
-
-                <!-- Format picker -->
-                <div class="format-picker">
-                    <div class="field-group">
-                        <label for="bannerFormat" class="field-label" data-i18n="label.format">डाउनलोड फॉर्मेट</label>
-                        <select id="bannerFormat" class="field-input">
-                            <option value="print"    data-i18n="fmt.print">प्रिंट बॅनर (पूर्ण)</option>
-                            <option value="whatsapp" data-i18n="fmt.whatsapp">WhatsApp स्टेटस (9:16)</option>
-                            <option value="ig-story" data-i18n="fmt.igStory">Instagram स्टेटस (9:16)</option>
-                            <option value="ig-post"  data-i18n="fmt.igPost">Instagram पोस्ट (1:1)</option>
-                            <option value="flex"     data-i18n="fmt.flex">फ्लेक्स प्रिंट (पूर्ण)</option>
-                        </select>
-                        <p class="format-hint" id="formatHint" data-i18n="hint.print">संपूर्ण बॅनर — सर्व माहितीसह.</p>
-                        <div id="flexOptions" class="flex-options" hidden>
-                            <select id="flexSize" class="field-input">
-                                <option value="2x3">2 × 3 फूट</option>
-                                <option value="3x4">3 × 4 फूट</option>
-                                <option value="4x6" selected>4 × 6 फूट</option>
-                                <option value="6x4">6 × 4 फूट (Landscape)</option>
-                            </select>
-                            <select id="flexDpi" class="field-input">
-                                <option value="72">72 DPI — Draft</option>
-                                <option value="150" selected>150 DPI — Standard</option>
-                                <option value="300">300 DPI — High Quality</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Form fields -->
                 <div class="field-grid">
                     <!-- Left column -->
@@ -872,6 +804,34 @@
                     </div>
                 </div>
 
+                <!-- Format picker (moved near actions) -->
+                <div class="format-picker">
+                    <div class="field-group">
+                        <label for="bannerFormat" class="field-label" data-i18n="label.format">डाउनलोड फॉर्मेट</label>
+                        <select id="bannerFormat" class="field-input">
+                            <option value="print"    data-i18n="fmt.print">प्रिंट बॅनर (पूर्ण)</option>
+                            <option value="whatsapp" data-i18n="fmt.whatsapp">WhatsApp स्टेटस (9:16)</option>
+                            <option value="ig-story" data-i18n="fmt.igStory">Instagram स्टेटस (9:16)</option>
+                            <option value="ig-post"  data-i18n="fmt.igPost">Instagram पोस्ट (1:1)</option>
+                            <option value="flex"     data-i18n="fmt.flex">फ्लेक्स प्रिंट (पूर्ण)</option>
+                        </select>
+                        <p class="format-hint" id="formatHint" data-i18n="hint.print">संपूर्ण बॅनर — सर्व माहितीसह.</p>
+                        <div id="flexOptions" class="flex-options" hidden>
+                            <select id="flexSize" class="field-input">
+                                <option value="2x3">2 × 3 फूट</option>
+                                <option value="3x4">3 × 4 फूट</option>
+                                <option value="4x6" selected>4 × 6 फूट</option>
+                                <option value="6x4">6 × 4 फूट (Landscape)</option>
+                            </select>
+                            <select id="flexDpi" class="field-input">
+                                <option value="72">72 DPI — Draft</option>
+                                <option value="150" selected>150 DPI — Standard</option>
+                                <option value="300">300 DPI — High Quality</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Action buttons -->
                 <div class="action-row">
                     <button class="btn-generate" id="btnGenerate" onclick="generateBanner()" data-i18n="btn.generate">बॅनर तयार करा</button>
@@ -889,6 +849,47 @@
                         <span>Full screen</span>
                     </button>
                 </div>
+
+                <!-- Theme picker (moved here for real-time visible area switching) -->
+                <div class="theme-picker">
+                    <p class="picker-label" data-i18n="label.themeColor">बॅनर रंग निवडा</p>
+                    <div class="theme-swatches" role="radiogroup" aria-label="बॅनर रंग">
+                        <button class="theme-swatch active" data-theme-value="traditional" aria-label="परंपरागत" aria-pressed="true">
+                            <span class="swatch-preview" style="background:radial-gradient(circle,#fbf7ec,#ecddbf)"></span>
+                            <span class="swatch-label" data-i18n="theme.traditional">परंपरागत</span>
+                        </button>
+                        <button class="theme-swatch" data-theme-value="sunset" aria-label="सूर्यास्त" aria-pressed="false">
+                            <span class="swatch-preview" style="background:linear-gradient(135deg,#ffeaa7,#fab1a0)"></span>
+                            <span class="swatch-label" data-i18n="theme.sunset">सूर्यास्त</span>
+                        </button>
+                        <button class="theme-swatch" data-theme-value="ocean" aria-label="सागर" aria-pressed="false">
+                            <span class="swatch-preview" style="background:linear-gradient(120deg,#a1c4fd,#c2e9fb)"></span>
+                            <span class="swatch-label" data-i18n="theme.ocean">सागर</span>
+                        </button>
+                        <button class="theme-swatch" data-theme-value="classic" aria-label="क्लासिक" aria-pressed="false">
+                            <span class="swatch-preview" style="background:linear-gradient(135deg,#f5f5f5,#e0e0e0)"></span>
+                            <span class="swatch-label" data-i18n="theme.classic">क्लासिक</span>
+                        </button>
+                        <button class="theme-swatch" data-theme-value="golden" aria-label="सोने" aria-pressed="false">
+                            <span class="swatch-preview" style="background:linear-gradient(135deg,#1e0a00,#3d1a00);box-shadow:inset 0 0 0 1px rgba(212,160,23,0.6)"></span>
+                            <span class="swatch-label" data-i18n="theme.golden">सोने</span>
+                        </button>
+                        <button class="theme-swatch" data-theme-value="lavender" aria-label="आकाश" aria-pressed="false">
+                            <span class="swatch-preview" style="background:linear-gradient(135deg,#e8d5f5,#c9b0e8)"></span>
+                            <span class="swatch-label" data-i18n="theme.lavender">आकाश</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Hidden select retained for JS compatibility -->
+                <select id="colorTheme" style="display:none" aria-hidden="true">
+                    <option value="traditional">परंपरागत</option>
+                    <option value="sunset">सूर्यास्त</option>
+                    <option value="ocean">सागर</option>
+                    <option value="classic">क्लासिक</option>
+                    <option value="golden">सोने</option>
+                    <option value="lavender">आकाश</option>
+                </select>
+
                 <div class="banner-preview-wrapper">
                     <div id="banner" class="banner has-second">
                         <div class="floral fl-tl" aria-hidden="true"></div>
