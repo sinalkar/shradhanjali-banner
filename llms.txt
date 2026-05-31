@@ -1,0 +1,41 @@
+# श्रद्धांजलि बॅनर
+
+> Free online memorial banner generator for Marathi and Hindi-speaking families in Maharashtra, India.
+
+## What this site does
+
+Creates customizable funeral/memorial announcement banners that families can download and print or share digitally. The user fills in details — deceased name, age, date of passing, ceremony location, family members — and a formatted banner image is generated entirely in the browser and downloaded as a JPG.
+
+## Key features
+
+- 6 visual banner themes (परंपरागत / Traditional, सूर्यास्त / Sunset, सागर / Ocean, क्लासिक / Classic, सोने / Golden, आकाश / Lavender)
+- 3-language UI: Marathi (default), Hindi, English
+- Photo upload with decorative frame overlay (bg_photoframe.png)
+- Multiple download formats:
+  - Standard print banner (landscape)
+  - WhatsApp status (9:16 portrait, 1080×1920)
+  - Instagram story (9:16 portrait, 1080×1920)
+  - Instagram post (1:1 square, 1080×1080)
+  - Flex print (2×3, 3×4, 4×6, 6×4 ft at 72/150/300 DPI)
+- Completely free, no account, no data stored on server
+
+## Audience
+
+Marathi and Hindi speaking families in Maharashtra, India and the Indian diaspora who need to create memorial announcement banners (श्रद्धांजलि बॅनर) for religious ceremonies — दशक्रिया, अंत्यसंस्कार, shradhanjali programmes.
+
+## Common search terms this serves
+
+श्रद्धांजलि बॅनर, शोक संदेश बॅनर, अंत्यसंस्कार बॅनर, nidhan banner generator, dasagriya banner, diwangat banner, free marathi memorial banner, shraddhanjali banner online
+
+## Technical
+
+- Static single-page application, hosted on Netlify
+- Client-side only image generation using html2canvas library
+- No backend, no cookies, no analytics beyond Google Tag (G-67SQSS4D5L)
+- Bootstrap 5 grid used only inside the banner element for layout capture
+- Fonts: Rozha One (display), Tiro Devanagari Marathi (body) via Google Fonts
+
+## URLs
+
+- Main app: https://shradhanjalibanner.in/
+- Sitemap: https://shradhanjalibanner.in/sitemap.xml
