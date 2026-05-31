@@ -75,7 +75,7 @@
     }
     </script>
 
-    <!-- Bootstrap grid — needed for banner internals (html2canvas layout) -->
+    <!-- Bootstrap grid — kept for form layout helpers (html2canvas safe) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -311,6 +311,10 @@
 
     /* ─── FORMAT PICKER ──────────────────────────────────────── */
     .format-picker { margin-bottom: 1.5rem; }
+    .format-hint {
+        font-size: 0.78rem; color: var(--placeholder);
+        margin-top: 0.4rem; line-height: 1.4;
+    }
     .flex-options { display: flex; gap: 0.5rem; margin-top: 0.6rem; flex-wrap: wrap; }
     .flex-options select { flex: 1; min-width: 140px; }
 
@@ -407,7 +411,7 @@
     .preview-zoom-btn:hover { background: var(--btn-gen-hover); }
     .preview-zoom-btn svg { width: 16px; height: 16px; }
 
-    /* ─── BANNER PREVIEW ─────────────────────────────────────── */
+    /* ─── BANNER PREVIEW WRAPPER ─────────────────────────────── */
     .banner-preview-wrapper {
         width: 100%;
         touch-action: manipulation;
@@ -444,48 +448,209 @@
         font-size: 0.9rem; padding: 2rem; text-align: center;
     }
 
-    /* ─── BANNER INTERNALS (unchanged visual logic) ──────────── */
+    /* ════════════════════════════════════════════════════════════
+       BANNER — themed via CSS custom properties set by applyTheme()
+       Default values mirror the "traditional" (parchment) theme.
+    ════════════════════════════════════════════════════════════ */
+    .banner, .banner-social {
+        --bn-bg:        radial-gradient(ellipse at 28% 16%, #fbf7ec 0%, #f4ecd6 55%, #ecddbf 100%);
+        --bn-name:      #9c1024;
+        --bn-base:      #5a2412;
+        --bn-mem-bg:    transparent;
+        --bn-mem:       #7a1535;
+        --bn-cer-bg:    rgba(120,18,40,0.06);
+        --bn-cer:       #4a2410;
+        --bn-title:     #7a1030;
+        --bn-fam-bg:    #5e0a2a;
+        --bn-fam:       #fff3e0;
+        --bn-village:   #ffce54;
+        --bn-floral:    1;
+        --bn-frame-tint:#b8862e;
+    }
+
     .banner {
-        width: 100%; min-height: 650px; position: relative;
-        border-radius: 14px; overflow: hidden;
+        width: 100%;
+        position: relative;
+        border-radius: 14px;
+        overflow: hidden;
+        background: var(--bn-bg);
         box-shadow: 0 16px 48px rgba(0,0,0,0.25);
-        transition: background 0.5s ease; transform-origin: top left;
+        transition: background 0.5s ease;
+        transform-origin: top left;
+        padding: 34px 38px 30px;
+        font-family: 'Tiro Devanagari Marathi', serif;
     }
-    .banner-bg {
-        position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-        background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 50%),
-                    radial-gradient(circle at 70% 70%, rgba(255,255,255,0.2) 0%, transparent 50%);
+
+    /* Floral corner decorations (soft CSS blossoms) */
+    .floral {
+        position: absolute; width: 150px; height: 150px;
+        pointer-events: none; z-index: 1; opacity: var(--bn-floral);
+        background:
+            radial-gradient(ellipse 58% 40% at 32% 30%, rgba(214,96,134,0.55) 0%, transparent 62%),
+            radial-gradient(ellipse 40% 58% at 60% 34%, rgba(228,118,152,0.5) 0%, transparent 62%),
+            radial-gradient(ellipse 56% 44% at 46% 62%, rgba(241,160,184,0.5) 0%, transparent 62%),
+            radial-gradient(ellipse 44% 56% at 70% 60%, rgba(214,96,134,0.42) 0%, transparent 62%),
+            radial-gradient(circle at 48% 46%, rgba(255,214,120,0.78) 0%, transparent 26%);
+        filter: saturate(1.05);
     }
-    .decorative-elements { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
-    .lamp { position: absolute; top: 10px; left: 10px; width: 60px; height: 80px; background: linear-gradient(45deg, #f39c12, #e67e22); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-    .lamp::before { content: ''; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 20px; height: 20px; background: #f39c12; border-radius: 50%; }
-    .flowers { position: absolute; width: 40px; height: 40px; background: radial-gradient(circle, #e74c3c 30%, #c0392b 60%, transparent 70%); border-radius: 50%; opacity: 0.8; transition: opacity 0.5s ease; }
-    .flower1 { top: 20px; right: 20px; animation: float 3s ease-in-out infinite; }
-    .flower2 { bottom: 20px; left: 20px; animation: float 3s ease-in-out infinite 1.5s; }
-    .flower3 { bottom: 20px; right: 20px; animation: float 3s ease-in-out infinite 0.5s; }
-    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    .fl-tl { top: -28px; left: -28px; transform: rotate(0deg); }
+    .fl-tr { top: -28px; right: -28px; transform: scaleX(-1); }
+    .fl-bl { bottom: 6px; left: -32px; transform: scaleY(-1); }
+    .fl-br { bottom: 6px; right: -32px; transform: scale(-1,-1); }
+
+    /* Samai oil lamp, top-left */
+    .banner-lamp {
+        position: absolute; top: 20px; left: 26px; z-index: 3;
+        width: 46px; display: flex; flex-direction: column; align-items: center;
+    }
+    .banner-lamp .lamp-flame {
+        width: 13px; height: 26px;
+        background: linear-gradient(to top, #f5a500 0%, #ffe880 55%, transparent 100%);
+        border-radius: 50% 50% 30% 30%; margin-bottom: -3px; z-index: 2;
+        animation: flame 1.6s ease-in-out infinite; transform-origin: bottom center;
+    }
+    .banner-lamp .lamp-bowl {
+        width: 40px; height: 21px;
+        background: linear-gradient(150deg, #d4860a 0%, #f5be00 45%, #b86200 100%);
+        border-radius: 50% 50% 42% 42% / 62% 62% 48% 48%;
+        box-shadow: 0 3px 9px rgba(0,0,0,0.3);
+    }
+    .banner-lamp .lamp-stem {
+        width: 7px; height: 22px;
+        background: linear-gradient(90deg, #b86200, #f5be00 50%, #b86200);
+    }
+    .banner-lamp .lamp-base {
+        width: 30px; height: 8px; border-radius: 50%;
+        background: linear-gradient(150deg, #d4860a, #f5be00 50%, #b86200);
+        box-shadow: 0 3px 7px rgba(0,0,0,0.3);
+    }
+
+    /* Banner header (name / age / death line) */
+    .banner-head { position: relative; z-index: 2; text-align: center; padding: 0 30px; }
+    .main-text {
+        font-family: 'Rozha One', serif; font-size: 52px; line-height: 1.1;
+        color: var(--bn-name); text-wrap: balance;
+        text-shadow: 0 1px 1px rgba(0,0,0,0.12);
+    }
+    .age-text { font-size: 26px; font-weight: 700; color: var(--bn-base); margin-top: 2px; }
+    .death-info { font-size: 26px; font-weight: 700; color: var(--bn-base); margin-top: 4px; }
+
+    /* Mid zone: photo | center text | photo */
+    .banner-mid {
+        position: relative; z-index: 2;
+        display: grid; grid-template-columns: 290px 1fr;
+        gap: 18px; align-items: center; margin-top: 14px;
+    }
+    .banner.has-second .banner-mid { grid-template-columns: 290px 1fr 232px; }
+    .photo-col { display: flex; align-items: center; justify-content: center; }
+    .photo-col.right { display: none; }
+    .banner.has-second .photo-col.right { display: flex; }
 
     .photo-frame-container { position: relative; width: 100%; aspect-ratio: 480 / 640; }
-    .photo-frame-background { width: 100%; height: 100%; background-image: url(bg_photoframe.png); background-size: cover; background-position: center; position: absolute; top: 0; left: 0; z-index: 100; }
-    .photo-frame { width: 94.2%; aspect-ratio: 452 / 504; border-radius: 50%; background: transparent; padding: 0; overflow: hidden; position: relative; z-index: 2; margin: 7.5% 0 0 3.125%; }
+    .photo-frame-background {
+        width: 100%; height: 100%;
+        background-image: url(bg_photoframe.png);
+        background-size: 100% 100%; background-position: center;
+        position: absolute; top: 0; left: 0; z-index: 100;
+    }
+    .photo-frame {
+        width: 94.2%; aspect-ratio: 452 / 504; border-radius: 50%;
+        background: #efe6d4; padding: 0; overflow: hidden;
+        position: relative; z-index: 2; margin: 7.5% 0 0 3.125%;
+    }
     .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
 
-    .main-text, .age-text, .death-info { text-align: center; width: 100%; transition: color 0.5s ease; }
-    .main-text { font-size: 44px; font-weight: 400; text-shadow: 1px 1px 2px rgba(0,0,0,0.9); font-family: 'Rozha One', serif; margin-top: 1rem; }
-    .age-text, .death-info { font-family: 'Tiro Devanagari Marathi', serif; font-weight: bold; color: #360128; }
-    .age-text { font-size: 32px; }
-    .death-info { font-size: 30px; margin-bottom: 1rem; }
-    .memorial-text, .ceremony-info, .family-info { transition: background 0.5s ease, color 0.5s ease; }
-    .memorial-text { text-align: center; font-size: 40px; line-height: 1.6; padding: 15px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); font-family: 'Tiro Devanagari Marathi', serif; font-style: italic; height: 100%; font-weight: bold; }
-    .ceremony-info, .family-info { padding: 15px; border-radius: 10px; font-size: 20px; font-family: 'Tiro Devanagari Marathi', serif; }
-    .ceremony-info { height: 100%; }
-    .family-info { font-size: 20px; line-height: 1.5; }
-    .family-member-item { text-align: left; padding-left: 10px; font-size: 22px; }
-    .ceremony-title { font-size: 52px; font-weight: 400; margin-block: 1rem; text-align: center; width: 100%; transition: color 0.5s ease; text-shadow: 2px 2px 5px rgba(0,0,0,0.25); font-family: 'Rozha One', serif; }
-    .organizer-info, .village-info, #ceremonyDetailsDisplay { text-align: center; transition: color 0.5s ease; font-family: 'Tiro Devanagari Marathi', serif; }
-    #ceremonyDetailsDisplay { font-size: 24px; font-weight: 700; }
-    .organizer-info { font-weight: bold; margin-bottom: 1rem; }
-    .village-info { font-weight: bold; margin: 10px 0; }
+    .banner-center { text-align: center; display: flex; flex-direction: column; gap: 10px; }
+    .memorial-text {
+        font-style: italic; font-weight: 700; font-size: 24px; line-height: 1.5;
+        color: var(--bn-mem); background: var(--bn-mem-bg);
+        border-radius: 10px; padding: 6px 10px;
+    }
+    .ceremony-title {
+        font-family: 'Rozha One', serif; font-size: 46px; line-height: 1.05;
+        color: var(--bn-title); text-shadow: 0 2px 4px rgba(0,0,0,0.14);
+    }
+    .ceremony-info {
+        background: var(--bn-cer-bg); color: var(--bn-cer);
+        border-radius: 12px; padding: 12px 16px;
+    }
+    .ceremony-ritual { font-weight: 700; font-size: 26px; margin-bottom: 4px; color: var(--bn-title); }
+    .ceremony-line { font-weight: 700; font-size: 19px; line-height: 1.45; }
+    .organizer-info { font-weight: 700; font-size: 18px; color: var(--bn-cer); margin-top: 2px; }
+
+    /* Bottom maroon names band */
+    .banner-foot {
+        position: relative; z-index: 2;
+        background: var(--bn-fam-bg); color: var(--bn-fam);
+        border-radius: 14px; padding: 16px 22px 18px;
+        margin-top: 18px; text-align: center;
+        box-shadow: inset 0 0 0 2px rgba(255,210,120,0.22);
+    }
+    .bereaved-head {
+        color: var(--bn-village); font-family: 'Rozha One', serif;
+        font-size: 30px; letter-spacing: 0.04em; margin-bottom: 8px;
+    }
+    .family-cols {
+        column-count: 2; column-gap: 28px;
+        text-align: left; font-size: 19px; line-height: 1.5;
+    }
+    .family-member-item { break-inside: avoid; padding: 1px 0; }
+    .community-foot {
+        color: var(--bn-village); font-weight: 700; font-size: 21px;
+        margin-top: 10px; padding-top: 8px;
+        border-top: 1px solid rgba(255,210,120,0.3);
+    }
+    .community-foot:empty { display: none; }
+
+    @media (max-width: 480px) {
+        .floral { width: 104px; height: 104px; }
+        .banner-lamp { width: 36px; }
+    }
+
+    /* ════════════════════════════════════════════════════════════
+       SOCIAL PORTRAIT CARD — rendered offscreen for WhatsApp / IG
+    ════════════════════════════════════════════════════════════ */
+    .banner-social {
+        position: fixed; left: -100000px; top: 0;
+        width: 1080px; min-height: 1920px;
+        display: flex; flex-direction: column; align-items: center;
+        justify-content: center; gap: 26px;
+        padding: 96px 90px;
+        background: var(--bn-bg);
+        font-family: 'Tiro Devanagari Marathi', serif;
+        overflow: hidden;
+    }
+    .banner-social .floral { width: 280px; height: 280px; }
+    .bs-eyebrow {
+        font-family: 'Rozha One', serif; font-size: 56px;
+        color: var(--bn-title); letter-spacing: 0.06em;
+    }
+    .bs-photo { width: 560px; }
+    .bs-name {
+        font-family: 'Rozha One', serif; font-size: 92px; line-height: 1.08;
+        color: var(--bn-name); text-align: center; text-wrap: balance;
+    }
+    .bs-age, .bs-death {
+        font-size: 46px; font-weight: 700; color: var(--bn-base);
+        text-align: center; line-height: 1.4; max-width: 860px;
+    }
+    .bs-divider {
+        width: 280px; height: 3px; border-radius: 3px;
+        background: linear-gradient(90deg, transparent, var(--bn-village), transparent);
+        margin: 6px 0;
+    }
+    .bs-cer {
+        background: var(--bn-fam-bg); color: var(--bn-fam);
+        border-radius: 22px; padding: 34px 48px; text-align: center;
+        box-shadow: inset 0 0 0 3px rgba(255,210,120,0.22);
+        max-width: 900px;
+    }
+    .bs-cer .ceremony-ritual { color: var(--bn-village); font-size: 44px; margin-bottom: 12px; }
+    .bs-cer .ceremony-line { font-size: 36px; line-height: 1.5; font-weight: 700; }
+    .bs-foot {
+        font-size: 30px; color: var(--bn-base); opacity: 0.72;
+        letter-spacing: 0.05em; margin-top: 4px;
+    }
 
     /* ─── FOOTER ─────────────────────────────────────────────── */
     .site-footer { text-align: center; padding: 1.5rem 1rem; color: var(--footer-text); font-size: 0.8rem; letter-spacing: 0.04em; }
@@ -493,10 +658,10 @@
     /* ─── REDUCED MOTION ─────────────────────────────────────── */
     @media (prefers-reduced-motion: reduce) {
         .app-shell, .form-panel, .preview-panel { animation: none; }
-        .diya-flame, .flower1, .flower2, .flower3 { animation: none; }
-        .banner, .memorial-text, .ceremony-info, .family-info,
+        .diya-flame, .lamp-flame { animation: none; }
+        .banner, .memorial-text, .ceremony-info, .banner-foot,
         .main-text, .age-text, .death-info, .ceremony-title,
-        .flowers, .page-ambient, body, .main-card { transition: none; }
+        .page-ambient, body, .main-card { transition: none; }
     }
     </style>
 
@@ -555,7 +720,7 @@
                     <p class="picker-label" data-i18n="label.themeColor">बॅनर रंग निवडा</p>
                     <div class="theme-swatches" role="radiogroup" aria-label="बॅनर रंग">
                         <button class="theme-swatch active" data-theme-value="traditional" aria-label="परंपरागत" aria-pressed="true">
-                            <span class="swatch-preview" style="background:radial-gradient(circle,#faf8f0,#f0ead8)"></span>
+                            <span class="swatch-preview" style="background:radial-gradient(circle,#fbf7ec,#ecddbf)"></span>
                             <span class="swatch-label" data-i18n="theme.traditional">परंपरागत</span>
                         </button>
                         <button class="theme-swatch" data-theme-value="sunset" aria-label="सूर्यास्त" aria-pressed="false">
@@ -595,12 +760,13 @@
                     <div class="field-group">
                         <label for="bannerFormat" class="field-label" data-i18n="label.format">डाउनलोड फॉर्मेट</label>
                         <select id="bannerFormat" class="field-input">
-                            <option value="print"    data-i18n="fmt.print">प्रिंट बॅनर</option>
+                            <option value="print"    data-i18n="fmt.print">प्रिंट बॅनर (पूर्ण)</option>
                             <option value="whatsapp" data-i18n="fmt.whatsapp">WhatsApp स्टेटस (9:16)</option>
                             <option value="ig-story" data-i18n="fmt.igStory">Instagram स्टेटस (9:16)</option>
                             <option value="ig-post"  data-i18n="fmt.igPost">Instagram पोस्ट (1:1)</option>
-                            <option value="flex"     data-i18n="fmt.flex">फ्लेक्स प्रिंट</option>
+                            <option value="flex"     data-i18n="fmt.flex">फ्लेक्स प्रिंट (पूर्ण)</option>
                         </select>
+                        <p class="format-hint" id="formatHint" data-i18n="hint.print">संपूर्ण बॅनर — सर्व माहितीसह.</p>
                         <div id="flexOptions" class="flex-options" hidden>
                             <select id="flexSize" class="field-input">
                                 <option value="2x3">2 × 3 फूट</option>
@@ -626,26 +792,31 @@
                             <input type="file" class="field-file" id="mainPhoto" accept="image/*">
                         </div>
                         <div class="field-group">
+                            <label for="secondPhoto" class="field-label" data-i18n="label.photo2">दुसरा फोटो (पर्यायी)</label>
+                            <input type="file" class="field-file" id="secondPhoto" accept="image/*">
+                        </div>
+                        <div class="field-group">
                             <label for="name" class="field-label" data-i18n="label.name">नाव</label>
-                            <input type="text" class="field-input" id="name" placeholder="ज्ञानेश्वर जनाजी रामाणे" value="ज्ञानेश्वर जनाजी रामाणे" data-i18n-ph="ph.name">
+                            <input type="text" class="field-input" id="name" placeholder="भगवान जनाजी रामाणे" value="भगवान जनाजी रामाणे" data-i18n-ph="ph.name">
                         </div>
                         <div class="field-group">
                             <label for="age" class="field-label" data-i18n="label.age">वय</label>
-                            <input type="text" class="field-input" id="age" placeholder="७६ वर्षे" value="७६ वर्षे" data-i18n-ph="ph.age">
+                            <input type="text" class="field-input" id="age" placeholder="६८ वर्षे" value="६८ वर्षे" data-i18n-ph="ph.age">
                         </div>
                         <div class="field-group">
                             <label for="deathDate" class="field-label" data-i18n="label.deathDate">मृत्यू दिनांक</label>
-                            <input type="text" class="field-input" id="deathDate" placeholder="०१/०७/२०२५" value="०१/०७/२०२५">
+                            <input type="text" class="field-input" id="deathDate" placeholder="रविवार ०३/११/२०२४" value="रविवार ०३/११/२०२४">
                         </div>
                         <div class="field-group">
                             <label for="deathTime" class="field-label" data-i18n="label.message">संदेश</label>
-                            <input type="text" class="field-input" id="deathTime" placeholder="दुःखद निधन झाले..." value="दुःखद निधन झाले, ईश्वर त्यांच्या आत्म्यास चिरशांती देवो...." data-i18n-ph="ph.message">
+                            <input type="text" class="field-input" id="deathTime" placeholder="दुःखद निधन झाले." value="दुःखद निधन झाले." data-i18n-ph="ph.message">
                         </div>
                         <div class="field-group">
                             <label for="memorialText" class="field-label" data-i18n="label.memorial">स्मारक संदेश</label>
-                            <textarea class="field-textarea" id="memorialText" rows="4" placeholder="तुमचं असणं सर्व काही होतं..." data-i18n-ph="ph.memorial">तुमचं असणं सर्व काही होतं, आयुष्यातील ते सुंदर पर्व होतं,
-आज सर्व काही असल्याची जाणीव आहे, पण तुमचं नसणं
-हिच मोठी उणीव आहे..!!</textarea>
+                            <textarea class="field-textarea" id="memorialText" rows="4" placeholder="तुमचं असणं सर्व काही होतं..." data-i18n-ph="ph.memorial">तुमचं असणं आमच्यासाठी सर्वकाही होतं,
+ते आमच्या आयुष्यातील एक सुंदर पर्व होतं,
+आज सर्व काही असल्याची जाणीव आहे,
+पण तुम्ही नसणं ही मोठी उणीव आहे...!</textarea>
                         </div>
                     </div>
                     <!-- Right column -->
@@ -656,36 +827,37 @@
                         </div>
                         <div class="field-group">
                             <label for="ceremonyDate" class="field-label" data-i18n="label.cerDate">समारंभ दिनांक</label>
-                            <input type="text" class="field-input" id="ceremonyDate" placeholder="१०/०७/२०२५" value="१०/०७/२०२५">
+                            <input type="text" class="field-input" id="ceremonyDate" placeholder="मंगळवार १२/११/२०२४" value="मंगळवार १२/११/२०२४">
                         </div>
                         <div class="field-group">
                             <label for="ceremonyTime" class="field-label" data-i18n="label.cerTime">समारंभ समय</label>
-                            <input type="text" class="field-input" id="ceremonyTime" placeholder="सकाळी ८:३० वा." value="सकाळी ८:३० वा." data-i18n-ph="ph.cerTime">
+                            <input type="text" class="field-input" id="ceremonyTime" placeholder="सकाळी ०७.३० वा." value="सकाळी ०७.३० वा." data-i18n-ph="ph.cerTime">
                         </div>
                         <div class="field-group">
                             <label for="ceremonyPlace" class="field-label" data-i18n="label.cerPlace">समारंभ स्थान</label>
-                            <textarea class="field-textarea" id="ceremonyPlace" rows="3" placeholder="श्री खिडकाळेश्वर महादेव मंदिर..." data-i18n-ph="ph.cerPlace">श्री खिडकाळेश्वर महादेव मंदिर, कल्याण-शिळफाटा रोड, खिडकाली, ठाणे - ४२१२०४</textarea>
+                            <textarea class="field-textarea" id="ceremonyPlace" rows="3" placeholder="स्थान..." data-i18n-ph="ph.cerPlace">वेळनदी तिरावर, मु.पो.वाफगाव, ता.खेड, जि.पुणे येथे संपन्न होईल.</textarea>
                         </div>
                         <div class="field-group">
-                            <label for="organizer" class="field-label" data-i18n="label.organizer">आयोजक</label>
-                            <input type="text" class="field-input" id="organizer" placeholder="ह.भ.प. प्रकाश अर्जुन मांडकर महाराज" value="ह.भ.प. प्रकाश अर्जुन मांडकर महाराज (सेक्टर ४ ऐरोली)" data-i18n-ph="ph.organizer">
+                            <label for="organizer" class="field-label" data-i18n="label.organizer">प्रवचनकार / आयोजक</label>
+                            <input type="text" class="field-input" id="organizer" placeholder="प्रवचनकार..." value="प्रवचनकार: ह.भ.प. आसाराम महाराज बढे (आळंदी देवाची) यांचे प्रवचन होईल." data-i18n-ph="ph.organizer">
                         </div>
                         <div class="field-group">
                             <label for="villageInfo" class="field-label" data-i18n="label.village">गाव माहिती</label>
-                            <input type="text" class="field-input" id="villageInfo" placeholder="समस्त रामाणे परिवार आणि आप्तेष्ट" value="आरु, क्षीरशागर, शिंदे, सिनलकर, मंडलिक, बनकर, खेडकर आणि समस्त रामाणे परिवार आणि आप्तेष्ट" data-i18n-ph="ph.village">
+                            <input type="text" class="field-input" id="villageInfo" placeholder="समस्त ग्रामस्थ..." value="समस्त ग्रामस्थ वाफगाव" data-i18n-ph="ph.village">
                         </div>
                         <div class="field-group">
-                            <label for="familyMembers" class="field-label" data-i18n="label.family">कुटुंब सदस्य</label>
-                            <textarea class="field-textarea" id="familyMembers" rows="5" placeholder="श्रीमती. अलका ज्ञानेश्वर रामाणे (पत्नी)..." data-i18n-ph="ph.family">श्रीमती. अलका ज्ञानेश्वर रामाणे (पत्नी)
+                            <label for="familyMembers" class="field-label" data-i18n="label.family">कुटुंब / शोकाकुल सदस्य</label>
+                            <textarea class="field-textarea" id="familyMembers" rows="6" placeholder="श्रीमती. शोभा भगवान रामाणे (पत्नी)..." data-i18n-ph="ph.family">श्रीमती. शोभा भगवान रामाणे (पत्नी)
+श्री. मधुर भगवान रामाणे (मुलगा)
+श्री. ज्ञानेश्वर जनाजी रामाणे (भाऊ)
+श्री. गोपीनाथ जनाजी रामाणे (भाऊ)
+सौ. अलका दत्तात्रय सिनलकर (बहीण)
+श्री. निलेश निवृत्ती रामाणे (पुतण्या)
+श्री. मनोज भगवान रामाणे (मुलगा)
+सौ. माधुरी अक्षय खेडकर (मुलगी)
 श्री. सत्यवान निवृत्ती रामाणे (पुतण्या)
-सौ. शारदा भानुदास बनकर (पुतणी)
-श्रीमती. सोनिया नितीन शिंदे (मुलगी)
-श्री. मयुर भगवान रामाणे (पुतण्या)
-सौ. माधुरी अक्षय खेडकर (पुतणी)
-श्रीमती. प्रांजली सचिन रामाणे (सून)
-श्री. विशाल गोपीनाथ रामाणे (पुतण्या)
-सौ. शितल श्यामसुंदर मंडलिक (पुतणी)
-सौ. अलका दत्तात्रय सिनलकर (बहीण)</textarea>
+श्री. अक्षय मोहन खेडकर (जावई)
+श्री. विशाल गोपीनाथ रामाणे (पुतण्या)</textarea>
                         </div>
                     </div>
                 </div>
@@ -708,42 +880,55 @@
                     </button>
                 </div>
                 <div class="banner-preview-wrapper">
-                    <div id="banner" class="banner d-flex flex-column">
-                        <div class="banner-bg"></div>
-                        <div class="row gx-0 flex-grow-1">
-                            <div class="col-5 d-flex justify-content-center align-items-center position-relative">
+                    <div id="banner" class="banner has-second">
+                        <div class="floral fl-tl" aria-hidden="true"></div>
+                        <div class="floral fl-tr" aria-hidden="true"></div>
+                        <div class="floral fl-bl" aria-hidden="true"></div>
+                        <div class="floral fl-br" aria-hidden="true"></div>
+                        <div class="banner-lamp" aria-hidden="true">
+                            <div class="lamp-flame"></div>
+                            <div class="lamp-bowl"></div>
+                            <div class="lamp-stem"></div>
+                            <div class="lamp-base"></div>
+                        </div>
+
+                        <div class="banner-head">
+                            <div class="main-text" id="nameDisplay"></div>
+                            <div class="age-text" id="ageDisplay"></div>
+                            <div class="death-info" id="deathInfoDisplay"></div>
+                        </div>
+
+                        <div class="banner-mid">
+                            <div class="photo-col left">
                                 <div class="photo-frame-container">
                                     <div class="photo-frame-background"></div>
-                                    <div id="photoFrame" class="photo-frame">
+                                    <div class="photo-frame">
                                         <img id="mainPhotoPreview" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE1MCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiNmMGYwZjAiLz48dGV4dCB4PSI3NSIgeT0iODAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5OTk5OTkiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiPkZvdG8gQWRkIEthcmVuPC90ZXh0Pjwvc3ZnPg==" alt="स्मारक बॅनरसाठी मुख्य फोटो">
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-7 p-3 d-flex flex-column">
-                                <div class="main-text" id="nameDisplay"></div>
-                                <div class="age-text" id="ageDisplay"></div>
-                                <div class="death-info" id="deathInfoDisplay"></div>
-                                <div class="row gx-3 mt-auto">
-                                    <div class="col-md-6">
-                                        <div class="memorial-text" id="memorialDisplay"></div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="ceremony-info" id="ceremonyInfo">
-                                            <div id="ceremonyDetailsDisplay" class="d-flex flex-column justify-content-center h-100"></div>
-                                        </div>
+                            <div class="banner-center">
+                                <div class="memorial-text" id="memorialDisplay"></div>
+                                <div class="ceremony-title" id="ceremonyTitleDisplay"></div>
+                                <div class="ceremony-info">
+                                    <div id="ceremonyDetailsDisplay"></div>
+                                </div>
+                                <div class="organizer-info" id="organizerDisplay"></div>
+                            </div>
+                            <div class="photo-col right">
+                                <div class="photo-frame-container">
+                                    <div class="photo-frame-background"></div>
+                                    <div class="photo-frame">
+                                        <img id="secondPhotoPreview" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE1MCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiNmMGYwZjAiLz48dGV4dCB4PSI3NSIgeT0iODAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5OTk5OTkiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9ImJvbGQiPkZvdG8gMjwvdGV4dD48L3N2Zz4=" alt="दुसरा फोटो (पर्यायी)">
                                     </div>
                                 </div>
-                                <div class="ceremony-title" id="ceremonyTitleDisplay"></div>
                             </div>
                         </div>
-                        <div class="row gx-0" style="padding:0 10px 10px">
-                            <div class="col-12">
-                                <div class="family-info" id="familyInfo">
-                                    <div class="village-info" id="villageInfoDisplay" style="font-weight:bold;font-size:2.8em">* शोकाकुल *</div>
-                                    <div class="village-info" id="villageInfoDisplay2" style="font-size:2em;font-weight:bold;word-spacing:5px"></div>
-                                    <div id="familyMembersDisplay" class="row g-1"></div>
-                                </div>
-                            </div>
+
+                        <div class="banner-foot">
+                            <div class="bereaved-head" id="villageInfoDisplay"></div>
+                            <div class="family-cols" id="familyMembersDisplay"></div>
+                            <div class="community-foot" id="villageInfoDisplay2"></div>
                         </div>
                     </div>
                 </div>
@@ -755,6 +940,29 @@
         </footer>
 
     </div><!-- /.app-shell -->
+
+    <!-- ── OFFSCREEN SOCIAL PORTRAIT CARD (WhatsApp / Instagram) ── -->
+    <div id="bannerSocial" class="banner-social" aria-hidden="true">
+        <div class="floral fl-tl"></div>
+        <div class="floral fl-tr"></div>
+        <div class="floral fl-bl"></div>
+        <div class="floral fl-br"></div>
+        <div class="bs-eyebrow">॥ श्रद्धांजली ॥</div>
+        <div class="bs-photo">
+            <div class="photo-frame-container">
+                <div class="photo-frame-background"></div>
+                <div class="photo-frame">
+                    <img id="socialPhotoPreview" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE1MCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiNmMGYwZjAiLz48L3N2Zz4=" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="bs-name" id="socialName"></div>
+        <div class="bs-age" id="socialAge"></div>
+        <div class="bs-death" id="socialDeath"></div>
+        <div class="bs-divider"></div>
+        <div class="bs-cer" id="socialCer"></div>
+        <div class="bs-foot">shradhanjalibanner.in</div>
+    </div>
 
     <!-- Full-screen preview dialog -->
     <dialog id="previewDialog" class="preview-dialog">
@@ -780,6 +988,7 @@
         'label.themeColor': 'बॅनर रंग निवडा',
         'label.format':     'डाउनलोड फॉर्मेट',
         'label.photo':      'मुख्य फोटो अपलोड करा',
+        'label.photo2':     'दुसरा फोटो (पर्यायी)',
         'label.name':       'नाव',
         'label.age':        'वय',
         'label.deathDate':  'मृत्यू दिनांक',
@@ -789,19 +998,22 @@
         'label.cerDate':    'समारंभ दिनांक',
         'label.cerTime':    'समारंभ समय',
         'label.cerPlace':   'समारंभ स्थान',
-        'label.organizer':  'आयोजक',
+        'label.organizer':  'प्रवचनकार / आयोजक',
         'label.village':    'गाव माहिती',
-        'label.family':     'कुटुंब सदस्य',
+        'label.family':     'कुटुंब / शोकाकुल सदस्य',
         'btn.generate':     'बॅनर तयार करा',
         'btn.download':     'बॅनर डाउनलोड करा',
         'btn.scrollPreview':'बॅनर पूर्वावलोकन पहा ↓',
         'banner.prefix':    'कै. ',
         'banner.age':       '(वय: {0})',
         'banner.deathLine': 'यांचे {0} रोजी {1}',
-        'banner.ritual':    '* दशक्रिया विधी *',
-        'banner.heldOn':    '{0} रोजी {1}',
-        'banner.heldAt':    '{0} येथे होईल.',
-        'banner.bereaved':  '* शोकाकुल *',
+        'banner.ritual':    '❀ दशक्रिया विधी ❀',
+        'banner.heldOn':    '{0} रोजी, {1}',
+        'banner.heldAt':    '{0}',
+        'banner.bereaved':  '❀ शोकाकुल ❀',
+        'hint.print':       'संपूर्ण बॅनर — सर्व माहितीसह (छपाईसाठी).',
+        'hint.flex':        'मोठ्या फ्लेक्स छपाईसाठी संपूर्ण बॅनर — आकार व DPI निवडा.',
+        'hint.social':      'छोटे शेअर कार्ड — फक्त फोटो, नाव, वय, निधन दिनांक व समारंभाची माहिती. कुटुंब यादी व गाव माहिती वगळली जाते.',
         'msg.downloading':  'डाउनलोड होत आहे...',
         'msg.error':        'बॅनर तयार करताना त्रुटी आली. कृपया पुन्हा प्रयत्न करा.',
         'msg.previewLoad':  'पूर्वावलोकन लोड होत आहे...',
@@ -812,21 +1024,22 @@
         'theme.classic':    'क्लासिक',
         'theme.golden':     'सोने',
         'theme.lavender':   'आकाश',
-        'fmt.print':        'प्रिंट बॅनर',
+        'fmt.print':        'प्रिंट बॅनर (पूर्ण)',
         'fmt.whatsapp':     'WhatsApp स्टेटस (9:16)',
         'fmt.igStory':      'Instagram स्टेटस (9:16)',
         'fmt.igPost':       'Instagram पोस्ट (1:1)',
-        'fmt.flex':         'फ्लेक्स प्रिंट',
-        'ph.name':          'ज्ञानेश्वर जनाजी रामाणे',
-        'ph.age':           '७६ वर्षे',
-        'ph.message':       'दुःखद निधन झाले...',
+        'fmt.flex':         'फ्लेक्स प्रिंट (पूर्ण)',
+        'social.eyebrow':   '॥ श्रद्धांजली ॥',
+        'ph.name':          'भगवान जनाजी रामाणे',
+        'ph.age':           '६८ वर्षे',
+        'ph.message':       'दुःखद निधन झाले.',
         'ph.memorial':      'तुमचं असणं सर्व काही होतं...',
         'ph.cerTitle':      'भावपूर्ण श्रद्धांजली',
-        'ph.cerTime':       'सकाळी ८:३० वा.',
-        'ph.cerPlace':      'श्री खिडकाळेश्वर महादेव मंदिर...',
-        'ph.organizer':     'ह.भ.प. प्रकाश अर्जुन मांडकर महाराज',
-        'ph.village':       'समस्त रामाणे परिवार आणि आप्तेष्ट',
-        'ph.family':        'श्रीमती. अलका ज्ञानेश्वर रामाणे (पत्नी)...',
+        'ph.cerTime':       'सकाळी ०७.३० वा.',
+        'ph.cerPlace':      'स्थान...',
+        'ph.organizer':     'प्रवचनकार...',
+        'ph.village':       'समस्त ग्रामस्थ...',
+        'ph.family':        'श्रीमती. शोभा भगवान रामाणे (पत्नी)...',
       },
       hi: {
         'heading.subtitle': 'स्मारक बैनर जनरेटर',
@@ -835,6 +1048,7 @@
         'label.themeColor': 'बैनर रंग चुनें',
         'label.format':     'डाउनलोड फॉर्मेट',
         'label.photo':      'मुख्य फोटो अपलोड करें',
+        'label.photo2':     'दूसरा फोटो (वैकल्पिक)',
         'label.name':       'नाम',
         'label.age':        'आयु',
         'label.deathDate':  'मृत्यु तिथि',
@@ -844,19 +1058,22 @@
         'label.cerDate':    'समारोह तिथि',
         'label.cerTime':    'समारोह समय',
         'label.cerPlace':   'समारोह स्थान',
-        'label.organizer':  'आयोजक',
+        'label.organizer':  'प्रवचनकार / आयोजक',
         'label.village':    'गाँव जानकारी',
-        'label.family':     'परिवार सदस्य',
+        'label.family':     'परिवार / शोकाकुल सदस्य',
         'btn.generate':     'बैनर बनाएं',
         'btn.download':     'बैनर डाउनलोड करें',
         'btn.scrollPreview':'बैनर पूर्वावलोकन देखें ↓',
         'banner.prefix':    'स्व. ',
         'banner.age':       '(आयु: {0})',
         'banner.deathLine': 'उनका {0} को {1}',
-        'banner.ritual':    '* दशक्रिया विधि *',
-        'banner.heldOn':    '{0} को {1} बजे',
-        'banner.heldAt':    '{0} पर होगा।',
-        'banner.bereaved':  '* शोकाकुल *',
+        'banner.ritual':    '❀ दशक्रिया विधि ❀',
+        'banner.heldOn':    '{0} को, {1}',
+        'banner.heldAt':    '{0}',
+        'banner.bereaved':  '❀ शोकाकुल ❀',
+        'hint.print':       'पूर्ण बैनर — सभी जानकारी के साथ (छपाई हेतु)।',
+        'hint.flex':        'बड़ी फ्लेक्स छपाई हेतु पूर्ण बैनर — आकार व DPI चुनें।',
+        'hint.social':      'छोटा शेयर कार्ड — केवल फोटो, नाम, आयु, निधन तिथि व समारोह जानकारी। परिवार सूची व गाँव जानकारी हटा दी जाती है।',
         'msg.downloading':  'डाउनलोड हो रहा है...',
         'msg.error':        'बैनर बनाने में त्रुटि हुई। कृपया पुनः प्रयास करें।',
         'msg.previewLoad':  'पूर्वावलोकन लोड हो रहा है...',
@@ -867,21 +1084,22 @@
         'theme.classic':    'क्लासिक',
         'theme.golden':     'स्वर्ण',
         'theme.lavender':   'आकाश',
-        'fmt.print':        'प्रिंट बैनर',
+        'fmt.print':        'प्रिंट बैनर (पूर्ण)',
         'fmt.whatsapp':     'WhatsApp स्टेटस (9:16)',
         'fmt.igStory':      'Instagram स्टेटस (9:16)',
         'fmt.igPost':       'Instagram पोस्ट (1:1)',
-        'fmt.flex':         'फ्लेक्स प्रिंट',
-        'ph.name':          'रामाणे जनाजी ज्ञानेश्वर',
-        'ph.age':           '७६ वर्ष',
-        'ph.message':       'दुखद निधन हुआ...',
+        'fmt.flex':         'फ्लेक्स प्रिंट (पूर्ण)',
+        'social.eyebrow':   '॥ श्रद्धांजलि ॥',
+        'ph.name':          'भगवान जनाजी रामाणे',
+        'ph.age':           '६८ वर्ष',
+        'ph.message':       'दुखद निधन हुआ।',
         'ph.memorial':      'आपका होना सब कुछ था...',
         'ph.cerTitle':      'भावपूर्ण श्रद्धांजलि',
-        'ph.cerTime':       'सुबह ८:३० बजे',
-        'ph.cerPlace':      'मंदिर परिसर...',
-        'ph.organizer':     'ह.भ.प. प्रकाश अर्जुन मांडकर महाराज',
-        'ph.village':       'समस्त परिवार और आप्तेष्ट',
-        'ph.family':        'श्रीमती. अलका ज्ञानेश्वर रामाणे (पत्नी)...',
+        'ph.cerTime':       'सुबह ०७.३० बजे',
+        'ph.cerPlace':      'स्थान...',
+        'ph.organizer':     'प्रवचनकार...',
+        'ph.village':       'समस्त ग्रामवासी...',
+        'ph.family':        'श्रीमती. शोभा भगवान रामाणे (पत्नी)...',
       },
       en: {
         'heading.subtitle': 'Memorial Banner Generator',
@@ -890,6 +1108,7 @@
         'label.themeColor': 'Select Banner Color',
         'label.format':     'Download Format',
         'label.photo':      'Upload Main Photo',
+        'label.photo2':     'Second Photo (optional)',
         'label.name':       'Name',
         'label.age':        'Age',
         'label.deathDate':  'Date of Passing',
@@ -899,19 +1118,22 @@
         'label.cerDate':    'Ceremony Date',
         'label.cerTime':    'Ceremony Time',
         'label.cerPlace':   'Ceremony Venue',
-        'label.organizer':  'Organizer',
+        'label.organizer':  'Speaker / Organizer',
         'label.village':    'Community Info',
-        'label.family':     'Family Members',
+        'label.family':     'Bereaved Family Members',
         'btn.generate':     'Generate Banner',
         'btn.download':     'Download Banner',
         'btn.scrollPreview':'View Banner Preview ↓',
         'banner.prefix':    'Late ',
         'banner.age':       '(Age: {0})',
-        'banner.deathLine': 'Passed away on {0} — {1}',
-        'banner.ritual':    '* Last Rites Ceremony *',
-        'banner.heldOn':    'On {0} at {1}',
-        'banner.heldAt':    'at {0}',
-        'banner.bereaved':  '* Bereaved Family *',
+        'banner.deathLine': 'passed away on {0} — {1}',
+        'banner.ritual':    '❀ Last Rites Ceremony ❀',
+        'banner.heldOn':    'On {0}, {1}',
+        'banner.heldAt':    '{0}',
+        'banner.bereaved':  '❀ Bereaved ❀',
+        'hint.print':       'Full banner with all details (for print).',
+        'hint.flex':        'Full banner for large flex printing — choose size and DPI.',
+        'hint.social':      'Compact share card — only photo, name, age, date of passing and ceremony info. Family list and community line are omitted.',
         'msg.downloading':  'Downloading...',
         'msg.error':        'Error creating banner. Please try again.',
         'msg.previewLoad':  'Loading preview...',
@@ -922,21 +1144,22 @@
         'theme.classic':    'Classic',
         'theme.golden':     'Golden',
         'theme.lavender':   'Lavender',
-        'fmt.print':        'Print Banner',
+        'fmt.print':        'Print Banner (full)',
         'fmt.whatsapp':     'WhatsApp Status (9:16)',
         'fmt.igStory':      'Instagram Story (9:16)',
         'fmt.igPost':       'Instagram Post (1:1)',
-        'fmt.flex':         'Flex Print',
-        'ph.name':          'Gyaneshwar Janaji Ramane',
-        'ph.age':           '76 years',
-        'ph.message':       'Passed away peacefully...',
+        'fmt.flex':         'Flex Print (full)',
+        'social.eyebrow':   '॥ Tribute ॥',
+        'ph.name':          'Bhagwan Janaji Ramane',
+        'ph.age':           '68 years',
+        'ph.message':       'passed away peacefully.',
         'ph.memorial':      'Your presence was everything...',
         'ph.cerTitle':      'Heartfelt Tribute',
-        'ph.cerTime':       '8:30 AM',
-        'ph.cerPlace':      'Local Temple...',
-        'ph.organizer':     'H.B.P. Prakash Arjun Mandkar Maharaj',
-        'ph.village':       'All family and friends',
-        'ph.family':        'Smt. Alka Gyaneshwar Ramane (Wife)...',
+        'ph.cerTime':       '7:30 AM',
+        'ph.cerPlace':      'Venue...',
+        'ph.organizer':     'Speaker...',
+        'ph.village':       'All villagers...',
+        'ph.family':        'Smt. Shobha Bhagwan Ramane (Wife)...',
       }
     };
 
@@ -952,19 +1175,15 @@
     }
 
     function applyI18n() {
-      // data-i18n: set textContent
       document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.dataset.i18n;
-        const val = TRANSLATIONS[currentLang]?.[key];
-        if (!val) return;
-        el.textContent = val;
+        const val = TRANSLATIONS[currentLang]?.[el.dataset.i18n];
+        if (val != null) el.textContent = val;
       });
-      // data-i18n-ph: set placeholder
       document.querySelectorAll('[data-i18n-ph]').forEach(el => {
-        const key = el.dataset.i18nPh;
-        const val = TRANSLATIONS[currentLang]?.[key];
+        const val = TRANSLATIONS[currentLang]?.[el.dataset.i18nPh];
         if (val) el.placeholder = val;
       });
+      updateFormatHint();
     }
 
     function setLanguage(lang) {
@@ -981,129 +1200,121 @@
     });
 
     /* ════════════════════════════════════════════════════════════
-       BANNER COLOR THEMES
+       BANNER COLOR THEMES — each maps to a set of CSS variables
     ════════════════════════════════════════════════════════════ */
     const colorThemes = {
       traditional: {
-        bannerBg: 'radial-gradient(circle, #faf8f0, #f5f2e9)',
-        mainTextColor: '#a805a1', baseTextColor: '#360128',
-        memorialTextBg: 'rgba(255,228,225,0.5)', memorialTextColor: '#64127c',
-        ceremonyBg: 'transparent', ceremonyDetailsColor: '#212121',
-        ceremonyTitleColor: '#894dce',
-        familyBg: '#460137', familyColor: '#FFFFFF', villageInfoColor: '#fcf9fb',
-        showFlowers: false, bgSolid: '#faf8f0'
+        bg:'radial-gradient(ellipse at 28% 16%, #fbf7ec 0%, #f4ecd6 55%, #ecddbf 100%)',
+        name:'#9c1024', base:'#5a2412', memBg:'transparent', mem:'#7a1535',
+        cerBg:'rgba(120,18,40,0.06)', cer:'#4a2410', title:'#7a1030',
+        famBg:'#5e0a2a', fam:'#fff3e0', village:'#ffce54', floral:1, bgSolid:'#f4ecd6'
       },
       sunset: {
-        bannerBg: 'linear-gradient(135deg, #ffeaa7, #fab1a0)',
-        mainTextColor: '#8e44ad', baseTextColor: '#2c3e50',
-        memorialTextBg: 'rgba(255,255,255,0.9)', memorialTextColor: '#2c3e50',
-        ceremonyBg: 'rgba(142,68,173,0.9)', ceremonyDetailsColor: '#ffffff',
-        ceremonyTitleColor: '#ffeaa7',
-        familyBg: 'rgba(44,62,80,0.85)', familyColor: '#FFFFFF', villageInfoColor: '#8e44ad',
-        showFlowers: true, bgSolid: '#ffeaa7'
+        bg:'linear-gradient(135deg, #ffeaa7, #fab1a0)',
+        name:'#8e2d7a', base:'#2c3e50', memBg:'rgba(255,255,255,0.88)', mem:'#2c3e50',
+        cerBg:'rgba(142,45,122,0.92)', cer:'#ffffff', title:'#7a2d92',
+        famBg:'rgba(44,62,80,0.92)', fam:'#ffffff', village:'#ffe08a', floral:1, bgSolid:'#ffeaa7'
       },
       ocean: {
-        bannerBg: 'linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%)',
-        mainTextColor: '#0c4a6e', baseTextColor: '#1e3a4c',
-        memorialTextBg: 'rgba(255,255,255,0.8)', memorialTextColor: '#0c4a6e',
-        ceremonyBg: 'rgba(2,63,115,0.9)', ceremonyDetailsColor: '#ffffff',
-        ceremonyTitleColor: '#f0f9ff',
-        familyBg: 'rgba(14,116,144,0.9)', familyColor: '#ffffff', villageInfoColor: '#f0f9ff',
-        showFlowers: true, bgSolid: '#a1c4fd'
+        bg:'linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%)',
+        name:'#0c4a6e', base:'#13374a', memBg:'rgba(255,255,255,0.82)', mem:'#0c4a6e',
+        cerBg:'rgba(2,63,115,0.92)', cer:'#ffffff', title:'#0c4a6e',
+        famBg:'rgba(12,74,110,0.95)', fam:'#ffffff', village:'#dff1ff', floral:1, bgSolid:'#a1c4fd'
       },
       classic: {
-        bannerBg: 'linear-gradient(135deg, #f5f5f5, #e0e0e0)',
-        mainTextColor: '#212121', baseTextColor: '#212121',
-        memorialTextBg: 'rgba(255,255,255,0.8)', memorialTextColor: '#212121',
-        ceremonyBg: 'rgba(33,33,33,0.9)', ceremonyDetailsColor: '#ffffff',
-        ceremonyTitleColor: '#d32f2f',
-        familyBg: 'rgba(66,66,66,0.9)', familyColor: '#ffffff', villageInfoColor: '#d32f2f',
-        showFlowers: false, bgSolid: '#f5f5f5'
+        bg:'linear-gradient(135deg, #f5f5f5, #e0e0e0)',
+        name:'#212121', base:'#212121', memBg:'rgba(255,255,255,0.85)', mem:'#212121',
+        cerBg:'rgba(33,33,33,0.92)', cer:'#ffffff', title:'#b71c1c',
+        famBg:'#2b2b2b', fam:'#ffffff', village:'#ff8a80', floral:0, bgSolid:'#f5f5f5'
       },
       golden: {
-        bannerBg: 'linear-gradient(135deg, #1e0a00, #3d1a00)',
-        mainTextColor: '#d4a017', baseTextColor: '#c49a35',
-        memorialTextBg: 'rgba(212,160,23,0.12)', memorialTextColor: '#f5d78e',
-        ceremonyBg: 'rgba(212,160,23,0.14)', ceremonyDetailsColor: '#f5d78e',
-        ceremonyTitleColor: '#d4a017',
-        familyBg: '#0d0300', familyColor: '#d4a017', villageInfoColor: '#d4a017',
-        showFlowers: false, bgSolid: '#1e0a00'
+        bg:'linear-gradient(135deg, #1e0a00, #3d1a00)',
+        name:'#e0b84c', base:'#cdab5e', memBg:'rgba(212,160,23,0.1)', mem:'#f3d896',
+        cerBg:'rgba(212,160,23,0.12)', cer:'#f3d896', title:'#e0b84c',
+        famBg:'#0d0300', fam:'#e0b84c', village:'#e0b84c', floral:0, bgSolid:'#1e0a00'
       },
       lavender: {
-        bannerBg: 'linear-gradient(135deg, #e8d5f5, #c9b0e8)',
-        mainTextColor: '#4a1772', baseTextColor: '#5c2d8a',
-        memorialTextBg: 'rgba(255,255,255,0.72)', memorialTextColor: '#3d1560',
-        ceremonyBg: 'rgba(74,23,114,0.88)', ceremonyDetailsColor: '#f0e6ff',
-        ceremonyTitleColor: '#9b6bc8',
-        familyBg: 'rgba(45,10,75,0.92)', familyColor: '#f0e6ff', villageInfoColor: '#d4b8f5',
-        showFlowers: true, bgSolid: '#e8d5f5'
+        bg:'linear-gradient(135deg, #e8d5f5, #c9b0e8)',
+        name:'#4a1772', base:'#5c2d8a', memBg:'rgba(255,255,255,0.72)', mem:'#3d1560',
+        cerBg:'rgba(74,23,114,0.9)', cer:'#f0e6ff', title:'#5e2d8c',
+        famBg:'rgba(45,10,75,0.95)', fam:'#f0e6ff', village:'#e3c6ff', floral:1, bgSolid:'#e8d5f5'
       }
     };
 
+    function applyThemeVars(rootEl, th) {
+      rootEl.style.setProperty('--bn-bg',      th.bg);
+      rootEl.style.setProperty('--bn-name',    th.name);
+      rootEl.style.setProperty('--bn-base',    th.base);
+      rootEl.style.setProperty('--bn-mem-bg',  th.memBg);
+      rootEl.style.setProperty('--bn-mem',     th.mem);
+      rootEl.style.setProperty('--bn-cer-bg',  th.cerBg);
+      rootEl.style.setProperty('--bn-cer',     th.cer);
+      rootEl.style.setProperty('--bn-title',   th.title);
+      rootEl.style.setProperty('--bn-fam-bg',  th.famBg);
+      rootEl.style.setProperty('--bn-fam',     th.fam);
+      rootEl.style.setProperty('--bn-village', th.village);
+      rootEl.style.setProperty('--bn-floral',  th.floral);
+    }
+
     function applyTheme(themeName) {
-      const theme = colorThemes[themeName];
-      if (!theme) return;
-      const el = {
-        banner:          document.getElementById('banner'),
-        nameDisplay:     document.getElementById('nameDisplay'),
-        ageText:         document.getElementById('ageDisplay'),
-        deathInfo:       document.getElementById('deathInfoDisplay'),
-        memorialText:    document.getElementById('memorialDisplay'),
-        ceremonyInfo:    document.getElementById('ceremonyInfo'),
-        ceremonyDetails: document.getElementById('ceremonyDetailsDisplay'),
-        ceremonyTitle:   document.getElementById('ceremonyTitleDisplay'),
-        familyInfo:      document.getElementById('familyInfo'),
-        villageInfo1:    document.getElementById('villageInfoDisplay'),
-        villageInfo2:    document.getElementById('villageInfoDisplay2'),
-        flowers:         document.querySelectorAll('.flowers')
-      };
-      el.banner.style.background          = theme.bannerBg;
-      el.nameDisplay.style.color          = theme.mainTextColor;
-      el.ageText.style.color              = theme.baseTextColor;
-      el.deathInfo.style.color            = theme.baseTextColor;
-      el.memorialText.style.background    = theme.memorialTextBg;
-      el.memorialText.style.color         = theme.memorialTextColor;
-      el.ceremonyInfo.style.background    = theme.ceremonyBg;
-      el.ceremonyDetails.style.color      = theme.ceremonyDetailsColor;
-      el.ceremonyTitle.style.color        = theme.ceremonyTitleColor;
-      el.familyInfo.style.background      = theme.familyBg;
-      el.familyInfo.style.color           = theme.familyColor;
-      el.villageInfo1.style.color         = theme.villageInfoColor;
-      el.villageInfo2.style.color         = '#ffdb36';
-      el.flowers.forEach(f => { f.style.opacity = theme.showFlowers ? '0.8' : '0'; });
+      const th = colorThemes[themeName];
+      if (!th) return;
+      applyThemeVars(document.getElementById('banner'), th);
+      applyThemeVars(document.getElementById('bannerSocial'), th);
     }
 
     /* ════════════════════════════════════════════════════════════
-       GENERATE BANNER
+       GENERATE BANNER — populates full banner + social card
     ════════════════════════════════════════════════════════════ */
+    function val(id) { return document.getElementById(id).value; }
+
     function generateBanner() {
       const selectedTheme = document.getElementById('colorTheme').value;
       applyTheme(selectedTheme);
 
-      const nameVal  = document.getElementById('name').value;
-      const ageVal   = document.getElementById('age').value;
-      const dateVal  = document.getElementById('deathDate').value;
-      const msgVal   = document.getElementById('deathTime').value;
-      const cDate    = document.getElementById('ceremonyDate').value;
-      const cTime    = document.getElementById('ceremonyTime').value;
-      const cPlace   = document.getElementById('ceremonyPlace').value;
+      const nameVal  = val('name');
+      const ageVal   = val('age');
+      const dateVal  = val('deathDate');
+      const msgVal   = val('deathTime');
+      const cTitle   = val('ceremonyTitle');
+      const cDate    = val('ceremonyDate');
+      const cTime    = val('ceremonyTime');
+      const cPlace   = val('ceremonyPlace');
+      const organizer= val('organizer');
 
-      document.getElementById('nameDisplay').textContent     = t('banner.prefix') + nameVal;
-      document.getElementById('ageDisplay').textContent      = t('banner.age', ageVal);
-      document.getElementById('deathInfoDisplay').textContent = t('banner.deathLine', dateVal, msgVal);
-      document.getElementById('memorialDisplay').innerHTML   = document.getElementById('memorialText').value.replace(/\n/g, '<br>');
-      document.getElementById('ceremonyTitleDisplay').textContent = document.getElementById('ceremonyTitle').value;
+      const fullName = t('banner.prefix') + nameVal;
+      const ageLine  = ageVal ? t('banner.age', ageVal) : '';
+      const deathLine= t('banner.deathLine', dateVal, msgVal);
+
+      /* ── full landscape banner ── */
+      document.getElementById('nameDisplay').textContent      = fullName;
+      document.getElementById('ageDisplay').textContent       = ageLine;
+      document.getElementById('deathInfoDisplay').textContent = deathLine;
+      document.getElementById('memorialDisplay').innerHTML    = val('memorialText').replace(/\n/g, '<br>');
+      document.getElementById('ceremonyTitleDisplay').textContent = cTitle;
       document.getElementById('villageInfoDisplay').textContent   = t('banner.bereaved');
-      document.getElementById('villageInfoDisplay2').textContent  = document.getElementById('villageInfo').value;
+      document.getElementById('villageInfoDisplay2').textContent  = val('villageInfo');
 
-      document.getElementById('ceremonyDetailsDisplay').innerHTML =
-        `<div style="font-weight:bold;font-size:3.2em">${t('banner.ritual')}</div>` +
-        `<div style="font-weight:bold;font-size:1.6em">${t('banner.heldOn', cDate, cTime)}</div>` +
-        `<div style="font-weight:bold;font-size:1.6em">${t('banner.heldAt', cPlace.replace(/\n/g,'<br>'))}</div>`;
+      const ceremonyHTML =
+        `<div class="ceremony-ritual">${t('banner.ritual')}</div>` +
+        `<div class="ceremony-line">${t('banner.heldOn', cDate, cTime)}</div>` +
+        `<div class="ceremony-line">${t('banner.heldAt', cPlace.replace(/\n/g, ' '))}</div>`;
+      document.getElementById('ceremonyDetailsDisplay').innerHTML = ceremonyHTML;
+      document.getElementById('organizerDisplay').textContent = organizer;
 
-      const members = document.getElementById('familyMembers').value.split('\n').filter(m => m.trim());
+      const members = val('familyMembers').split('\n').filter(m => m.trim());
       document.getElementById('familyMembersDisplay').innerHTML =
-        members.map(m => `<div class="col-sm-4 family-member-item">${m.trim()}</div>`).join('');
+        members.map(m => `<div class="family-member-item">${m.trim()}</div>`).join('');
+
+      /* ── compact social card (essential info only) ── */
+      document.getElementById('socialName').textContent  = fullName;
+      document.getElementById('socialAge').textContent   = ageLine;
+      document.getElementById('socialDeath').textContent = deathLine;
+      document.querySelector('.bs-eyebrow').textContent  = t('social.eyebrow');
+      document.getElementById('socialCer').innerHTML =
+        `<div class="ceremony-ritual">${t('banner.ritual')}</div>` +
+        `<div class="ceremony-line">${t('banner.heldOn', cDate, cTime)}</div>` +
+        `<div class="ceremony-line">${t('banner.heldAt', cPlace.replace(/\n/g, ' '))}</div>`;
 
       // Auto-scroll to preview on mobile after generating
       if (window.innerWidth < 768) {
@@ -1114,14 +1325,29 @@
     }
 
     /* ════════════════════════════════════════════════════════════
-       PHOTO UPLOAD
+       PHOTO UPLOAD (main + optional second)
     ════════════════════════════════════════════════════════════ */
     document.getElementById('mainPhoto').addEventListener('change', function(e) {
-      if (e.target.files?.[0]) {
-        const reader = new FileReader();
-        reader.onload = ev => { document.getElementById('mainPhotoPreview').src = ev.target.result; };
-        reader.readAsDataURL(e.target.files[0]);
-      }
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        document.getElementById('mainPhotoPreview').src   = ev.target.result;
+        document.getElementById('socialPhotoPreview').src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    document.getElementById('secondPhoto').addEventListener('change', function(e) {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        document.getElementById('secondPhotoPreview').src = ev.target.result;
+        document.getElementById('banner').classList.add('has-second');
+        updateBannerScale();
+      };
+      reader.readAsDataURL(file);
     });
 
     /* ════════════════════════════════════════════════════════════
@@ -1158,7 +1384,7 @@
         wrapperH:  wrapper?.style.height || ''
       };
       bannerEl.style.transform = 'none';
-      bannerEl.style.width     = '';
+      bannerEl.style.width     = BANNER_NATURAL_WIDTH + 'px';
       if (wrapper) wrapper.style.height = 'auto';
       return saved;
     }
@@ -1199,7 +1425,6 @@
       return out;
     }
 
-    // Get the current theme's solid background color for letterboxing
     function getCurrentThemeBg() {
       const themeKey = document.getElementById('colorTheme').value;
       return colorThemes[themeKey]?.bgSolid || '#ffffff';
@@ -1209,23 +1434,47 @@
       '2x3': { w: 2, h: 3 }, '3x4': { w: 3, h: 4 },
       '4x6': { w: 4, h: 6 }, '6x4': { w: 6, h: 4 }
     };
-
     const FLEX_SCALE = { '72': 1.5, '150': 3.0, '300': 5.0 };
 
+    const SOCIAL_FORMATS = ['whatsapp', 'ig-story', 'ig-post'];
+
     /* ════════════════════════════════════════════════════════════
-       DOWNLOAD BANNER — dispatches by format
+       DOWNLOAD BANNER — full banner for print/flex, social card for
+       WhatsApp / Instagram (essential info only).
     ════════════════════════════════════════════════════════════ */
     function downloadBanner(event) {
       const fmt      = document.getElementById('bannerFormat').value;
-      const bannerEl = document.getElementById('banner');
       const btn      = event.currentTarget;
       const origText = btn.innerHTML;
+      btn.innerHTML  = t('msg.downloading');
+      btn.disabled   = true;
 
-      btn.innerHTML = t('msg.downloading');
-      btn.disabled  = true;
+      const isSocial = SOCIAL_FORMATS.includes(fmt);
+      const bg       = getCurrentThemeBg();
 
-      const saved         = saveAndResetScale(bannerEl);
-      const captureScale  = fmt === 'flex'
+      if (isSocial) {
+        const social = document.getElementById('bannerSocial');
+        html2canvas(social, { scale: 1.6, useCORS: true, logging: false, backgroundColor: null, windowWidth: 1080 })
+          .then(srcCanvas => {
+            let finalCanvas, filename;
+            if (fmt === 'ig-post') {
+              finalCanvas = composeToFormat(srcCanvas, 1080, 1080, bg);
+              filename = 'instagram-post.jpg';
+            } else {
+              finalCanvas = composeToFormat(srcCanvas, 1080, 1920, bg);
+              filename = fmt === 'whatsapp' ? 'whatsapp-status.jpg' : 'instagram-story.jpg';
+            }
+            triggerDownload(finalCanvas, filename);
+          })
+          .catch(() => alert(t('msg.error')))
+          .finally(() => { btn.innerHTML = origText; btn.disabled = false; });
+        return;
+      }
+
+      // print / flex → full landscape banner
+      const bannerEl     = document.getElementById('banner');
+      const saved        = saveAndResetScale(bannerEl);
+      const captureScale = fmt === 'flex'
         ? (FLEX_SCALE[document.getElementById('flexDpi').value] || 3.0)
         : 2.5;
 
@@ -1233,25 +1482,13 @@
         .then(srcCanvas => {
           let finalCanvas = srcCanvas;
           let filename    = 'memorial-banner.jpg';
-          const bg        = getCurrentThemeBg();
-
-          if (fmt === 'whatsapp') {
-            finalCanvas = composeToFormat(srcCanvas, 1080, 1920, bg);
-            filename    = 'whatsapp-status.jpg';
-          } else if (fmt === 'ig-story') {
-            finalCanvas = composeToFormat(srcCanvas, 1080, 1920, bg);
-            filename    = 'instagram-story.jpg';
-          } else if (fmt === 'ig-post') {
-            finalCanvas = composeToFormat(srcCanvas, 1080, 1080, bg);
-            filename    = 'instagram-post.jpg';
-          } else if (fmt === 'flex') {
-            const sizeKey = document.getElementById('flexSize').value;
+          if (fmt === 'flex') {
+            const sizeKey  = document.getElementById('flexSize').value;
             const { w, h } = FLEX_SIZES[sizeKey] || { w: 4, h: 6 };
             const outW = 1800, outH = Math.round(1800 * h / w);
             finalCanvas = composeToFormat(srcCanvas, outW, outH, bg);
             filename    = `flex-print-${w}x${h}ft.jpg`;
           }
-
           triggerDownload(finalCanvas, filename);
         })
         .catch(() => alert(t('msg.error')))
@@ -1263,10 +1500,19 @@
     }
 
     /* ════════════════════════════════════════════════════════════
-       FORMAT PICKER — show/hide flex sub-options
+       FORMAT PICKER — flex sub-options + contextual hint
     ════════════════════════════════════════════════════════════ */
+    function updateFormatHint() {
+      const fmt  = document.getElementById('bannerFormat').value;
+      const hint = document.getElementById('formatHint');
+      if (fmt === 'flex')                      hint.textContent = t('hint.flex');
+      else if (SOCIAL_FORMATS.includes(fmt))   hint.textContent = t('hint.social');
+      else                                     hint.textContent = t('hint.print');
+    }
+
     document.getElementById('bannerFormat').addEventListener('change', function() {
       document.getElementById('flexOptions').hidden = this.value !== 'flex';
+      updateFormatHint();
     });
 
     /* ════════════════════════════════════════════════════════════
@@ -1301,35 +1547,40 @@
     });
 
     /* ════════════════════════════════════════════════════════════
-       FULL-SCREEN PREVIEW DIALOG
+       FULL-SCREEN PREVIEW DIALOG — shows the format that will download
     ════════════════════════════════════════════════════════════ */
     document.getElementById('openPreview').addEventListener('click', function() {
-      const bannerEl   = document.getElementById('banner');
-      const dialog     = document.getElementById('previewDialog');
-      const imgEl      = document.getElementById('previewDialogImg');
-      const loadingEl  = document.getElementById('dialogLoading');
+      const fmt       = document.getElementById('bannerFormat').value;
+      const isSocial  = SOCIAL_FORMATS.includes(fmt);
+      const dialog    = document.getElementById('previewDialog');
+      const imgEl     = document.getElementById('previewDialogImg');
+      const loadingEl = document.getElementById('dialogLoading');
 
       imgEl.style.display     = 'none';
       loadingEl.style.display = 'block';
       loadingEl.textContent   = t('msg.previewLoad');
       dialog.showModal();
 
-      const saved = saveAndResetScale(bannerEl);
+      const target = isSocial ? document.getElementById('bannerSocial')
+                              : document.getElementById('banner');
+      const saved  = isSocial ? null : saveAndResetScale(target);
+      const opts   = isSocial
+        ? { scale: 0.6, useCORS: true, logging: false, backgroundColor: null, windowWidth: 1080 }
+        : { scale: 1.4, useCORS: true, logging: false };
 
-      html2canvas(bannerEl, { scale: 1.5, useCORS: true, logging: false })
+      html2canvas(target, opts)
         .then(canvas => {
-          imgEl.src           = canvas.toDataURL('image/jpeg', 0.88);
+          imgEl.src           = canvas.toDataURL('image/jpeg', 0.9);
           imgEl.style.display = 'block';
           loadingEl.style.display = 'none';
         })
         .catch(() => { loadingEl.textContent = t('msg.error'); })
-        .finally(() => { restoreScale(bannerEl, saved); });
+        .finally(() => { if (!isSocial) restoreScale(target, saved); });
     });
 
     document.getElementById('closeDialog').addEventListener('click', function() {
       document.getElementById('previewDialog').close();
     });
-
     document.getElementById('previewDialog').addEventListener('click', function(e) {
       if (e.target === this) this.close();
     });
@@ -1338,7 +1589,6 @@
        INIT
     ════════════════════════════════════════════════════════════ */
     window.addEventListener('load', function() {
-      // Restore saved language
       const savedLang = localStorage.getItem('shradhLang') || 'mr';
       currentLang = savedLang;
       document.getElementById('langSelect').value = savedLang;
