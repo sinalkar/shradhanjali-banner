@@ -657,23 +657,23 @@
     .banner-foot {
         position: relative; z-index: 2;
         background: var(--bn-fam-bg); color: var(--bn-fam);
-        border-radius: 14px; padding: 16px 22px 18px;
-        margin-top: 18px; text-align: center;
+        border-radius: 14px; padding: 16px 20px 18px;
+        margin-top: 18px;
         box-shadow: inset 0 0 0 2px rgba(255,210,120,0.22);
+        display: grid; grid-template-columns: 1fr 1.2fr 1fr;
+        gap: 20px; align-items: start;
     }
+    .foot-col-left { text-align: left; font-size: 19px; line-height: 1.5; font-weight: 700; }
+    .foot-col-right { text-align: left; font-size: 19px; line-height: 1.5; font-weight: 700; }
+    .foot-col-center { text-align: center; }
     .bereaved-head {
         color: var(--bn-village); font-family: 'Rozha One', serif;
         font-size: 30px; letter-spacing: 0.04em; margin-bottom: 8px;
     }
-    .family-cols {
-        column-count: 2; column-gap: 28px;
-        text-align: left; font-size: 19px; line-height: 1.5;
-    }
     .family-member-item { break-inside: avoid; padding: 1px 0; }
     .community-foot {
-        color: var(--bn-village); font-weight: 700; font-size: 21px;
-        margin-top: 10px; padding-top: 8px;
-        border-top: 1px solid rgba(255,210,120,0.3);
+        color: var(--bn-village); font-weight: 700; font-size: 19px;
+        line-height: 1.45;
     }
     .community-foot:empty { display: none; }
 
@@ -1056,9 +1056,12 @@
                         </div>
 
                         <div class="banner-foot">
-                            <div class="bereaved-head" id="villageInfoDisplay"></div>
-                            <div class="family-cols" id="familyMembersDisplay"></div>
-                            <div class="community-foot" id="villageInfoDisplay2"></div>
+                            <div class="foot-col-left" id="familyLeftDisplay"></div>
+                            <div class="foot-col-center">
+                                <div class="bereaved-head" id="villageInfoDisplay"></div>
+                                <div class="community-foot" id="villageInfoDisplay2"></div>
+                            </div>
+                            <div class="foot-col-right" id="familyRightDisplay"></div>
                         </div>
                     </div>
                 </div>
@@ -1915,9 +1918,9 @@
     const colorThemes = {
       traditional: {
         bg:'radial-gradient(ellipse at 28% 16%, #fbf7ec 0%, #f4ecd6 55%, #ecddbf 100%)',
-        name:'#9c1024', base:'#5a2412', memBg:'transparent', mem:'#7a1535',
-        cerBg:'rgba(120,18,40,0.06)', cer:'#4a2410', title:'#7a1030',
-        famBg:'#5e0a2a', fam:'#fff3e0', village:'#ffce54', floral:1, bgSolid:'#f4ecd6'
+        name:'#9c1024', base:'#1f2937', memBg:'transparent', mem:'#1f2937',
+        cerBg:'transparent', cer:'#9c1024', title:'#9c1024',
+        famBg:'#5e0a2a', fam:'#ffffff', village:'#ffe082', floral:1, bgSolid:'#f4ecd6'
       },
       sunset: {
         bg:'linear-gradient(135deg, #ffeaa7, #fab1a0)',
@@ -2013,8 +2016,14 @@
       document.getElementById('organizerDisplay').textContent = organizer;
 
       const members = val('familyMembers').split('\n').filter(m => m.trim());
-      document.getElementById('familyMembersDisplay').innerHTML =
-        members.map(m => `<div class="family-member-item">${m.trim()}</div>`).join('');
+      const half = Math.ceil(members.length / 2);
+      const leftMembers = members.slice(0, half);
+      const rightMembers = members.slice(half);
+
+      document.getElementById('familyLeftDisplay').innerHTML =
+        leftMembers.map(m => `<div class="family-member-item">${m.trim()}</div>`).join('');
+      document.getElementById('familyRightDisplay').innerHTML =
+        rightMembers.map(m => `<div class="family-member-item">${m.trim()}</div>`).join('');
 
       /* ── compact social card (essential info only) ── */
       document.getElementById('socialName').textContent  = fullName;
