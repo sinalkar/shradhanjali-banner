@@ -4,8 +4,8 @@
 [![Hosting: Netlify](https://img.shields.io/badge/Hosting-Netlify-00C7B7?style=flat&logo=netlify)](https://shradhanjalibanner.in/)
 [![Website](https://img.shields.io/badge/Website-shradhanjalibanner.in-460137)](https://shradhanjalibanner.in/)
 
-> विनामूल्य श्रद्धांजलि बॅनर जनरेटर — मराठी, हिंदी आणि इंग्रजीत बॅनर तयार करा.
-> A free, client-side, highly-respectful online memorial and funeral tribute banner generator designed for Marathi, Hindi, and English-speaking families.
+> विनामूल्य श्रद्धांजलि बॅनर जनरेटर — १२ प्रमुख भारतीय भाषांमध्ये बॅनर तयार करा.
+> A free, client-side, highly-respectful online memorial and funeral tribute banner generator supporting 12 major Indian languages natively.
 
 ---
 
@@ -27,8 +27,8 @@ Built with deep cultural reverence for Maharashtrian rituals, the application fe
   - **सोने (Golden):** Premium dark-gold rich devotional design.
   - **आकाश (Lavender):** Gentle, ethereal lavender gradient for peace and transcendence.
 
-- **🌐 Tri-lingual Support:**
-  - Full UI and localization in **मराठी (Marathi - Default)**, **हिंदी (Hindi)**, and **English**.
+- **🌐 12 Major Indian Languages Support:**
+  - Full UI localization and native canvas generation in **मराठी (Marathi)**, **हिन्दी (Hindi)**, **English**, **বাংলা (Bengali)**, **తెలుగు (Telugu)**, **தமிழ் (Tamil)**, **ગુજરાતી (Gujarati)**, **ಕನ್ನಡ (Kannada)**, **മലയാളം (Malayalam)**, **ਪੰਜਾਬੀ (Punjabi)**, **ଓଡ଼ିଆ (Odia)**, and **اردو (Urdu)**.
 
 - **🖼️ Photo Frames & Overlays:**
   - Support for single or dual photo uploads with a beautiful, traditional gold-border photo frame overlay (`bg_photoframe.png`).
