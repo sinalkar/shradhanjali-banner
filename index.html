@@ -24,19 +24,19 @@
 
     <link rel="canonical" href="https://shradhanjalibanner.in/">
 
-    <!-- hreflang — same URL, language switched via JS -->
+    <!-- hreflang alternates with language parameter -->
     <link rel="alternate" hreflang="mr" href="https://shradhanjalibanner.in/">
-    <link rel="alternate" hreflang="hi" href="https://shradhanjalibanner.in/">
-    <link rel="alternate" hreflang="en" href="https://shradhanjalibanner.in/">
-    <link rel="alternate" hreflang="bn" href="https://shradhanjalibanner.in/">
-    <link rel="alternate" hreflang="te" href="https://shradhanjalibanner.in/">
-    <link rel="alternate" hreflang="ta" href="https://shradhanjalibanner.in/">
-    <link rel="alternate" hreflang="gu" href="https://shradhanjalibanner.in/">
-    <link rel="alternate" hreflang="kn" href="https://shradhanjalibanner.in/">
-    <link rel="alternate" hreflang="ml" href="https://shradhanjalibanner.in/">
-    <link rel="alternate" hreflang="pa" href="https://shradhanjalibanner.in/">
-    <link rel="alternate" hreflang="or" href="https://shradhanjalibanner.in/">
-    <link rel="alternate" hreflang="ur" href="https://shradhanjalibanner.in/">
+    <link rel="alternate" hreflang="hi" href="https://shradhanjalibanner.in/?lang=hi">
+    <link rel="alternate" hreflang="en" href="https://shradhanjalibanner.in/?lang=en">
+    <link rel="alternate" hreflang="bn" href="https://shradhanjalibanner.in/?lang=bn">
+    <link rel="alternate" hreflang="te" href="https://shradhanjalibanner.in/?lang=te">
+    <link rel="alternate" hreflang="ta" href="https://shradhanjalibanner.in/?lang=ta">
+    <link rel="alternate" hreflang="gu" href="https://shradhanjalibanner.in/?lang=gu">
+    <link rel="alternate" hreflang="kn" href="https://shradhanjalibanner.in/?lang=kn">
+    <link rel="alternate" hreflang="ml" href="https://shradhanjalibanner.in/?lang=ml">
+    <link rel="alternate" hreflang="pa" href="https://shradhanjalibanner.in/?lang=pa">
+    <link rel="alternate" hreflang="or" href="https://shradhanjalibanner.in/?lang=or">
+    <link rel="alternate" hreflang="ur" href="https://shradhanjalibanner.in/?lang=ur">
     <link rel="alternate" hreflang="x-default" href="https://shradhanjalibanner.in/">
 
     <!-- Open Graph -->
@@ -1909,6 +1909,55 @@
         if (val) el.placeholder = val;
       });
       updateFormatHint();
+
+      // Dynamic SEO Meta updates
+      const metaTitles = {
+        mr: 'श्रद्धांजली बॅनर मेकर | Shradhanjali Card Maker & Poster Creator',
+        hi: 'श्रद्धांजलि बैनर मेकर | Shradhanjali Card Maker & Condolence Poster',
+        en: 'Shradhanjali Card Maker | RIP Tribute Poster & Memorial Card Creator',
+        bn: 'শ্রদ্ধাঞ্জলি ব্যানার মেকার | Shradhanjali Card Maker & Memorial Poster',
+        te: 'శ్రద్ధాంజలి కార్డ్ మేకర్ | Shradhanjali Card Maker & Condolence Banner',
+        ta: 'இரங்கல் கார்டு மேக்கர் | Shradhanjali Card Maker & Tribute Banner',
+        gu: 'શ્રદ્ધાંજલિ કાર્ડ મેકર | Shradhanjali Banner Generator & RIP Poster',
+        kn: 'ಶ್ರದ್ಧಾಂಜಲಿ ಕಾರ್ಡ್ ಮೇಕರ್ | Shradhanjali Banner & Memorial Card Creator',
+        ml: 'ആദരാഞ്ജലി കാർഡ് മേക്കർ | Shradhanjali Card Maker & Memorial Banner',
+        pa: 'ਸ਼ਰਧਾਂਜਲੀ ਕਾਰਡ ਮੇਕਰ | Shradhanjali Banner Maker & Condolence Card',
+        or: 'ଶ୍ରଦ୍ଧାଞ୍ଜଳି ବ୍ୟାନର ମେକର | Shradhanjali Card Maker & Tribute Poster',
+        ur: 'تعزیتی کارڈ بنانے والا | Shradhanjali Banner Maker & RIP Card'
+      };
+
+      const metaDescs = {
+        mr: 'विनामूल्य श्रद्धांजली बॅनर जनरेटर. मोबाईलवर शोक संदेश, मृत्यू वर्धापन दिन पोस्टर्स आणि शोकपत्रे सहज तयार करा. व्हॉट्सॲप आणि प्रिंटसाठी उपलब्ध.',
+        hi: 'मुफ़्त श्रद्धांजलि बैनर जनरेटर। मोबाइल पर शोक संदेश, पुण्यतिथि पोस्टर और शोक कार्ड बनाएं। व्हाट्सएप और प्रिंट के लिए आसान ऑनलाइन मेकर।',
+        en: 'Create free Shradhanjali cards, RIP tribute designs, death anniversary posters & condolence cards online. Easy memorial card creator for WhatsApp & print.',
+        bn: 'বিনামূল্যে শ্রদ্ধাঞ্জলি ব্যানার এবং স্মরণীয় কার্ড তৈরি করুন। শোক বার্তা এবং পুণ্যতিথি পোস্টার ডিজাইন করুন সহজে মোবাইলে ডাউনলোড করুন হোয়াটসঅ্যাপের জন্য।',
+        te: 'ఉచిత శ్రద్ధాంజలి బ్యానర్లు మరియు సంతాప కార్డులను మొబైల్‌లో సులభంగా సృష్టించండి. వాట్సాప్ మరియు ప్రింట్ కోసం డౌన్‌లోడ్ చేసుకోండి.',
+        ta: 'இலவச இரங்கல் மற்றும் அஞ்சலி பேனர்களை மொபைலில் எளிதாக உருவாக்குங்கள். வாட்ஸ்அப் மற்றும் அச்சிடலுக்கு பதிவிறக்கவும்.',
+        gu: 'મફત શ્રદ્ધાંજલિ બેનર અને શોક સંદેશ કાર્ડ બનાવો. વોટ્સએપ અને પ્રિન્ટ માટે સરળતાથી ડાઉનલોડ કરો.',
+        kn: 'ಉಚಿತ ಶ್ರದ್ಧಾಂಜಲಿ ಬ್ಯಾನರ್ ಮತ್ತು ಶೋక ಸಂದೇಶ ಕಾರ್ಡ್‌ಗಳನ್ನು ಮೊಬೈಲ್‌ನಲ್ಲಿ ಸುಲಭವಾಗಿ ರಚಿಸಿ. ವಾಟ್සාప్ ಮತ್ತು ಪ್ರಿಂಟ್‌ಗಾಗಿ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ.',
+        ml: 'സೌജന്യ ആദരാഞ്ജലി ബാനറുകളും മരണാനന്തര ചടങ്ങുകളുടെ കാർഡുകളും обмеല്ളില്‍ നിര്‍മ്മിക്കുക. വാട്സാപ്പ് സ്റ്റാറ്റസിനായി ഡൗൺലോഡ് ചെയ്യാം.',
+        pa: 'ਮੁਫ਼ਤ ਸ਼ਰਧਾਂਜਲੀ ਬੈנਰ ਅਤੇ ਸ਼ੋਕ ਸੰਦੇਸ਼ ਕਾਰਡ ਮੋਬਾਈਲ 'ਤੇ ਆਸਾਨੀ ਨਾਲ ਬਣਾਓ। ਵਟסਐਪ ਅਤੇ ਪ੍ਰਿੰਟ ਲਈ ਡਾਊਨਲۆਡ ਕਰੋ।',
+        or: 'ମାగଣା ଶ୍ରଦ୍ଧାଞ୍ଜଳି ବ୍ୟାନର ଏବଂ ଶୋਕ ସନ୍ଦେଶ କାର୍ଡ ମୋବାଇଲରେ ସହજରେ ତିଆରି କରନ୍ତು। ହ୍ୱାଟ୍ସଆପ୍ ଏବଂ ପ୍ରିଣ୍ଟ ପାଇਂ ଡାଉନଲୋଡ୍ କରନ୍ତು।',
+        ur: 'مفت تعزیتی بینر اور خراج عقیدت کارڈ اپنے موبائل پر آسانی سے بنائیں۔ واٹس ایپ اور پرنٹ کے لیے ڈاؤن لوڈ کریں۔'
+      };
+
+      const pageTitle = metaTitles[currentLang] || metaTitles.mr;
+      const pageDesc = metaDescs[currentLang] || metaDescs.mr;
+
+      document.title = pageTitle;
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) {
+        metaDesc.setAttribute('content', pageDesc);
+      }
+
+      // Update canonical link dynamically
+      const canonicalEl = document.querySelector('link[rel="canonical"]');
+      if (canonicalEl) {
+        const canonicalUrl = currentLang === 'mr' 
+          ? 'https://shradhanjalibanner.in/' 
+          : `https://shradhanjalibanner.in/?lang=${currentLang}`;
+        canonicalEl.setAttribute('href', canonicalUrl);
+      }
     }
 
     function setLanguage(lang) {
@@ -1916,6 +1965,16 @@
       localStorage.setItem('shradhLang', lang);
       document.documentElement.lang = lang;
       document.getElementById('langSelect').value = lang;
+
+      // Update URL with lang parameter (clean URL for default language Marathi)
+      const url = new URL(window.location.href);
+      if (lang === 'mr') {
+        url.searchParams.delete('lang');
+      } else {
+        url.searchParams.set('lang', lang);
+      }
+      window.history.replaceState({}, '', url.toString());
+
       applyI18n();
       generateBanner();
     }
@@ -2324,10 +2383,30 @@
        INIT
     ════════════════════════════════════════════════════════════ */
     window.addEventListener('load', function() {
-      const savedLang = localStorage.getItem('shradhLang') || 'mr';
-      currentLang = savedLang;
-      document.getElementById('langSelect').value = savedLang;
-      document.documentElement.lang = savedLang;
+      // Parse query parameter ?lang=...
+      const urlParams = new URLSearchParams(window.location.search);
+      const langParam = urlParams.get('lang');
+      const supportedLangs = ['mr', 'hi', 'en', 'bn', 'te', 'ta', 'gu', 'kn', 'ml', 'pa', 'or', 'ur'];
+
+      let initLang = localStorage.getItem('shradhLang') || 'mr';
+      if (langParam && supportedLangs.includes(langParam)) {
+        initLang = langParam;
+        localStorage.setItem('shradhLang', initLang);
+      }
+
+      currentLang = initLang;
+      document.getElementById('langSelect').value = initLang;
+      document.documentElement.lang = initLang;
+
+      // Sync URL with language parameter without adding a new page history item
+      const url = new URL(window.location.href);
+      if (initLang === 'mr') {
+        url.searchParams.delete('lang');
+      } else {
+        url.searchParams.set('lang', initLang);
+      }
+      window.history.replaceState({}, '', url.toString());
+
       applyI18n();
       generateBanner();
       updateBannerScale();

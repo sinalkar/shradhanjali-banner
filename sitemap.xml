@@ -1,9 +1,257 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- Default Home Page (Marathi & Default) -->
   <url>
     <loc>https://shradhanjalibanner.in/</loc>
-    <lastmod>2026-05-31</lastmod>
+    <xhtml:link rel="alternate" hreflang="mr" href="https://shradhanjalibanner.in/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://shradhanjalibanner.in/?lang=hi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://shradhanjalibanner.in/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="bn" href="https://shradhanjalibanner.in/?lang=bn" />
+    <xhtml:link rel="alternate" hreflang="te" href="https://shradhanjalibanner.in/?lang=te" />
+    <xhtml:link rel="alternate" hreflang="ta" href="https://shradhanjalibanner.in/?lang=ta" />
+    <xhtml:link rel="alternate" hreflang="gu" href="https://shradhanjalibanner.in/?lang=gu" />
+    <xhtml:link rel="alternate" hreflang="kn" href="https://shradhanjalibanner.in/?lang=kn" />
+    <xhtml:link rel="alternate" hreflang="ml" href="https://shradhanjalibanner.in/?lang=ml" />
+    <xhtml:link rel="alternate" hreflang="pa" href="https://shradhanjalibanner.in/?lang=pa" />
+    <xhtml:link rel="alternate" hreflang="or" href="https://shradhanjalibanner.in/?lang=or" />
+    <xhtml:link rel="alternate" hreflang="ur" href="https://shradhanjalibanner.in/?lang=ur" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://shradhanjalibanner.in/" />
+    <lastmod>2026-06-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+
+  <!-- Hindi Version -->
+  <url>
+    <loc>https://shradhanjalibanner.in/?lang=hi</loc>
+    <xhtml:link rel="alternate" hreflang="mr" href="https://shradhanjalibanner.in/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://shradhanjalibanner.in/?lang=hi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://shradhanjalibanner.in/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="bn" href="https://shradhanjalibanner.in/?lang=bn" />
+    <xhtml:link rel="alternate" hreflang="te" href="https://shradhanjalibanner.in/?lang=te" />
+    <xhtml:link rel="alternate" hreflang="ta" href="https://shradhanjalibanner.in/?lang=ta" />
+    <xhtml:link rel="alternate" hreflang="gu" href="https://shradhanjalibanner.in/?lang=gu" />
+    <xhtml:link rel="alternate" hreflang="kn" href="https://shradhanjalibanner.in/?lang=kn" />
+    <xhtml:link rel="alternate" hreflang="ml" href="https://shradhanjalibanner.in/?lang=ml" />
+    <xhtml:link rel="alternate" hreflang="pa" href="https://shradhanjalibanner.in/?lang=pa" />
+    <xhtml:link rel="alternate" hreflang="or" href="https://shradhanjalibanner.in/?lang=or" />
+    <xhtml:link rel="alternate" hreflang="ur" href="https://shradhanjalibanner.in/?lang=ur" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://shradhanjalibanner.in/" />
+    <lastmod>2026-06-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- English Version -->
+  <url>
+    <loc>https://shradhanjalibanner.in/?lang=en</loc>
+    <xhtml:link rel="alternate" hreflang="mr" href="https://shradhanjalibanner.in/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://shradhanjalibanner.in/?lang=hi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://shradhanjalibanner.in/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="bn" href="https://shradhanjalibanner.in/?lang=bn" />
+    <xhtml:link rel="alternate" hreflang="te" href="https://shradhanjalibanner.in/?lang=te" />
+    <xhtml:link rel="alternate" hreflang="ta" href="https://shradhanjalibanner.in/?lang=ta" />
+    <xhtml:link rel="alternate" hreflang="gu" href="https://shradhanjalibanner.in/?lang=gu" />
+    <xhtml:link rel="alternate" hreflang="kn" href="https://shradhanjalibanner.in/?lang=kn" />
+    <xhtml:link rel="alternate" hreflang="ml" href="https://shradhanjalibanner.in/?lang=ml" />
+    <xhtml:link rel="alternate" hreflang="pa" href="https://shradhanjalibanner.in/?lang=pa" />
+    <xhtml:link rel="alternate" hreflang="or" href="https://shradhanjalibanner.in/?lang=or" />
+    <xhtml:link rel="alternate" hreflang="ur" href="https://shradhanjalibanner.in/?lang=ur" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://shradhanjalibanner.in/" />
+    <lastmod>2026-06-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Bengali Version -->
+  <url>
+    <loc>https://shradhanjalibanner.in/?lang=bn</loc>
+    <xhtml:link rel="alternate" hreflang="mr" href="https://shradhanjalibanner.in/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://shradhanjalibanner.in/?lang=hi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://shradhanjalibanner.in/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="bn" href="https://shradhanjalibanner.in/?lang=bn" />
+    <xhtml:link rel="alternate" hreflang="te" href="https://shradhanjalibanner.in/?lang=te" />
+    <xhtml:link rel="alternate" hreflang="ta" href="https://shradhanjalibanner.in/?lang=ta" />
+    <xhtml:link rel="alternate" hreflang="gu" href="https://shradhanjalibanner.in/?lang=gu" />
+    <xhtml:link rel="alternate" hreflang="kn" href="https://shradhanjalibanner.in/?lang=kn" />
+    <xhtml:link rel="alternate" hreflang="ml" href="https://shradhanjalibanner.in/?lang=ml" />
+    <xhtml:link rel="alternate" hreflang="pa" href="https://shradhanjalibanner.in/?lang=pa" />
+    <xhtml:link rel="alternate" hreflang="or" href="https://shradhanjalibanner.in/?lang=or" />
+    <xhtml:link rel="alternate" hreflang="ur" href="https://shradhanjalibanner.in/?lang=ur" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://shradhanjalibanner.in/" />
+    <lastmod>2026-06-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Telugu Version -->
+  <url>
+    <loc>https://shradhanjalibanner.in/?lang=te</loc>
+    <xhtml:link rel="alternate" hreflang="mr" href="https://shradhanjalibanner.in/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://shradhanjalibanner.in/?lang=hi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://shradhanjalibanner.in/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="bn" href="https://shradhanjalibanner.in/?lang=bn" />
+    <xhtml:link rel="alternate" hreflang="te" href="https://shradhanjalibanner.in/?lang=te" />
+    <xhtml:link rel="alternate" hreflang="ta" href="https://shradhanjalibanner.in/?lang=ta" />
+    <xhtml:link rel="alternate" hreflang="gu" href="https://shradhanjalibanner.in/?lang=gu" />
+    <xhtml:link rel="alternate" hreflang="kn" href="https://shradhanjalibanner.in/?lang=kn" />
+    <xhtml:link rel="alternate" hreflang="ml" href="https://shradhanjalibanner.in/?lang=ml" />
+    <xhtml:link rel="alternate" hreflang="pa" href="https://shradhanjalibanner.in/?lang=pa" />
+    <xhtml:link rel="alternate" hreflang="or" href="https://shradhanjalibanner.in/?lang=or" />
+    <xhtml:link rel="alternate" hreflang="ur" href="https://shradhanjalibanner.in/?lang=ur" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://shradhanjalibanner.in/" />
+    <lastmod>2026-06-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Tamil Version -->
+  <url>
+    <loc>https://shradhanjalibanner.in/?lang=ta</loc>
+    <xhtml:link rel="alternate" hreflang="mr" href="https://shradhanjalibanner.in/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://shradhanjalibanner.in/?lang=hi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://shradhanjalibanner.in/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="bn" href="https://shradhanjalibanner.in/?lang=bn" />
+    <xhtml:link rel="alternate" hreflang="te" href="https://shradhanjalibanner.in/?lang=te" />
+    <xhtml:link rel="alternate" hreflang="ta" href="https://shradhanjalibanner.in/?lang=ta" />
+    <xhtml:link rel="alternate" hreflang="gu" href="https://shradhanjalibanner.in/?lang=gu" />
+    <xhtml:link rel="alternate" hreflang="kn" href="https://shradhanjalibanner.in/?lang=kn" />
+    <xhtml:link rel="alternate" hreflang="ml" href="https://shradhanjalibanner.in/?lang=ml" />
+    <xhtml:link rel="alternate" hreflang="pa" href="https://shradhanjalibanner.in/?lang=pa" />
+    <xhtml:link rel="alternate" hreflang="or" href="https://shradhanjalibanner.in/?lang=or" />
+    <xhtml:link rel="alternate" hreflang="ur" href="https://shradhanjalibanner.in/?lang=ur" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://shradhanjalibanner.in/" />
+    <lastmod>2026-06-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Gujarati Version -->
+  <url>
+    <loc>https://shradhanjalibanner.in/?lang=gu</loc>
+    <xhtml:link rel="alternate" hreflang="mr" href="https://shradhanjalibanner.in/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://shradhanjalibanner.in/?lang=hi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://shradhanjalibanner.in/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="bn" href="https://shradhanjalibanner.in/?lang=bn" />
+    <xhtml:link rel="alternate" hreflang="te" href="https://shradhanjalibanner.in/?lang=te" />
+    <xhtml:link rel="alternate" hreflang="ta" href="https://shradhanjalibanner.in/?lang=ta" />
+    <xhtml:link rel="alternate" hreflang="gu" href="https://shradhanjalibanner.in/?lang=gu" />
+    <xhtml:link rel="alternate" hreflang="kn" href="https://shradhanjalibanner.in/?lang=kn" />
+    <xhtml:link rel="alternate" hreflang="ml" href="https://shradhanjalibanner.in/?lang=ml" />
+    <xhtml:link rel="alternate" hreflang="pa" href="https://shradhanjalibanner.in/?lang=pa" />
+    <xhtml:link rel="alternate" hreflang="or" href="https://shradhanjalibanner.in/?lang=or" />
+    <xhtml:link rel="alternate" hreflang="ur" href="https://shradhanjalibanner.in/?lang=ur" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://shradhanjalibanner.in/" />
+    <lastmod>2026-06-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Kannada Version -->
+  <url>
+    <loc>https://shradhanjalibanner.in/?lang=kn</loc>
+    <xhtml:link rel="alternate" hreflang="mr" href="https://shradhanjalibanner.in/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://shradhanjalibanner.in/?lang=hi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://shradhanjalibanner.in/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="bn" href="https://shradhanjalibanner.in/?lang=bn" />
+    <xhtml:link rel="alternate" hreflang="te" href="https://shradhanjalibanner.in/?lang=te" />
+    <xhtml:link rel="alternate" hreflang="ta" href="https://shradhanjalibanner.in/?lang=ta" />
+    <xhtml:link rel="alternate" hreflang="gu" href="https://shradhanjalibanner.in/?lang=gu" />
+    <xhtml:link rel="alternate" hreflang="kn" href="https://shradhanjalibanner.in/?lang=kn" />
+    <xhtml:link rel="alternate" hreflang="ml" href="https://shradhanjalibanner.in/?lang=ml" />
+    <xhtml:link rel="alternate" hreflang="pa" href="https://shradhanjalibanner.in/?lang=pa" />
+    <xhtml:link rel="alternate" hreflang="or" href="https://shradhanjalibanner.in/?lang=or" />
+    <xhtml:link rel="alternate" hreflang="ur" href="https://shradhanjalibanner.in/?lang=ur" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://shradhanjalibanner.in/" />
+    <lastmod>2026-06-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Malayalam Version -->
+  <url>
+    <loc>https://shradhanjalibanner.in/?lang=ml</loc>
+    <xhtml:link rel="alternate" hreflang="mr" href="https://shradhanjalibanner.in/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://shradhanjalibanner.in/?lang=hi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://shradhanjalibanner.in/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="bn" href="https://shradhanjalibanner.in/?lang=bn" />
+    <xhtml:link rel="alternate" hreflang="te" href="https://shradhanjalibanner.in/?lang=te" />
+    <xhtml:link rel="alternate" hreflang="ta" href="https://shradhanjalibanner.in/?lang=ta" />
+    <xhtml:link rel="alternate" hreflang="gu" href="https://shradhanjalibanner.in/?lang=gu" />
+    <xhtml:link rel="alternate" hreflang="kn" href="https://shradhanjalibanner.in/?lang=kn" />
+    <xhtml:link rel="alternate" hreflang="ml" href="https://shradhanjalibanner.in/?lang=ml" />
+    <xhtml:link rel="alternate" hreflang="pa" href="https://shradhanjalibanner.in/?lang=pa" />
+    <xhtml:link rel="alternate" hreflang="or" href="https://shradhanjalibanner.in/?lang=or" />
+    <xhtml:link rel="alternate" hreflang="ur" href="https://shradhanjalibanner.in/?lang=ur" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://shradhanjalibanner.in/" />
+    <lastmod>2026-06-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Punjabi Version -->
+  <url>
+    <loc>https://shradhanjalibanner.in/?lang=pa</loc>
+    <xhtml:link rel="alternate" hreflang="mr" href="https://shradhanjalibanner.in/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://shradhanjalibanner.in/?lang=hi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://shradhanjalibanner.in/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="bn" href="https://shradhanjalibanner.in/?lang=bn" />
+    <xhtml:link rel="alternate" hreflang="te" href="https://shradhanjalibanner.in/?lang=te" />
+    <xhtml:link rel="alternate" hreflang="ta" href="https://shradhanjalibanner.in/?lang=ta" />
+    <xhtml:link rel="alternate" hreflang="gu" href="https://shradhanjalibanner.in/?lang=gu" />
+    <xhtml:link rel="alternate" hreflang="kn" href="https://shradhanjalibanner.in/?lang=kn" />
+    <xhtml:link rel="alternate" hreflang="ml" href="https://shradhanjalibanner.in/?lang=ml" />
+    <xhtml:link rel="alternate" hreflang="pa" href="https://shradhanjalibanner.in/?lang=pa" />
+    <xhtml:link rel="alternate" hreflang="or" href="https://shradhanjalibanner.in/?lang=or" />
+    <xhtml:link rel="alternate" hreflang="ur" href="https://shradhanjalibanner.in/?lang=ur" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://shradhanjalibanner.in/" />
+    <lastmod>2026-06-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Odia Version -->
+  <url>
+    <loc>https://shradhanjalibanner.in/?lang=or</loc>
+    <xhtml:link rel="alternate" hreflang="mr" href="https://shradhanjalibanner.in/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://shradhanjalibanner.in/?lang=hi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://shradhanjalibanner.in/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="bn" href="https://shradhanjalibanner.in/?lang=bn" />
+    <xhtml:link rel="alternate" hreflang="te" href="https://shradhanjalibanner.in/?lang=te" />
+    <xhtml:link rel="alternate" hreflang="ta" href="https://shradhanjalibanner.in/?lang=ta" />
+    <xhtml:link rel="alternate" hreflang="gu" href="https://shradhanjalibanner.in/?lang=gu" />
+    <xhtml:link rel="alternate" hreflang="kn" href="https://shradhanjalibanner.in/?lang=kn" />
+    <xhtml:link rel="alternate" hreflang="ml" href="https://shradhanjalibanner.in/?lang=ml" />
+    <xhtml:link rel="alternate" hreflang="pa" href="https://shradhanjalibanner.in/?lang=pa" />
+    <xhtml:link rel="alternate" hreflang="or" href="https://shradhanjalibanner.in/?lang=or" />
+    <xhtml:link rel="alternate" hreflang="ur" href="https://shradhanjalibanner.in/?lang=ur" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://shradhanjalibanner.in/" />
+    <lastmod>2026-06-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Urdu Version -->
+  <url>
+    <loc>https://shradhanjalibanner.in/?lang=ur</loc>
+    <xhtml:link rel="alternate" hreflang="mr" href="https://shradhanjalibanner.in/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://shradhanjalibanner.in/?lang=hi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://shradhanjalibanner.in/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="bn" href="https://shradhanjalibanner.in/?lang=bn" />
+    <xhtml:link rel="alternate" hreflang="te" href="https://shradhanjalibanner.in/?lang=te" />
+    <xhtml:link rel="alternate" hreflang="ta" href="https://shradhanjalibanner.in/?lang=ta" />
+    <xhtml:link rel="alternate" hreflang="gu" href="https://shradhanjalibanner.in/?lang=gu" />
+    <xhtml:link rel="alternate" hreflang="kn" href="https://shradhanjalibanner.in/?lang=kn" />
+    <xhtml:link rel="alternate" hreflang="ml" href="https://shradhanjalibanner.in/?lang=ml" />
+    <xhtml:link rel="alternate" hreflang="pa" href="https://shradhanjalibanner.in/?lang=pa" />
+    <xhtml:link rel="alternate" hreflang="or" href="https://shradhanjalibanner.in/?lang=or" />
+    <xhtml:link rel="alternate" hreflang="ur" href="https://shradhanjalibanner.in/?lang=ur" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://shradhanjalibanner.in/" />
+    <lastmod>2026-06-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
 </urlset>
