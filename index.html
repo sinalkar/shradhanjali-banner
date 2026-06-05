@@ -2822,9 +2822,11 @@
       return VIDEO_MIME_CANDIDATES.find(m => MediaRecorder.isTypeSupported(m)) || null;
     }
     function supportsAnimatedExport() {
+      // Note: some Safari builds report no supported MIME types via isTypeSupported
+      // yet still record with the default codec — so a known MIME is NOT required here.
       const c = document.createElement('canvas');
       return typeof MediaRecorder !== 'undefined' &&
-             typeof c.captureStream === 'function' && !!pickVideoMime();
+             typeof c.captureStream === 'function';
     }
 
     /* Paint one flickering brass-lamp flame: base at (cx, baseY), size w×h.
@@ -2895,8 +2897,8 @@
       const fmt = document.getElementById('bannerFormat').value;
       if (!SOCIAL_FORMATS.includes(fmt)) return;
 
-      const mime = pickVideoMime();
-      if (!supportsAnimatedExport() || !mime) { alert(t('msg.animUnsupported')); return; }
+      if (!supportsAnimatedExport()) { alert(t('msg.animUnsupported')); return; }
+      const mime = pickVideoMime();   // may be null on Safari; recorder falls back to default
 
       const dlBtn    = document.getElementById('btnDownload');
       const origText = btn.innerHTML;
@@ -2921,9 +2923,12 @@
         };
       });
 
+      let recCanvas = null;
       const restore = () => {
         social.classList.remove('capturing-anim');
         socialCaptureRestore(saved);
+        if (recCanvas && recCanvas.parentNode) recCanvas.parentNode.removeChild(recCanvas);
+        recCanvas = null;
         btn.innerHTML = origText; btn.disabled = false;
         dlBtn.disabled = false;
       };
@@ -2952,19 +2957,38 @@
             h:     f.h * sy
           }));
 
+          // Safari only captures frames from a canvas attached to the DOM,
+          // so keep it in the document (parked offscreen) while recording.
           const canvas = document.createElement('canvas');
           canvas.width = outW; canvas.height = outH;
+          canvas.style.cssText = 'position:fixed;left:-100000px;top:0;pointer-events:none;';
+          document.body.appendChild(canvas);
+          recCanvas = canvas;
           const ctx = canvas.getContext('2d');
 
           const stream = canvas.captureStream(30);
-          const rec    = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 8000000 });
+          let rec;
+          try {
+            rec = new MediaRecorder(stream, mime ? { mimeType: mime, videoBitsPerSecond: 8000000 }
+                                                  : { videoBitsPerSecond: 8000000 });
+          } catch (e1) {
+            // Safari can reject the bitrate or codec-qualified mime — degrade gracefully
+            try { rec = new MediaRecorder(stream, mime ? { mimeType: mime } : {}); }
+            catch (e2) {
+              try { rec = new MediaRecorder(stream); }
+              catch (e3) { restore(); alert(t('msg.animUnsupported')); return; }
+            }
+          }
           const chunks = [];
           rec.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+          rec.onerror = () => { if (rec.state !== 'inactive') { try { rec.stop(); } catch (_) {} } };
           rec.onstop = () => {
-            const ext  = mime.indexOf('video/mp4') === 0 ? 'mp4' : 'webm';
+            const outMime = rec.mimeType || mime || 'video/mp4';   // Safari may pick its own
+            const ext  = outMime.indexOf('mp4') !== -1 ? 'mp4'
+                       : outMime.indexOf('webm') !== -1 ? 'webm' : 'mp4';
             const name = isPost ? 'instagram-post'
                        : (fmt === 'whatsapp' ? 'whatsapp-status' : 'instagram-story');
-            const blob = new Blob(chunks, { type: mime });
+            const blob = new Blob(chunks, { type: outMime });
             const url  = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url; a.download = name + '-animated.' + ext;
@@ -2986,9 +3010,9 @@
             ctx.drawImage(srcCanvas, dx, dy, dw, dh);
             flamesOut.forEach((f, i) => drawCanvasFlame(ctx, f.cx, f.baseY, f.w, f.h, t, i * 2.1));
             if (now - start < DURATION) requestAnimationFrame(frame);
-            else rec.stop();
+            else if (rec.state !== 'inactive') rec.stop();
           }
-          rec.start();
+          rec.start(200);          // timeslice — Safari needs it to flush data chunks
           requestAnimationFrame(frame);
         })
         .catch(() => { restore(); alert(t('msg.animError')); });
