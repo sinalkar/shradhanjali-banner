@@ -271,32 +271,19 @@
         margin: 0.9rem auto 0; opacity: 0.7;
     }
 
-    /* Diya decorations */
-    .header-diya {
-        position: absolute; top: 50%; transform: translateY(-55%);
-        display: flex; flex-direction: column; align-items: center; gap: 0; opacity: 0.9;
+    /* Header brass samai lamps (shared .banner-lamp visual, header-positioned) */
+    .banner-lamp.header-lamp {
+        position: absolute; top: 50%;
+        transform: translateY(-50%) scale(0.92); transform-origin: center; opacity: 0.95;
     }
-    .header-diya.left  { left: 2.5rem; }
-    .header-diya.right { right: 2.5rem; }
-    .diya-flame {
-        width: 10px; height: 20px;
-        background: linear-gradient(to top, #f5a500 0%, #ffe880 55%, transparent 100%);
-        border-radius: 50% 50% 30% 30%; margin-bottom: -2px;
-        animation: flame 1.6s ease-in-out infinite;
-        transform-origin: bottom center;
-    }
-    .diya-bowl {
-        width: 32px; height: 17px;
-        background: linear-gradient(150deg, #d4860a 0%, #f5be00 45%, #c07000 100%);
-        border-radius: 50% 50% 42% 42% / 62% 62% 48% 48%;
-        box-shadow: 0 3px 10px rgba(0,0,0,0.35);
-    }
+    .banner-lamp.header-lamp.left  { left: 2.5rem; }
+    .banner-lamp.header-lamp.right { right: 2.5rem; }
     @keyframes flame {
         0%,100% { transform: scaleX(1) rotate(-2deg); opacity: 0.92; }
         35%      { transform: scaleX(0.78) rotate(4deg); opacity: 1; }
         70%      { transform: scaleX(1.08) rotate(-1deg); opacity: 0.88; }
     }
-    @media (max-width: 500px) { .header-diya { display: none; } }
+    @media (max-width: 500px) { .banner-lamp.header-lamp { display: none; } }
 
     /* Header controls (language + theme toggle) */
     .header-controls {
@@ -525,7 +512,7 @@
     .action-row { display: flex; gap: 1rem; margin-top: 1.75rem; flex-wrap: wrap; }
     @media (max-width: 420px) { .action-row { flex-direction: column; } }
 
-    .btn-generate, .btn-download {
+    .btn-generate, .btn-download, .btn-animate {
         flex: 1; min-width: 155px;
         padding: 0.8rem 1.5rem;
         font-family: 'Tiro Devanagari Marathi', serif;
@@ -534,7 +521,7 @@
         cursor: pointer; position: relative; overflow: hidden;
         transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
     }
-    .btn-generate::after, .btn-download::after {
+    .btn-generate::after, .btn-download::after, .btn-animate::after {
         content: ''; position: absolute; inset: 0;
         background: linear-gradient(to bottom, rgba(255,255,255,0.07) 0%, transparent 50%);
         pointer-events: none;
@@ -543,9 +530,15 @@
     .btn-generate:hover { background: var(--btn-gen-hover); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(70,1,55,0.4); }
     .btn-download { background: var(--btn-dl); color: #180800; box-shadow: 0 4px 16px rgba(201,125,8,0.3); }
     .btn-download:hover { background: var(--btn-dl-hover); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(165,100,0,0.38); }
-    .btn-generate:active, .btn-download:active { transform: translateY(0); }
-    .btn-generate:focus-visible, .btn-download:focus-visible { outline: 3px solid #894dce; outline-offset: 3px; }
-    .btn-generate:disabled, .btn-download:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+    .btn-animate { background: linear-gradient(135deg, #7a1f4f 0%, #b8431f 100%); color: #fff5ee; box-shadow: 0 4px 16px rgba(122,31,79,0.32); }
+    .btn-animate:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(122,31,79,0.42); }
+    .btn-animate[hidden] { display: none; }
+    .btn-generate:active, .btn-download:active, .btn-animate:active { transform: translateY(0); }
+    .btn-generate:focus-visible, .btn-download:focus-visible, .btn-animate:focus-visible { outline: 3px solid #894dce; outline-offset: 3px; }
+    .btn-generate:disabled, .btn-download:disabled, .btn-animate:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+    /* Hide the CSS flame while baking the animated video base (canvas draws its own) */
+    .banner-social.capturing-anim .lamp-flame { visibility: hidden; }
 
     /* Mobile scroll-to-preview button */
     .btn-scroll-preview {
@@ -911,6 +904,10 @@
         overflow: hidden;
     }
     .banner-social .floral { width: 280px; height: 280px; }
+    /* Brass samai lamps, scaled up for the 1080px-wide social card */
+    .banner-social .banner-lamp { top: 54px; transform: scale(1.9); transform-origin: top center; }
+    .banner-social .banner-lamp.left  { left: 86px; }
+    .banner-social .banner-lamp.right { right: 86px; }
     .bs-eyebrow {
         font-family: 'Rozha One', serif; font-size: 56px;
         color: var(--bn-title); letter-spacing: 0.06em;
@@ -948,7 +945,7 @@
     /* ─── REDUCED MOTION ─────────────────────────────────────── */
     @media (prefers-reduced-motion: reduce) {
         .app-shell, .form-panel, .preview-panel { animation: none; }
-        .diya-flame, .lamp-flame { animation: none; }
+        .lamp-flame { animation: none; }
         .banner, .memorial-text, .ceremony-info, .banner-foot,
         .main-text, .age-text, .death-info, .ceremony-title,
         .page-ambient, body, .main-card { transition: none; }
@@ -991,9 +988,11 @@
                     <svg class="icon-sun"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
                 </button>
             </div>
-            <div class="header-diya left" aria-hidden="true">
-                <div class="diya-flame"></div>
-                <div class="diya-bowl"></div>
+            <div class="banner-lamp header-lamp left" aria-hidden="true">
+                <div class="lamp-flame"></div>
+                <div class="lamp-bowl"></div>
+                <div class="lamp-stem"></div>
+                <div class="lamp-base"></div>
             </div>
             <div class="header-inner">
                 <div class="header-mantra" aria-hidden="true">॥ श्री ॥</div>
@@ -1001,9 +1000,11 @@
                 <p class="header-sub" data-i18n="heading.subtitle">स्मारक बॅनर जनरेटर</p>
                 <div class="header-divider" aria-hidden="true"></div>
             </div>
-            <div class="header-diya right" aria-hidden="true">
-                <div class="diya-flame"></div>
-                <div class="diya-bowl"></div>
+            <div class="banner-lamp header-lamp right" aria-hidden="true">
+                <div class="lamp-flame"></div>
+                <div class="lamp-bowl"></div>
+                <div class="lamp-stem"></div>
+                <div class="lamp-base"></div>
             </div>
         </header>
 
@@ -1125,6 +1126,7 @@
                 <div class="action-row">
                     <button class="btn-generate" id="btnGenerate" onclick="generateBanner()" data-i18n="btn.generate">बॅनर तयार करा</button>
                     <button class="btn-download" id="btnDownload" onclick="downloadBanner(event)" data-i18n="btn.download">बॅनर डाउनलोड करा</button>
+                    <button class="btn-animate" id="btnAnimate" onclick="downloadAnimatedSocial(event)" data-i18n="btn.animate" hidden>🎞️ अ‍ॅनिमेटेड व्हिडिओ</button>
                 </div>
                 <button class="btn-scroll-preview" id="scrollToPreview" data-i18n="btn.scrollPreview">बॅनर पूर्वावलोकन पहा ↓</button>
             </section>
@@ -1348,6 +1350,18 @@
         <div class="floral fl-tr"></div>
         <div class="floral fl-bl"></div>
         <div class="floral fl-br"></div>
+        <div class="banner-lamp left" aria-hidden="true">
+            <div class="lamp-flame"></div>
+            <div class="lamp-bowl"></div>
+            <div class="lamp-stem"></div>
+            <div class="lamp-base"></div>
+        </div>
+        <div class="banner-lamp right" aria-hidden="true">
+            <div class="lamp-flame"></div>
+            <div class="lamp-bowl"></div>
+            <div class="lamp-stem"></div>
+            <div class="lamp-base"></div>
+        </div>
         <div class="bs-eyebrow">॥ श्रद्धांजली ॥</div>
         <div class="bs-photo">
             <div class="photo-frame-container">
@@ -1418,6 +1432,10 @@
         'hint.social':      'छोटे शेअर कार्ड — फक्त फोटो, नाव, वय, निधन दिनांक व समारंभाची माहिती. कुटुंब यादी व गाव माहिती वगळली जाते.',
         'msg.downloading':  'डाउनलोड होत आहे...',
         'msg.error':        'बॅनर तयार करताना त्रुटी आली. कृपया पुन्हा प्रयत्न करा.',
+        'btn.animate':       '🎞️ अ‍ॅनिमेटेड व्हिडिओ',
+        'msg.recording':     'व्हिडिओ तयार होत आहे...',
+        'msg.animError':     'व्हिडिओ तयार करताना अडचण आली. कृपया पुन्हा प्रयत्न करा.',
+        'msg.animUnsupported': 'तुमचा ब्राउझर व्हिडिओ एक्सपोर्टला साथ देत नाही. कृपया Chrome किंवा अद्ययावत ब्राउझर वापरा.',
         'msg.previewLoad':  'पूर्वावलोकन लोड होत आहे...',
         'footer.text':      'shradhanjalibanner.in · विनामूल्य स्मारक बॅनर जनरेटर',
         'theme.traditional':'परंपरागत',
@@ -1486,6 +1504,10 @@
         'hint.social':      'छोटा शेयर कार्ड — केवल फोटो, नाम, आयु, निधन तिथि व समारोह जानकारी। परिवार सूची व गाँव जानकारी हटा दी जाती है।',
         'msg.downloading':  'डाउनलोड हो रहा है...',
         'msg.error':        'बैनर बनाने में त्रुटि हुई। कृपया पुनः प्रयास करें।',
+        'btn.animate':       '🎞️ एनिमेटेड वीडियो',
+        'msg.recording':     'वीडियो तैयार हो रहा है...',
+        'msg.animError':     'वीडियो बनाते समय समस्या हुई। कृपया पुनः प्रयास करें।',
+        'msg.animUnsupported': 'आपका ब्राउज़र वीडियो एक्सपोर्ट का समर्थन नहीं करता। कृपया Chrome या नया ब्राउज़र उपयोग करें।',
         'msg.previewLoad':  'पूर्वावलोकन लोड हो रहा है...',
         'footer.text':      'shradhanjalibanner.in · निःशुल्क स्मारक बैनर जनरेटर',
         'theme.traditional':'परंपरागत',
@@ -1554,6 +1576,10 @@
         'hint.social':      'Compact share card — only photo, name, age, date of passing and ceremony info. Family list and community line are omitted.',
         'msg.downloading':  'Downloading...',
         'msg.error':        'Error creating banner. Please try again.',
+        'btn.animate':       '🎞️ Animated Video',
+        'msg.recording':     'Creating video...',
+        'msg.animError':     'Something went wrong creating the video. Please try again.',
+        'msg.animUnsupported': 'Your browser does not support video export. Please use Chrome or an updated browser.',
         'msg.previewLoad':  'Loading preview...',
         'footer.text':      'shradhanjalibanner.in · Free Memorial Banner Generator',
         'theme.traditional':'Traditional',
@@ -2733,6 +2759,10 @@
       const stage    = document.getElementById('socialStage');
       const social   = document.getElementById('bannerSocial');
       const label    = document.getElementById('socialPreviewLabel');
+      const animBtn  = document.getElementById('btnAnimate');
+
+      // Animated-video export only makes sense (and only works) for the social cards
+      if (animBtn) animBtn.hidden = !(isSocial && supportsAnimatedExport());
 
       if (isSocial) {
         wrapper.style.display = 'none';
@@ -2771,6 +2801,197 @@
       social.style.transform = saved.transform;
       social.style.width = saved.width;
       updateSocialScale();
+    }
+
+    /* ════════════════════════════════════════════════════════════
+       ANIMATED VIDEO EXPORT (WhatsApp / Instagram)
+       Bakes the static social card once with html2canvas, then
+       composites flickering brass-lamp flames on a <canvas> and
+       records it to MP4/WebM via MediaRecorder — fast, because only
+       the small flames are recomputed per frame.
+    ════════════════════════════════════════════════════════════ */
+    const VIDEO_MIME_CANDIDATES = [
+      'video/mp4;codecs=avc1.42E01E',
+      'video/mp4',
+      'video/webm;codecs=vp9',
+      'video/webm;codecs=vp8',
+      'video/webm'
+    ];
+    function pickVideoMime() {
+      if (typeof MediaRecorder === 'undefined' || !MediaRecorder.isTypeSupported) return null;
+      return VIDEO_MIME_CANDIDATES.find(m => MediaRecorder.isTypeSupported(m)) || null;
+    }
+    function supportsAnimatedExport() {
+      const c = document.createElement('canvas');
+      return typeof MediaRecorder !== 'undefined' &&
+             typeof c.captureStream === 'function' && !!pickVideoMime();
+    }
+
+    /* Paint one flickering brass-lamp flame: base at (cx, baseY), size w×h.
+       t = elapsed seconds; seed desyncs each lamp. */
+    function drawCanvasFlame(ctx, cx, baseY, w, h, t, seed) {
+      const period = 1.7;                          // matches the CSS @keyframes flame
+      const ph    = (t / period) * Math.PI * 2 + seed;
+      const swayX = 1 + Math.sin(ph) * 0.10;
+      const swayY = 1 + Math.cos(ph * 0.9) * 0.07;
+      const tilt  = Math.sin(ph * 1.3) * 0.06;
+      const flick = 0.9 + (Math.sin(ph * 2.1) + Math.sin(ph * 3.7)) * 0.05;
+
+      ctx.save();
+      ctx.translate(cx, baseY);
+      ctx.rotate(tilt);
+      ctx.scale(swayX, swayY);
+
+      // Outer glow (additive)
+      ctx.globalCompositeOperation = 'lighter';
+      const glow = ctx.createRadialGradient(0, -h * 0.45, 0, 0, -h * 0.45, w * 1.7);
+      glow.addColorStop(0,   'rgba(255,150,30,' + (0.5 * flick).toFixed(3) + ')');
+      glow.addColorStop(0.5, 'rgba(255,110,0,0.16)');
+      glow.addColorStop(1,   'rgba(255,110,0,0)');
+      ctx.fillStyle = glow;
+      ctx.beginPath();
+      ctx.arc(0, -h * 0.45, w * 1.7, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalCompositeOperation = 'source-over';
+
+      // Flame body — teardrop: rounded base, pointed tip
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.bezierCurveTo(w * 0.62, -h * 0.08, w * 0.52, -h * 0.62, 0, -h);
+      ctx.bezierCurveTo(-w * 0.52, -h * 0.62, -w * 0.62, -h * 0.08, 0, 0);
+      ctx.closePath();
+      const body = ctx.createLinearGradient(0, 0, 0, -h);
+      body.addColorStop(0,    '#f26a00');
+      body.addColorStop(0.32, '#ff9d1c');
+      body.addColorStop(0.62, '#ffd24a');
+      body.addColorStop(1,    '#fff2bf');
+      ctx.fillStyle = body;
+      ctx.fill();
+
+      // Bright inner core
+      ctx.beginPath();
+      ctx.ellipse(0, -h * 0.34, w * 0.24, h * 0.30, 0, 0, Math.PI * 2);
+      const core = ctx.createRadialGradient(0, -h * 0.34, 0, 0, -h * 0.34, h * 0.30);
+      core.addColorStop(0,   'rgba(255,253,240,0.95)');
+      core.addColorStop(0.5, 'rgba(255,240,168,0.6)');
+      core.addColorStop(1,   'rgba(255,210,90,0)');
+      ctx.fillStyle = core;
+      ctx.fill();
+
+      // Cool blue base
+      ctx.beginPath();
+      ctx.ellipse(0, -h * 0.04, w * 0.26, h * 0.10, 0, 0, Math.PI * 2);
+      const base = ctx.createRadialGradient(0, -h * 0.04, 0, 0, -h * 0.04, w * 0.26);
+      base.addColorStop(0, 'rgba(123,188,255,0.85)');
+      base.addColorStop(1, 'rgba(95,155,255,0)');
+      ctx.fillStyle = base;
+      ctx.fill();
+
+      ctx.restore();
+    }
+
+    function downloadAnimatedSocial(event) {
+      const btn = event.currentTarget;
+      const fmt = document.getElementById('bannerFormat').value;
+      if (!SOCIAL_FORMATS.includes(fmt)) return;
+
+      const mime = pickVideoMime();
+      if (!supportsAnimatedExport() || !mime) { alert(t('msg.animUnsupported')); return; }
+
+      const dlBtn    = document.getElementById('btnDownload');
+      const origText = btn.innerHTML;
+      btn.innerHTML  = t('msg.recording');
+      btn.disabled   = true;
+      dlBtn.disabled = true;
+
+      const social = document.getElementById('bannerSocial');
+      const bg     = getCurrentThemeBg();
+      const saved  = socialCapturePrep();          // natural, untransformed 1080px
+
+      // Measure each flame in card space BEFORE hiding it
+      const cardRect = social.getBoundingClientRect();
+      const cardW = cardRect.width, cardH = cardRect.height;
+      const flames = [...social.querySelectorAll('.lamp-flame')].map(f => {
+        const r = f.getBoundingClientRect();
+        return {
+          cx:   r.left + r.width / 2 - cardRect.left,
+          topY: r.top - cardRect.top,
+          w:    r.width,
+          h:    r.height
+        };
+      });
+
+      const restore = () => {
+        social.classList.remove('capturing-anim');
+        socialCaptureRestore(saved);
+        btn.innerHTML = origText; btn.disabled = false;
+        dlBtn.disabled = false;
+      };
+
+      social.classList.add('capturing-anim');      // hide CSS flames for the static base
+
+      html2canvas(social, { scale: 1.6, useCORS: true, logging: false, backgroundColor: null, windowWidth: 1080 })
+        .then(srcCanvas => {
+          social.classList.remove('capturing-anim');
+
+          const isPost = fmt === 'ig-post';
+          const outW = 1080, outH = isPost ? 1080 : 1920;
+
+          // Letterbox mapping (mirrors composeToFormat) from srcCanvas → output
+          const srcR = srcCanvas.width / srcCanvas.height, tgtR = outW / outH;
+          let dw, dh, dx, dy;
+          if (srcR > tgtR) { dw = outW; dh = outW / srcR; dx = 0; dy = (outH - dh) / 2; }
+          else             { dh = outH; dw = outH * srcR; dx = (outW - dw) / 2; dy = 0; }
+
+          // card-space px → output px
+          const sx = dw / cardW, sy = dh / cardH;
+          const flamesOut = flames.map(f => ({
+            cx:    dx + f.cx * sx,
+            baseY: dy + (f.topY + f.h) * sy,
+            w:     f.w * sx,
+            h:     f.h * sy
+          }));
+
+          const canvas = document.createElement('canvas');
+          canvas.width = outW; canvas.height = outH;
+          const ctx = canvas.getContext('2d');
+
+          const stream = canvas.captureStream(30);
+          const rec    = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 8000000 });
+          const chunks = [];
+          rec.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+          rec.onstop = () => {
+            const ext  = mime.indexOf('video/mp4') === 0 ? 'mp4' : 'webm';
+            const name = isPost ? 'instagram-post'
+                       : (fmt === 'whatsapp' ? 'whatsapp-status' : 'instagram-story');
+            const blob = new Blob(chunks, { type: mime });
+            const url  = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = name + '-animated.' + ext;
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 4000);
+            restore();
+          };
+
+          // Avoid a blank first frame
+          ctx.fillStyle = bg; ctx.fillRect(0, 0, outW, outH);
+          ctx.drawImage(srcCanvas, dx, dy, dw, dh);
+
+          const DURATION = 3000;       // ~1.75 flame loops; viewers loop the clip
+          const start = performance.now();
+          function frame(now) {
+            const t = (now - start) / 1000;
+            ctx.fillStyle = bg;
+            ctx.fillRect(0, 0, outW, outH);
+            ctx.drawImage(srcCanvas, dx, dy, dw, dh);
+            flamesOut.forEach((f, i) => drawCanvasFlame(ctx, f.cx, f.baseY, f.w, f.h, t, i * 2.1));
+            if (now - start < DURATION) requestAnimationFrame(frame);
+            else rec.stop();
+          }
+          rec.start();
+          requestAnimationFrame(frame);
+        })
+        .catch(() => { restore(); alert(t('msg.animError')); });
     }
 
     document.getElementById('bannerFormat').addEventListener('change', function() {
