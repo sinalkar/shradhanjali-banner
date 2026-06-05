@@ -96,7 +96,7 @@
             "Urdu"
           ],
           "featureList": [
-            "6 memorial banner themes",
+            "11 memorial banner themes",
             "Photo upload with gold circular frame",
             "12 major Indian languages support",
             "WhatsApp status download (9:16)",
@@ -131,7 +131,7 @@
               "name": "How to create an elegant funeral card design or tribute card design?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Our mobile invitation card maker simplifies the process of creating cards. Just select from our 6 devotional color themes, upload a photo of your loved one, and enter details such as name, age, date of passing, and ceremony venue. The system operates as a comprehensive tribute card design and punyatithi card creation tool, generating high-resolution outputs instantly. You can easily craft a complete funeral card design in minutes."
+                "text": "Our mobile invitation card maker simplifies the process of creating cards. Just select from our 11 devotional color themes, upload a photo of your loved one, and enter details such as name, age, date of passing, and ceremony venue. The system operates as a comprehensive tribute card design and punyatithi card creation tool, generating high-resolution outputs instantly. You can easily craft a complete funeral card design in minutes."
               }
             },
             {
@@ -243,6 +243,14 @@
         width: 70%; height: 200%;
         background: radial-gradient(ellipse, rgba(201,160,106,0.1) 0%, transparent 65%);
         pointer-events: none;
+    }
+    /* Marigold garland along the threshold (bottom edge) */
+    .site-header::after {
+        content: '';
+        position: absolute; left: 0; right: 0; bottom: 0; height: 7px;
+        background: radial-gradient(circle at 9px 0, rgba(243,156,18,0.95) 0 3px, transparent 3.6px) repeat-x;
+        background-size: 19px 7px;
+        opacity: 0.6; pointer-events: none;
     }
     .header-inner { position: relative; z-index: 1; }
     .header-mantra {
@@ -369,29 +377,88 @@
         to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ─── THEME PICKER ───────────────────────────────────────── */
+    /* ─── THEME / TEMPLATE PICKER (gallery) ──────────────────── */
     .theme-picker { margin-bottom: 1.5rem; }
-    .picker-label { font-weight: 700; font-size: 0.875rem; color: var(--label-color); margin-bottom: 0.75rem; }
-    .theme-swatches { display: flex; gap: 0.65rem; flex-wrap: wrap; }
-    .theme-swatch {
-        background: none; border: 2.5px solid transparent;
-        border-radius: 11px; cursor: pointer; padding: 4px;
-        transition: border-color 0.18s, transform 0.15s, box-shadow 0.18s;
-        display: flex; flex-direction: column; align-items: center; gap: 5px;
+    .picker-label {
+        font-weight: 700; font-size: 0.875rem; color: var(--label-color);
+        margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;
     }
-    .theme-swatch:hover { transform: translateY(-3px); }
+    .picker-count {
+        font-family: 'Tiro Devanagari Marathi', serif;
+        font-size: 0.68rem; font-weight: 700; letter-spacing: 0.03em;
+        color: var(--btn-gen); background: rgba(70,1,55,0.08);
+        border: 1px solid rgba(70,1,55,0.16);
+        border-radius: 999px; padding: 1px 9px;
+    }
+    .theme-swatches {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(74px, 1fr));
+        gap: 0.6rem;
+    }
+    .theme-swatch {
+        background: var(--field-bg);
+        border: 2px solid var(--field-border);
+        border-radius: 12px; cursor: pointer;
+        padding: 6px 6px 7px; position: relative;
+        transition: border-color 0.18s, transform 0.15s, box-shadow 0.18s;
+        display: flex; flex-direction: column; align-items: center; gap: 6px;
+    }
+    .theme-swatch:hover { transform: translateY(-2px); border-color: var(--gold); box-shadow: 0 6px 16px rgba(70,1,55,0.12); }
     .theme-swatch.active {
         border-color: var(--btn-gen);
-        box-shadow: 0 0 0 3px rgba(70,1,55,0.15), 0 4px 12px rgba(70,1,55,0.2);
+        box-shadow: 0 0 0 3px rgba(70,1,55,0.14), 0 6px 16px rgba(70,1,55,0.18);
+    }
+    .theme-swatch.active::after {
+        content: '✓'; position: absolute; top: -7px; right: -7px;
+        width: 20px; height: 20px; border-radius: 50%;
+        background: var(--btn-gen); color: #fff5ee;
+        font-size: 0.72rem; line-height: 20px; text-align: center;
+        box-shadow: 0 2px 6px rgba(70,1,55,0.4);
     }
     .swatch-preview {
-        width: 52px; height: 34px; border-radius: 7px;
-        display: block; box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+        width: 100%; height: 46px; border-radius: 8px;
+        display: block; box-shadow: 0 2px 6px rgba(0,0,0,0.18), inset 0 0 0 1px rgba(0,0,0,0.06);
     }
     .swatch-label {
-        font-size: 0.71rem; color: var(--label-color);
+        font-size: 0.72rem; color: var(--label-color);
         font-family: 'Tiro Devanagari Marathi', serif;
         font-weight: 700; white-space: nowrap;
+    }
+
+    /* ─── PHOTO-FRAME PICKER (visual thumbnails) ─────────────── */
+    .frame-picker { margin-bottom: 1.5rem; }
+    .frame-swatches {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+        gap: 0.6rem;
+    }
+    .frame-swatch {
+        background: var(--field-bg);
+        border: 2px solid var(--field-border);
+        border-radius: 12px; cursor: pointer;
+        padding: 5px; position: relative;
+        transition: border-color 0.18s, transform 0.15s, box-shadow 0.18s;
+        display: block;
+    }
+    .frame-swatch:hover { transform: translateY(-2px); border-color: var(--gold); box-shadow: 0 6px 16px rgba(70,1,55,0.12); }
+    .frame-swatch.active {
+        border-color: var(--btn-gen);
+        box-shadow: 0 0 0 3px rgba(70,1,55,0.14), 0 6px 16px rgba(70,1,55,0.18);
+    }
+    .frame-swatch.active::after {
+        content: '✓'; position: absolute; top: -7px; right: -7px;
+        width: 20px; height: 20px; border-radius: 50%;
+        background: var(--btn-gen); color: #fff5ee;
+        font-size: 0.72rem; line-height: 20px; text-align: center;
+        box-shadow: 0 2px 6px rgba(70,1,55,0.4);
+    }
+    .frame-thumb {
+        display: block; width: 100%; aspect-ratio: 1 / 1;
+        background-color: #efe6d4;
+        background-size: cover; background-position: center;
+        background-repeat: no-repeat;
+        border-radius: 8px;
+        box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
     }
 
     /* ─── FORMAT PICKER ──────────────────────────────────────── */
@@ -431,6 +498,28 @@
     .field-input::placeholder, .field-textarea::placeholder { color: var(--placeholder); }
     .field-textarea { resize: vertical; }
     .field-file { padding: 0.45rem 0.75rem; cursor: pointer; }
+    .field-input:hover, .field-textarea:hover, .field-file:hover { border-color: var(--gold); }
+
+    /* Styled file-picker button */
+    .field-file::file-selector-button {
+        font-family: 'Tiro Devanagari Marathi', serif;
+        font-weight: 700; font-size: 0.82rem;
+        color: var(--btn-gen); background: rgba(70,1,55,0.06);
+        border: 1px solid rgba(70,1,55,0.18); border-radius: 6px;
+        padding: 0.32rem 0.7rem; margin-right: 0.75rem; cursor: pointer;
+        transition: background 0.2s, border-color 0.2s;
+    }
+    .field-file::file-selector-button:hover { background: rgba(70,1,55,0.13); border-color: var(--btn-gen); }
+
+    /* Custom caret for selects (appearance:none removes the native one) */
+    select.field-input {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23460137' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 13px;
+        padding-right: 2.1rem;
+        cursor: pointer;
+    }
 
     /* ─── ACTION BUTTONS ─────────────────────────────────────── */
     .action-row { display: flex; gap: 1rem; margin-top: 1.75rem; flex-wrap: wrap; }
@@ -500,6 +589,25 @@
     .banner-preview-wrapper {
         width: 100%;
         touch-action: manipulation;
+    }
+
+    /* ─── SOCIAL INLINE PREVIEW (live DOM, no html2canvas) ─────── */
+    .social-stage { display: none; flex-direction: column; align-items: center; gap: 0.85rem; padding-top: 0.25rem; }
+    .social-stage.show { display: flex; animation: panel-in 0.4s cubic-bezier(0.22,1,0.36,1) both; }
+    .social-preview-label {
+        font-family: 'Rozha One', serif; font-size: 1.05rem;
+        color: var(--preview-heading); letter-spacing: 0.02em; text-align: center;
+    }
+    .social-scaler {
+        position: relative; width: 100%; max-width: 300px;
+        background: #0d0008; border-radius: 22px; padding: 11px;
+        box-shadow: 0 22px 56px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(201,160,106,0.28);
+        overflow: hidden;
+    }
+    /* When the offscreen social card is shown inline, bring it into flow + scaled */
+    .banner-social.is-inline {
+        position: static !important; left: auto !important; top: auto !important;
+        transform-origin: top left; border-radius: 12px;
     }
 
     /* ─── PREVIEW DIALOG ─────────────────────────────────────── */
@@ -583,33 +691,90 @@
     .fl-bl { bottom: 6px; left: -32px; transform: scaleY(-1); }
     .fl-br { bottom: 6px; right: -32px; transform: scale(-1,-1); }
 
-    /* Samai oil lamp, top-left */
+    /* ════════════════════════════════════════════════════════════
+       Brass SAMAI oil lamp (devotional) — pure CSS, html2canvas-safe.
+       Stack: flame · oil dish (panti) · stem with knop · tiered base.
+    ════════════════════════════════════════════════════════════ */
     .banner-lamp {
-        position: absolute; top: 20px; z-index: 3;
-        width: 46px; display: flex; flex-direction: column; align-items: center;
+        position: absolute; top: 14px; z-index: 3;
+        width: 50px; display: flex; flex-direction: column; align-items: center;
     }
-    .banner-lamp.left { left: 26px; }
-    .banner-lamp.right { right: 26px; }
+    .banner-lamp.left  { left: 24px; }
+    .banner-lamp.right { right: 24px; }
+
+    /* ── Flame (teardrop: warm body + bright core + blue base + glow) ── */
     .banner-lamp .lamp-flame {
-        width: 13px; height: 26px;
-        background: linear-gradient(to top, #f5a500 0%, #ffe880 55%, transparent 100%);
-        border-radius: 50% 50% 30% 30%; margin-bottom: -3px; z-index: 2;
-        animation: flame 1.6s ease-in-out infinite; transform-origin: bottom center;
+        position: relative;
+        width: 17px; height: 31px;
+        margin-bottom: -4px; z-index: 5;
+        background: radial-gradient(ellipse 62% 72% at 50% 80%, #fff2bf 0%, #ffd24a 30%, #ff9d1c 62%, #f26a00 100%);
+        border-radius: 50% 50% 46% 46% / 76% 76% 30% 30%;
+        transform-origin: bottom center;
+        animation: flame 1.7s ease-in-out infinite;
+        box-shadow: 0 -1px 12px 3px rgba(255,150,30,0.5), 0 3px 26px 8px rgba(255,110,0,0.26);
     }
+    .banner-lamp .lamp-flame::before {   /* bright inner core */
+        content: ''; position: absolute; left: 50%; bottom: 4px; transform: translateX(-50%);
+        width: 8px; height: 18px;
+        background: radial-gradient(ellipse 70% 72% at 50% 78%, #fffdf0 0%, #fff0a8 45%, rgba(255,210,90,0) 100%);
+        border-radius: 50% 50% 45% 45% / 74% 74% 30% 30%;
+    }
+    .banner-lamp .lamp-flame::after {    /* cool blue flame base */
+        content: ''; position: absolute; left: 50%; bottom: 0; transform: translateX(-50%);
+        width: 9px; height: 8px;
+        background: radial-gradient(ellipse at 50% 65%, #7bbcff 0%, rgba(95,155,255,0.35) 55%, rgba(95,155,255,0) 100%);
+        border-radius: 50%;
+    }
+
+    /* ── Oil dish / panti (with rim highlight + spout) ── */
     .banner-lamp .lamp-bowl {
-        width: 40px; height: 21px;
-        background: linear-gradient(150deg, #d4860a 0%, #f5be00 45%, #b86200 100%);
-        border-radius: 50% 50% 42% 42% / 62% 62% 48% 48%;
-        box-shadow: 0 3px 9px rgba(0,0,0,0.3);
+        position: relative; z-index: 3;
+        width: 42px; height: 15px;
+        background: linear-gradient(180deg, #ffe49a 0%, #e3a72c 42%, #b9781a 72%, #7e4d10 100%);
+        border-radius: 16% 16% 50% 50% / 20% 20% 100% 100%;
+        box-shadow: inset 0 2px 2px rgba(255,255,255,0.55), 0 4px 8px rgba(0,0,0,0.32);
     }
+    .banner-lamp .lamp-bowl::before {    /* rim sheen */
+        content: ''; position: absolute; top: 1px; left: 8%;
+        width: 84%; height: 4px; border-radius: 50%;
+        background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.75) 50%, rgba(255,255,255,0) 100%);
+    }
+    .banner-lamp .lamp-bowl::after {     /* front spout where the wick rests */
+        content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%);
+        width: 8px; height: 5px; border-radius: 0 0 50% 50%;
+        background: linear-gradient(180deg, #e3a72c, #7e4d10);
+    }
+
+    /* ── Stem with central decorative knop ── */
     .banner-lamp .lamp-stem {
-        width: 7px; height: 22px;
-        background: linear-gradient(90deg, #b86200, #f5be00 50%, #b86200);
+        position: relative; z-index: 2;
+        width: 8px; height: 22px;
+        background: linear-gradient(90deg, #6b4310 0%, #b97f1e 28%, #ffe6a0 52%, #b97f1e 74%, #6b4310 100%);
+        border-radius: 2px;
     }
+    .banner-lamp .lamp-stem::before {    /* knop (brass knot) */
+        content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+        width: 17px; height: 12px; border-radius: 50%;
+        background: radial-gradient(ellipse at 50% 32%, #ffe9ab 0%, #d99a2b 46%, #7e4d10 100%);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+    /* ── Tiered pedestal base ── */
     .banner-lamp .lamp-base {
-        width: 30px; height: 8px; border-radius: 50%;
-        background: linear-gradient(150deg, #d4860a, #f5be00 50%, #b86200);
-        box-shadow: 0 3px 7px rgba(0,0,0,0.3);
+        position: relative; z-index: 1;
+        width: 34px; height: 7px; border-radius: 50%;
+        background: linear-gradient(180deg, #ffe49a 0%, #d4880f 55%, #7e4d10 100%);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.34);
+    }
+    .banner-lamp .lamp-base::before {    /* upper tier disc the stem sits on */
+        content: ''; position: absolute; top: -5px; left: 50%; transform: translateX(-50%);
+        width: 21px; height: 6px; border-radius: 50%;
+        background: linear-gradient(180deg, #ffe6a0 0%, #c9810f 60%, #7e4d10 100%);
+    }
+    .banner-lamp .lamp-base::after {     /* widest foot ring */
+        content: ''; position: absolute; bottom: -3px; left: 50%; transform: translateX(-50%);
+        width: 40px; height: 6px; border-radius: 50%; z-index: -1;
+        background: linear-gradient(180deg, #e3a72c 0%, #a86a14 60%, #6b4310 100%);
     }
 
     /* Banner header (name / age / death line) */
@@ -636,7 +801,7 @@
     .photo-frame-container { position: relative; width: 100%; aspect-ratio: 480 / 640; }
     .photo-frame-background {
         width: 100%; height: 100%;
-        background-image: url(bg_photoframe.png);
+        background-image: var(--bn-frame, url(bg_photoframe.png));
         background-size: 100% 100%; background-position: center;
         position: absolute; top: 0; left: 0; z-index: 100;
     }
@@ -976,43 +1141,99 @@
 
                 <!-- Theme picker (moved here for real-time visible area switching) -->
                 <div class="theme-picker">
-                    <p class="picker-label" data-i18n="label.themeColor">बॅनर रंग निवडा</p>
+                    <p class="picker-label">
+                        <span data-i18n="label.themeColor">बॅनर रंग निवडा</span>
+                        <span class="picker-count" data-i18n="label.templateCount">११ टेम्पलेट्स</span>
+                    </p>
                     <div class="theme-swatches" role="radiogroup" aria-label="बॅनर रंग">
                         <button class="theme-swatch active" data-theme-value="traditional" aria-label="परंपरागत" aria-pressed="true">
-                            <span class="swatch-preview" style="background:radial-gradient(circle,#fbf7ec,#ecddbf)"></span>
+                            <span class="swatch-preview" style="background:linear-gradient(180deg,#f4ecd6 0 58%,#5e0a2a 58% 100%)"></span>
                             <span class="swatch-label" data-i18n="theme.traditional">परंपरागत</span>
                         </button>
+                        <button class="theme-swatch" data-theme-value="marigold" aria-label="झेंडू" aria-pressed="false">
+                            <span class="swatch-preview" style="background:linear-gradient(180deg,#fbe8cf 0 58%,#460137 58% 100%)"></span>
+                            <span class="swatch-label" data-i18n="theme.marigold">झेंडू</span>
+                        </button>
                         <button class="theme-swatch" data-theme-value="sunset" aria-label="सूर्यास्त" aria-pressed="false">
-                            <span class="swatch-preview" style="background:linear-gradient(135deg,#ffeaa7,#fab1a0)"></span>
+                            <span class="swatch-preview" style="background:linear-gradient(180deg,#ffeaa7 0 58%,#2c3e50 58% 100%)"></span>
                             <span class="swatch-label" data-i18n="theme.sunset">सूर्यास्त</span>
                         </button>
+                        <button class="theme-swatch" data-theme-value="saffron" aria-label="केशरी" aria-pressed="false">
+                            <span class="swatch-preview" style="background:linear-gradient(180deg,#ffd9a8 0 58%,#7a2e0a 58% 100%)"></span>
+                            <span class="swatch-label" data-i18n="theme.saffron">केशरी</span>
+                        </button>
+                        <button class="theme-swatch" data-theme-value="tulsi" aria-label="तुळस" aria-pressed="false">
+                            <span class="swatch-preview" style="background:linear-gradient(180deg,#dcecd2 0 58%,#173f1a 58% 100%)"></span>
+                            <span class="swatch-label" data-i18n="theme.tulsi">तुळस</span>
+                        </button>
+                        <button class="theme-swatch" data-theme-value="rose" aria-label="गुलाब" aria-pressed="false">
+                            <span class="swatch-preview" style="background:linear-gradient(180deg,#f9dfe3 0 58%,#6e1535 58% 100%)"></span>
+                            <span class="swatch-label" data-i18n="theme.rose">गुलाब</span>
+                        </button>
                         <button class="theme-swatch" data-theme-value="ocean" aria-label="सागर" aria-pressed="false">
-                            <span class="swatch-preview" style="background:linear-gradient(120deg,#a1c4fd,#c2e9fb)"></span>
+                            <span class="swatch-preview" style="background:linear-gradient(180deg,#a1c4fd 0 58%,#0c4a6e 58% 100%)"></span>
                             <span class="swatch-label" data-i18n="theme.ocean">सागर</span>
                         </button>
-                        <button class="theme-swatch" data-theme-value="classic" aria-label="क्लासिक" aria-pressed="false">
-                            <span class="swatch-preview" style="background:linear-gradient(135deg,#f5f5f5,#e0e0e0)"></span>
-                            <span class="swatch-label" data-i18n="theme.classic">क्लासिक</span>
+                        <button class="theme-swatch" data-theme-value="lavender" aria-label="आकाश" aria-pressed="false">
+                            <span class="swatch-preview" style="background:linear-gradient(180deg,#ddc6f0 0 58%,#4a1772 58% 100%)"></span>
+                            <span class="swatch-label" data-i18n="theme.lavender">आकाश</span>
                         </button>
                         <button class="theme-swatch" data-theme-value="golden" aria-label="सोने" aria-pressed="false">
-                            <span class="swatch-preview" style="background:linear-gradient(135deg,#1e0a00,#3d1a00);box-shadow:inset 0 0 0 1px rgba(212,160,23,0.6)"></span>
+                            <span class="swatch-preview" style="background:linear-gradient(180deg,#3d1a00 0 58%,#e0b84c 58% 100%)"></span>
                             <span class="swatch-label" data-i18n="theme.golden">सोने</span>
                         </button>
-                        <button class="theme-swatch" data-theme-value="lavender" aria-label="आकाश" aria-pressed="false">
-                            <span class="swatch-preview" style="background:linear-gradient(135deg,#e8d5f5,#c9b0e8)"></span>
-                            <span class="swatch-label" data-i18n="theme.lavender">आकाश</span>
+                        <button class="theme-swatch" data-theme-value="ivory" aria-label="हस्तिदंत" aria-pressed="false">
+                            <span class="swatch-preview" style="background:linear-gradient(180deg,#f3ece0 0 58%,#2b2620 58% 100%)"></span>
+                            <span class="swatch-label" data-i18n="theme.ivory">हस्तिदंत</span>
+                        </button>
+                        <button class="theme-swatch" data-theme-value="classic" aria-label="क्लासिक" aria-pressed="false">
+                            <span class="swatch-preview" style="background:linear-gradient(180deg,#ededed 0 58%,#2b2b2b 58% 100%)"></span>
+                            <span class="swatch-label" data-i18n="theme.classic">क्लासिक</span>
                         </button>
                     </div>
                 </div>
                 <!-- Hidden select retained for JS compatibility -->
                 <select id="colorTheme" style="display:none" aria-hidden="true">
                     <option value="traditional">परंपरागत</option>
+                    <option value="marigold">झेंडू</option>
                     <option value="sunset">सूर्यास्त</option>
+                    <option value="saffron">केशरी</option>
+                    <option value="tulsi">तुळस</option>
+                    <option value="rose">गुलाब</option>
                     <option value="ocean">सागर</option>
-                    <option value="classic">क्लासिक</option>
-                    <option value="golden">सोने</option>
                     <option value="lavender">आकाश</option>
+                    <option value="golden">सोने</option>
+                    <option value="ivory">हस्तिदंत</option>
+                    <option value="classic">क्लासिक</option>
                 </select>
+
+                <!-- Photo-frame picker (visual thumbnails) -->
+                <div class="frame-picker">
+                    <p class="picker-label"><span data-i18n="label.frameSelect">फोटो फ्रेम निवडा</span></p>
+                    <div class="frame-swatches" role="radiogroup" aria-label="Photo frame">
+                        <button class="frame-swatch active" data-frame-value="classic" aria-label="Classic" title="Classic" aria-pressed="true">
+                            <span class="frame-thumb" style="background-image:url(bg_photoframe.png)"></span>
+                        </button>
+                        <button class="frame-swatch" data-frame-value="gold-ring" aria-label="Gold" title="Gold" aria-pressed="false">
+                            <span class="frame-thumb" style="background-image:url(frames/frame-gold-ring.png)"></span>
+                        </button>
+                        <button class="frame-swatch" data-frame-value="marigold" aria-label="Marigold" title="Marigold" aria-pressed="false">
+                            <span class="frame-thumb" style="background-image:url(frames/frame-marigold.png)"></span>
+                        </button>
+                        <button class="frame-swatch" data-frame-value="pearl" aria-label="Pearl" title="Pearl" aria-pressed="false">
+                            <span class="frame-thumb" style="background-image:url(frames/frame-pearl.png)"></span>
+                        </button>
+                        <button class="frame-swatch" data-frame-value="lotus" aria-label="Lotus" title="Lotus" aria-pressed="false">
+                            <span class="frame-thumb" style="background-image:url(frames/frame-lotus.png)"></span>
+                        </button>
+                        <button class="frame-swatch" data-frame-value="silver" aria-label="Silver" title="Silver" aria-pressed="false">
+                            <span class="frame-thumb" style="background-image:url(frames/frame-silver.png)"></span>
+                        </button>
+                        <button class="frame-swatch" data-frame-value="rose-gold" aria-label="Rose &amp; Gold" title="Rose &amp; Gold" aria-pressed="false">
+                            <span class="frame-thumb" style="background-image:url(frames/frame-rose-gold.png)"></span>
+                        </button>
+                    </div>
+                </div>
 
                 <div class="banner-preview-wrapper">
                     <div id="banner" class="banner">
@@ -1077,6 +1298,13 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Inline portrait/square preview for WhatsApp & Instagram formats
+                     (the offscreen #bannerSocial card is moved into .social-scaler by JS) -->
+                <div class="social-stage" id="socialStage" aria-live="polite">
+                    <div class="social-preview-label" id="socialPreviewLabel"></div>
+                    <div class="social-scaler" id="socialScaler"></div>
+                </div>
             </section>
         </div><!-- /.main-card -->
 
@@ -1094,7 +1322,7 @@
 
                 <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(201, 160, 106, 0.18); border-radius: 12px; padding: 1.25rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);">
                     <h4 style="font-weight: 700; color: var(--gold-light); margin-bottom: 0.5rem; font-size: 1.05rem;">2. How to create an elegant funeral card design or tribute card design?</h4>
-                    <p style="color: var(--header-sub); font-size: 0.9rem; margin: 0;">Our mobile invitation card maker simplifies the process of creating cards. Just select from our 6 devotional color themes, upload a photo of your loved one, and enter details such as name, age, date of passing, and ceremony venue. The system operates as a comprehensive tribute card design and punyatithi card creation tool, generating high-resolution outputs instantly. You can easily craft a complete funeral card design in minutes.</p>
+                    <p style="color: var(--header-sub); font-size: 0.9rem; margin: 0;">Our mobile invitation card maker simplifies the process of creating cards. Just select from our 11 devotional color themes, upload a photo of your loved one, and enter details such as name, age, date of passing, and ceremony venue. The system operates as a comprehensive tribute card design and punyatithi card creation tool, generating high-resolution outputs instantly. You can easily craft a complete funeral card design in minutes.</p>
                 </div>
 
                 <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(201, 160, 106, 0.18); border-radius: 12px; padding: 1.25rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);">
@@ -1198,6 +1426,13 @@
         'theme.classic':    'क्लासिक',
         'theme.golden':     'सोने',
         'theme.lavender':   'आकाश',
+        'theme.marigold':   'झेंडू',
+        'theme.saffron':    'केशरी',
+        'theme.tulsi':      'तुळस',
+        'theme.rose':       'गुलाब',
+        'theme.ivory':      'हस्तिदंत',
+        'label.templateCount': '११ टेम्पलेट्स',
+        'label.frameSelect':   'फोटो फ्रेम निवडा',
         'fmt.print':        'प्रिंट बॅनर (पूर्ण)',
         'fmt.whatsapp':     'WhatsApp स्टेटस (9:16)',
         'fmt.igStory':      'Instagram स्टेटस (9:16)',
@@ -1259,6 +1494,13 @@
         'theme.classic':    'क्लासिक',
         'theme.golden':     'स्वर्ण',
         'theme.lavender':   'आकाश',
+        'theme.marigold':   'गेंदा',
+        'theme.saffron':    'केसरिया',
+        'theme.tulsi':      'तुलसी',
+        'theme.rose':       'गुलाब',
+        'theme.ivory':      'हाथीदांत',
+        'label.templateCount': '११ टेम्पलेट',
+        'label.frameSelect':   'फोटो फ्रेम चुनें',
         'fmt.print':        'प्रिंट बैनर (पूर्ण)',
         'fmt.whatsapp':     'WhatsApp स्टेटस (9:16)',
         'fmt.igStory':      'Instagram स्टेटस (9:16)',
@@ -1320,6 +1562,13 @@
         'theme.classic':    'Classic',
         'theme.golden':     'Golden',
         'theme.lavender':   'Lavender',
+        'theme.marigold':   'Marigold',
+        'theme.saffron':    'Saffron',
+        'theme.tulsi':      'Tulsi',
+        'theme.rose':       'Rose',
+        'theme.ivory':      'Ivory',
+        'label.templateCount': '11 templates',
+        'label.frameSelect':   'Select Photo Frame',
         'fmt.print':        'Print Banner (full)',
         'fmt.whatsapp':     'WhatsApp Status (9:16)',
         'fmt.igStory':      'Instagram Story (9:16)',
@@ -1381,6 +1630,13 @@
         'theme.classic':    'ক্ল্যাসিক',
         'theme.golden':     'সোনালী',
         'theme.lavender':   'আকাশী',
+        'theme.marigold':   'গাঁদা',
+        'theme.saffron':    'কেশরী',
+        'theme.tulsi':      'তুলসী',
+        'theme.rose':       'গোলাপ',
+        'theme.ivory':      'হাতির দাঁত',
+        'label.templateCount': '১১টি টেমপ্লেট',
+        'label.frameSelect':   'ফটো ফ্রেম নির্বাচন করুন',
         'fmt.print':        'প্রিন্ট ব্যানার (সম্পূর্ণ)',
         'fmt.whatsapp':     'WhatsApp স্ট্যাটাস (9:16)',
         'fmt.igStory':      'Instagram স্টোরি (9:16)',
@@ -1442,6 +1698,13 @@
         'theme.classic':    'క్లాసిక్',
         'theme.golden':     'స్వర్ణ',
         'theme.lavender':   'ఆకాశం',
+        'theme.marigold':   'బంతి',
+        'theme.saffron':    'కుంకుమ',
+        'theme.tulsi':      'తులసి',
+        'theme.rose':       'గులాబీ',
+        'theme.ivory':      'దంతవర్ణం',
+        'label.templateCount': '11 టెంప్లేట్లు',
+        'label.frameSelect':   'ఫోటో ఫ్రేమ్ ఎంచుకోండి',
         'fmt.print':        'ప్రింట్ బ్యానర్ (పూర్తి)',
         'fmt.whatsapp':     'WhatsApp స్టేటస్ (9:16)',
         'fmt.igStory':      'Instagram స్టోరీ (9:16)',
@@ -1503,6 +1766,13 @@
         'theme.classic':    'கிளாசிக்',
         'theme.golden':     'தங்கம்',
         'theme.lavender':   'வானம்',
+        'theme.marigold':   'சாமந்தி',
+        'theme.saffron':    'காவி',
+        'theme.tulsi':      'துளசி',
+        'theme.rose':       'ரோஜா',
+        'theme.ivory':      'தந்தம்',
+        'label.templateCount': '11 வார்ப்புருக்கள்',
+        'label.frameSelect':   'புகைப்பட சட்டத்தைத் தேர்ந்தெடுக்கவும்',
         'fmt.print':        'பேனர் அச்சிடு (முழு)',
         'fmt.whatsapp':     'WhatsApp நிலை (9:16)',
         'fmt.igStory':      'Instagram கதை (9:16)',
@@ -1564,6 +1834,13 @@
         'theme.classic':    'ક્લાસિક',
         'theme.golden':     'સુવર્ણ',
         'theme.lavender':   'આકાશ',
+        'theme.marigold':   'ગલગોટા',
+        'theme.saffron':    'કેસરી',
+        'theme.tulsi':      'તુલસી',
+        'theme.rose':       'ગુલાબ',
+        'theme.ivory':      'હાથીદાંત',
+        'label.templateCount': '૧૧ ટેમ્પલેટ',
+        'label.frameSelect':   'ફોટો ફ્રેમ પસંદ કરો',
         'fmt.print':        'પ્રિન્ટ બેનર (સંપૂર્ણ)',
         'fmt.whatsapp':     'WhatsApp સ્ટેટસ (9:16)',
         'fmt.igStory':      'Instagram સ્ટોરી (9:16)',
@@ -1625,6 +1902,13 @@
         'theme.classic':    'ಕ್ಲಾಸಿಕ್',
         'theme.golden':     'ಸ್ವರ್ಣ',
         'theme.lavender':   'ಆಕಾಶ',
+        'theme.marigold':   'ಚೆಂಡು ಹೂವು',
+        'theme.saffron':    'ಕೇಸರಿ',
+        'theme.tulsi':      'ತುಳಸಿ',
+        'theme.rose':       'ಗುಲಾಬಿ',
+        'theme.ivory':      'ದಂತವರ್ಣ',
+        'label.templateCount': '11 ಟೆಂಪ್ಲೇಟ್‌ಗಳು',
+        'label.frameSelect':   'ಫೋಟೋ ಫ್ರೇಮ್ ಆಯ್ಕೆಮಾಡಿ',
         'fmt.print':        'ಬ್ಯಾನರ್ ಮುದ್ರಿಸಿ (ಪೂರ್ಣ)',
         'fmt.whatsapp':     'WhatsApp ಸ್ಟೇಟಸ್ (9:16)',
         'fmt.igStory':      'Instagram ಸ್ಟೋರಿ (9:16)',
@@ -1686,6 +1970,13 @@
         'theme.classic':    'ക്ലാസിക്',
         'theme.golden':     'സുവർണ്ണം',
         'theme.lavender':   'ആകാശം',
+        'theme.marigold':   'ചെണ്ടുമല്ലി',
+        'theme.saffron':    'കുങ്കുമം',
+        'theme.tulsi':      'തുളസി',
+        'theme.rose':       'റോസ്',
+        'theme.ivory':      'ആനക്കൊമ്പ്',
+        'label.templateCount': '11 ടെംപ്ലേറ്റുകൾ',
+        'label.frameSelect':   'ഫോട്ടോ ഫ്രെയിം തിരഞ്ഞെടുക്കുക',
         'fmt.print':        'പ്രിന്റ് ബാനർ (പൂർണ്ണം)',
         'fmt.whatsapp':     'WhatsApp സ്റ്റാറ്റസ് (9:16)',
         'fmt.igStory':      'Instagram സ്റ്റോറി (9:16)',
@@ -1747,6 +2038,13 @@
         'theme.classic':    'ਕਲਾਸਿਕ',
         'theme.golden':     'ਸੁਨਹਿਰੀ',
         'theme.lavender':   'ਅਸਮਾਨ',
+        'theme.marigold':   'ਗੇਂਦਾ',
+        'theme.saffron':    'ਕੇਸਰੀ',
+        'theme.tulsi':      'ਤੁਲਸੀ',
+        'theme.rose':       'ਗੁਲਾਬ',
+        'theme.ivory':      'ਹਾਥੀਦੰਦ',
+        'label.templateCount': '੧੧ ਟੈਂਪਲੇਟ',
+        'label.frameSelect':   'ਫੋਟੋ ਫਰੇਮ ਚੁਣੋ',
         'fmt.print':        'ਪ੍ਰਿੰਟ ਬੈਨਰ (ਪੂਰਾ)',
         'fmt.whatsapp':     'WhatsApp ਸਟੇਟਸ (9:16)',
         'fmt.igStory':      'Instagram ਸਟੋਰੀ (9:16)',
@@ -1808,6 +2106,13 @@
         'theme.classic':    'କ୍ଲାସିକ୍',
         'theme.golden':     'ସୁବର୍ଣ୍ଣ',
         'theme.lavender':   'ଆକାଶ',
+        'theme.marigold':   'ଗେଣ୍ଡା',
+        'theme.saffron':    'କେଶରୀ',
+        'theme.tulsi':      'ତୁଳସୀ',
+        'theme.rose':       'ଗୋଲାପ',
+        'theme.ivory':      'ହସ୍ତୀଦନ୍ତ',
+        'label.templateCount': '୧୧ ଟେମ୍ପଲେଟ୍',
+        'label.frameSelect':   'ଫଟୋ ଫ୍ରେମ୍ ବାଛନ୍ତୁ',
         'fmt.print':        'ପ୍ରିଣ୍ଟ୍ ବ୍ୟାନର୍ (ସମ୍ପୂର୍ଣ୍ଣ)',
         'fmt.whatsapp':     'WhatsApp ଷ୍ଟାଟସ୍ (9:16)',
         'fmt.igStory':      'Instagram ଷ୍ଟୋରୀ (9:16)',
@@ -1869,6 +2174,13 @@
         'theme.classic':    'کلاسیکی',
         'theme.golden':     'سنہرا',
         'theme.lavender':   'آسمان',
+        'theme.marigold':   'گیندا',
+        'theme.saffron':    'زعفرانی',
+        'theme.tulsi':      'تلسی',
+        'theme.rose':       'گلاب',
+        'theme.ivory':      'عاج',
+        'label.templateCount': '۱۱ ٹیمپلیٹس',
+        'label.frameSelect':   'تصویری فریم منتخب کریں',
         'fmt.print':        'پرنٹ بینر (مکمل)',
         'fmt.whatsapp':     'WhatsApp اسٹیٹس (9:16)',
         'fmt.igStory':      'Instagram اسٹوری (9:16)',
@@ -1936,7 +2248,7 @@
         gu: 'મફત શ્રદ્ધાંજલિ બેનર અને શોક સંદેશ કાર્ડ બનાવો. વોટ્સએપ અને પ્રિન્ટ માટે સરળતાથી ડાઉનલોડ કરો.',
         kn: 'ಉಚಿತ ಶ್ರದ್ಧಾಂಜಲಿ ಬ್ಯಾನರ್ ಮತ್ತು ಶೋక ಸಂದೇಶ ಕಾರ್ಡ್‌ಗಳನ್ನು ಮೊಬೈಲ್‌ನಲ್ಲಿ ಸುಲಭವಾಗಿ ರಚಿಸಿ. ವಾಟ್සාప్ ಮತ್ತು ಪ್ರಿಂಟ್‌ಗಾಗಿ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ.',
         ml: 'സೌജന്യ ആദരാഞ്ജലി ബാനറുകളും മരണാനന്തര ചടങ്ങുകളുടെ കാർഡുകളും обмеല്ളില്‍ നിര്‍മ്മിക്കുക. വാട്സാപ്പ് സ്റ്റാറ്റസിനായി ഡൗൺലോഡ് ചെയ്യാം.',
-        pa: 'ਮੁਫ਼ਤ ਸ਼ਰਧਾਂਜਲੀ ਬੈנਰ ਅਤੇ ਸ਼ੋਕ ਸੰਦੇਸ਼ ਕਾਰਡ ਮੋਬਾਈਲ 'ਤੇ ਆਸਾਨੀ ਨਾਲ ਬਣਾਓ। ਵਟסਐਪ ਅਤੇ ਪ੍ਰਿੰਟ ਲਈ ਡਾਊਨਲۆਡ ਕਰੋ।',
+        pa: 'ਮੁਫ਼ਤ ਸ਼ਰਧਾਂਜਲੀ ਬੈਨਰ ਅਤੇ ਸ਼ੋਕ ਸੰਦੇਸ਼ ਕਾਰਡ ਮੋਬਾਈਲ \'ਤੇ ਆਸਾਨੀ ਨਾਲ ਬਣਾਓ। ਵਟਸਐਪ ਅਤੇ ਪ੍ਰਿੰਟ ਲਈ ਡਾਊਨਲੋਡ ਕਰੋ।',
         or: 'ମାగଣା ଶ୍ରଦ୍ଧାଞ୍ଜଳି ବ୍ୟାନର ଏବଂ ଶୋਕ ସନ୍ଦେଶ କାର୍ଡ ମୋବାଇଲରେ ସହજରେ ତିଆରି କରନ୍ତು। ହ୍ୱାଟ୍ସଆପ୍ ଏବଂ ପ୍ରିଣ୍ଟ ପାଇਂ ଡାଉନଲୋଡ୍ କରନ୍ତು।',
         ur: 'مفت تعزیتی بینر اور خراج عقیدت کارڈ اپنے موبائل پر آسانی سے بنائیں۔ واٹس ایپ اور پرنٹ کے لیے ڈاؤن لوڈ کریں۔'
       };
@@ -2022,6 +2334,37 @@
         name:'#4a1772', base:'#5c2d8a', memBg:'rgba(255,255,255,0.72)', mem:'#3d1560',
         cerBg:'rgba(74,23,114,0.9)', cer:'#f0e6ff', title:'#5e2d8c',
         famBg:'rgba(45,10,75,0.95)', fam:'#f0e6ff', village:'#e3c6ff', floral:1, bgSolid:'#e8d5f5'
+      },
+      /* ── Devotional brand palette (Marigold Threshold): maroon + magenta + amber ── */
+      marigold: {
+        bg:'radial-gradient(ellipse at 28% 16%, #fff8ec 0%, #fbe8cf 55%, #f3d9b0 100%)',
+        name:'#a805a1', base:'#460137', memBg:'transparent', mem:'#5a1230',
+        cerBg:'rgba(70,1,55,0.06)', cer:'#460137', title:'#894dce',
+        famBg:'#460137', fam:'#fff3e0', village:'#f3c45a', floral:1, bgSolid:'#fbe8cf'
+      },
+      saffron: {
+        bg:'linear-gradient(135deg, #fff3df, #ffd9a8)',
+        name:'#b3360a', base:'#5a2a12', memBg:'rgba(255,255,255,0.7)', mem:'#5a2a12',
+        cerBg:'rgba(179,54,10,0.92)', cer:'#fff3df', title:'#9c3b06',
+        famBg:'#7a2e0a', fam:'#fff3df', village:'#ffce8a', floral:1, bgSolid:'#ffd9a8'
+      },
+      tulsi: {
+        bg:'linear-gradient(135deg, #eef6e9, #cfe6c4)',
+        name:'#1b5e20', base:'#244a26', memBg:'rgba(255,255,255,0.78)', mem:'#244a26',
+        cerBg:'rgba(27,94,32,0.92)', cer:'#f1f8ee', title:'#2e7d32',
+        famBg:'#173f1a', fam:'#f1f8ee', village:'#cdebc1', floral:1, bgSolid:'#eef6e9'
+      },
+      rose: {
+        bg:'linear-gradient(135deg, #fdeef0, #f6d3d8)',
+        name:'#9b1b46', base:'#5a2535', memBg:'rgba(255,255,255,0.8)', mem:'#5a2535',
+        cerBg:'rgba(155,27,70,0.92)', cer:'#fff0f3', title:'#a52a5a',
+        famBg:'#6e1535', fam:'#fff0f3', village:'#f6c6d2', floral:1, bgSolid:'#fdeef0'
+      },
+      ivory: {
+        bg:'linear-gradient(135deg, #fbfaf7, #efe9df)',
+        name:'#7a1530', base:'#33291f', memBg:'rgba(255,255,255,0.6)', mem:'#33291f',
+        cerBg:'rgba(51,41,31,0.92)', cer:'#fbfaf7', title:'#7a1530',
+        famBg:'#2b2620', fam:'#f3ece0', village:'#d8b67a', floral:0, bgSolid:'#fbfaf7'
       }
     };
 
@@ -2045,6 +2388,26 @@
       if (!th) return;
       applyThemeVars(document.getElementById('banner'), th);
       applyThemeVars(document.getElementById('bannerSocial'), th);
+    }
+
+    /* ════════════════════════════════════════════════════════════
+       PHOTO-FRAME CHOICES — overlay PNG set on both banner + social
+    ════════════════════════════════════════════════════════════ */
+    const PHOTO_FRAMES = {
+      'classic':   'bg_photoframe.png',
+      'gold-ring': 'frames/frame-gold-ring.png',
+      'marigold':  'frames/frame-marigold.png',
+      'pearl':     'frames/frame-pearl.png',
+      'lotus':     'frames/frame-lotus.png',
+      'silver':    'frames/frame-silver.png',
+      'rose-gold': 'frames/frame-rose-gold.png'
+    };
+
+    function applyFrame(name) {
+      const url = PHOTO_FRAMES[name] || PHOTO_FRAMES.classic;
+      const value = 'url("' + url + '")';
+      document.getElementById('banner').style.setProperty('--bn-frame', value);
+      document.getElementById('bannerSocial').style.setProperty('--bn-frame', value);
     }
 
     /* ════════════════════════════════════════════════════════════
@@ -2106,6 +2469,15 @@
         `<div class="ceremony-line">${t('banner.heldOn', cDate, cTime)}</div>` +
         `<div class="ceremony-line">${t('banner.heldAt', cPlace.replace(/\n/g, ' '))}</div>`;
 
+      // Keep the inline social preview in sync when a social format is active
+      if (typeof updateSocialScale === 'function' &&
+          SOCIAL_FORMATS.includes(document.getElementById('bannerFormat').value)) {
+        const fmtSel = document.getElementById('bannerFormat');
+        document.getElementById('socialPreviewLabel').textContent =
+          fmtSel.options[fmtSel.selectedIndex].textContent;
+        updateSocialScale();
+      }
+
       // Auto-scroll to preview on mobile after generating
       if (window.innerWidth < 768) {
         setTimeout(() => {
@@ -2124,6 +2496,10 @@
       reader.onload = ev => {
         document.getElementById('mainPhotoPreview').src   = ev.target.result;
         document.getElementById('socialPhotoPreview').src = ev.target.result;
+        // Re-fit inline social preview (let the new image settle in layout first)
+        if (SOCIAL_FORMATS.includes(document.getElementById('bannerFormat').value)) {
+          setTimeout(updateSocialScale, 60);
+        }
       };
       reader.readAsDataURL(file);
     });
@@ -2247,7 +2623,8 @@
       const bg       = getCurrentThemeBg();
 
       if (isSocial) {
-        const social = document.getElementById('bannerSocial');
+        const social      = document.getElementById('bannerSocial');
+        const savedSocial = socialCapturePrep();   // capture at natural 1080px, untransformed
         html2canvas(social, { scale: 1.6, useCORS: true, logging: false, backgroundColor: null, windowWidth: 1080 })
           .then(srcCanvas => {
             let finalCanvas, filename;
@@ -2261,7 +2638,7 @@
             triggerDownload(finalCanvas, filename);
           })
           .catch(() => alert(t('msg.error')))
-          .finally(() => { btn.innerHTML = origText; btn.disabled = false; });
+          .finally(() => { socialCaptureRestore(savedSocial); btn.innerHTML = origText; btn.disabled = false; });
         return;
       }
 
@@ -2304,9 +2681,102 @@
       else                                     hint.textContent = t('hint.print');
     }
 
+    /* The social card is authored at this intrinsic width (see .banner-social). */
+    const SOCIAL_NATURAL_WIDTH = 1080;
+
+    /* Scale the live #bannerSocial card to fit the inline .social-scaler so the
+       preview mirrors the real download framing — 9:16 fills the phone frame,
+       1:1 (Instagram post) is letterboxed in a square like composeToFormat().
+       Pure CSS transform — no html2canvas, so it works on file:// too. */
+    function updateSocialScale() {
+      const stage  = document.getElementById('socialStage');
+      const scaler = document.getElementById('socialScaler');
+      const social = document.getElementById('bannerSocial');
+      if (!stage || !scaler || !social || !stage.classList.contains('show')) return;
+
+      social.classList.add('is-inline');
+      social.style.transformOrigin = 'top left';
+      social.style.transform = '';
+      social.style.width = SOCIAL_NATURAL_WIDTH + 'px';
+
+      const fmt   = document.getElementById('bannerFormat').value;
+      const cs    = getComputedStyle(scaler);
+      const padX  = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+      const padY  = parseFloat(cs.paddingTop)  + parseFloat(cs.paddingBottom);
+      const availW = scaler.clientWidth - padX;        // true content width (clientWidth includes padding)
+      const cardH  = social.offsetHeight;              // natural height at 1080px wide
+
+      if (fmt === 'ig-post') {
+        // Square frame, whole card contained + centered (letterbox = theme bg)
+        const side  = availW;
+        const scale = Math.min(side / SOCIAL_NATURAL_WIDTH, side / cardH);
+        const tx    = (side - SOCIAL_NATURAL_WIDTH * scale) / 2;
+        const ty    = (side - cardH * scale) / 2;
+        social.style.transform  = 'translate(' + tx + 'px,' + ty + 'px) scale(' + scale + ')';
+        scaler.style.height     = (side + padY) + 'px';   // border-box: content area = side (square)
+        scaler.style.background = getCurrentThemeBg();
+      } else {
+        // 9:16 — card fills the content box exactly; padding becomes the dark phone bezel
+        const scale = availW / SOCIAL_NATURAL_WIDTH;
+        social.style.transform  = 'scale(' + scale + ')';
+        scaler.style.height     = (cardH * scale + padY) + 'px';
+        scaler.style.background = '#0d0008';
+      }
+    }
+
+    /* Switch the inline preview between the full landscape banner (print / flex)
+       and the live portrait/square social card (WhatsApp / Instagram). */
+    function updatePreviewMode() {
+      const fmtSel   = document.getElementById('bannerFormat');
+      const isSocial = SOCIAL_FORMATS.includes(fmtSel.value);
+      const wrapper  = document.querySelector('.banner-preview-wrapper');
+      const stage    = document.getElementById('socialStage');
+      const social   = document.getElementById('bannerSocial');
+      const label    = document.getElementById('socialPreviewLabel');
+
+      if (isSocial) {
+        wrapper.style.display = 'none';
+        stage.classList.add('show');
+        social.setAttribute('aria-hidden', 'false');
+        label.textContent = fmtSel.options[fmtSel.selectedIndex].textContent;
+        updateSocialScale();
+      } else {
+        stage.classList.remove('show');
+        social.classList.remove('is-inline');
+        social.style.transform = '';
+        social.style.width = '';
+        social.setAttribute('aria-hidden', 'true');
+        wrapper.style.display = '';
+        updateBannerScale();
+      }
+    }
+
+    /* Capture (download / full-screen) needs the social card at its natural,
+       untransformed size. Temporarily peel off the inline scaling, then restore. */
+    function socialCapturePrep() {
+      const social = document.getElementById('bannerSocial');
+      const saved  = {
+        inline:    social.classList.contains('is-inline'),
+        transform: social.style.transform,
+        width:     social.style.width
+      };
+      social.classList.remove('is-inline');
+      social.style.transform = 'none';
+      social.style.width = '';
+      return saved;
+    }
+    function socialCaptureRestore(saved) {
+      const social = document.getElementById('bannerSocial');
+      if (saved.inline) social.classList.add('is-inline');
+      social.style.transform = saved.transform;
+      social.style.width = saved.width;
+      updateSocialScale();
+    }
+
     document.getElementById('bannerFormat').addEventListener('change', function() {
       document.getElementById('flexOptions').hidden = this.value !== 'flex';
       updateFormatHint();
+      updatePreviewMode();
     });
 
     /* ════════════════════════════════════════════════════════════
@@ -2322,6 +2792,25 @@
         this.setAttribute('aria-pressed', 'true');
         document.getElementById('colorTheme').value = this.dataset.themeValue;
         generateBanner();
+      });
+    });
+
+    /* ════════════════════════════════════════════════════════════
+       PHOTO-FRAME SWATCHES
+    ════════════════════════════════════════════════════════════ */
+    document.querySelectorAll('.frame-swatch').forEach(swatch => {
+      swatch.addEventListener('click', function() {
+        document.querySelectorAll('.frame-swatch').forEach(s => {
+          s.classList.remove('active');
+          s.setAttribute('aria-pressed', 'false');
+        });
+        this.classList.add('active');
+        this.setAttribute('aria-pressed', 'true');
+        const name = this.dataset.frameValue;
+        localStorage.setItem('shradhFrame', name);
+        applyFrame(name);
+        // keep the social inline preview in sync if it is showing
+        if (typeof updateSocialScale === 'function') updateSocialScale();
       });
     });
 
@@ -2357,7 +2846,7 @@
 
       const target = isSocial ? document.getElementById('bannerSocial')
                               : document.getElementById('banner');
-      const saved  = isSocial ? null : saveAndResetScale(target);
+      const saved  = isSocial ? socialCapturePrep() : saveAndResetScale(target);
       const opts   = isSocial
         ? { scale: 0.6, useCORS: true, logging: false, backgroundColor: null, windowWidth: 1080 }
         : { scale: 1.4, useCORS: true, logging: false };
@@ -2369,7 +2858,7 @@
           loadingEl.style.display = 'none';
         })
         .catch(() => { loadingEl.textContent = t('msg.error'); })
-        .finally(() => { if (!isSocial) restoreScale(target, saved); });
+        .finally(() => { if (isSocial) socialCaptureRestore(saved); else restoreScale(target, saved); });
     });
 
     document.getElementById('closeDialog').addEventListener('click', function() {
@@ -2407,9 +2896,27 @@
       }
       window.history.replaceState({}, '', url.toString());
 
+      // Move the offscreen social card into the inline stage so it can be
+      // previewed live (it still captures fine from here for downloads).
+      const socialScaler = document.getElementById('socialScaler');
+      const socialCard   = document.getElementById('bannerSocial');
+      if (socialScaler && socialCard) socialScaler.appendChild(socialCard);
+
+      // Restore the saved photo-frame choice
+      const savedFrame = localStorage.getItem('shradhFrame');
+      if (savedFrame && PHOTO_FRAMES[savedFrame]) {
+        document.querySelectorAll('.frame-swatch').forEach(s => {
+          const on = s.dataset.frameValue === savedFrame;
+          s.classList.toggle('active', on);
+          s.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        applyFrame(savedFrame);
+      }
+
       applyI18n();
       generateBanner();
       updateBannerScale();
+      updatePreviewMode();
 
       // Register Service Worker for offline PWA support
       if ('serviceWorker' in navigator) {
@@ -2419,7 +2926,10 @@
       }
     });
 
-    window.addEventListener('resize', updateBannerScale);
+    window.addEventListener('resize', function() {
+      updateBannerScale();
+      updateSocialScale();
+    });
     </script>
 </body>
 </html>
