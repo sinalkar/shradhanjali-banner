@@ -568,6 +568,36 @@
     .preview-heading-row .panel-heading { flex: 1; margin-bottom: 0; }
     .preview-heading-row .panel-heading::after { display: none; }
 
+    .form-heading-row {
+        display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;
+    }
+    .form-heading-row .panel-heading { flex: 1; margin-bottom: 0; }
+    .btn-randomize {
+        background: transparent;
+        border: 1.5px solid var(--gold);
+        color: var(--gold-light);
+        padding: 5px 12px;
+        border-radius: 6px;
+        font-family: 'Tiro Devanagari Marathi', serif;
+        font-size: 0.85rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .btn-randomize:hover {
+        background: var(--gold);
+        color: var(--deep-plum);
+        box-shadow: 0 4px 10px rgba(201, 160, 106, 0.15);
+        transform: translateY(-1px);
+    }
+    .btn-randomize:active {
+        transform: translateY(0);
+    }
+
     .preview-zoom-btn {
         background: var(--btn-gen); color: #fff5ee;
         border: none; border-radius: 8px;
@@ -798,12 +828,26 @@
         background-size: 100% 100%; background-position: center;
         position: absolute; top: 0; left: 0; z-index: 100;
     }
+    /* Classic frame default layout */
     .photo-frame {
         width: 94.2%; aspect-ratio: 452 / 504; border-radius: 50%;
         background: #efe6d4; padding: 0; overflow: hidden;
         position: relative; z-index: 2; margin: 7.5% 0 0 3.125%;
     }
-    .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+    
+    /* Modern centered frames layout (e.g. gold-ring, marigold, pearl, lotus, silver, rose-gold) */
+    .frame-gold-ring .photo-frame,
+    .frame-marigold .photo-frame,
+    .frame-pearl .photo-frame,
+    .frame-lotus .photo-frame,
+    .frame-silver .photo-frame,
+    .frame-rose-gold .photo-frame {
+        width: 95.5% !important;
+        aspect-ratio: 452 / 504 !important;
+        margin: 6.75% 0 0 2.25% !important;
+    }
+    
+    .photo-frame img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 
     .banner-center { text-align: center; display: flex; flex-direction: column; gap: 10px; }
     .memorial-text {
@@ -1015,7 +1059,10 @@
 
             <!-- ── FORM PANEL ── -->
             <section class="form-panel">
-                <h2 class="panel-heading" data-i18n="heading.form">बॅनर माहिती भरा</h2>
+                <div class="form-heading-row">
+                    <h2 class="panel-heading" data-i18n="heading.form">बॅनर माहिती भरा</h2>
+                    <button type="button" class="btn-randomize" id="btnRandomize" onclick="loadRandomProfile(true)" data-i18n="btn.randomize">🎲 नमुना भरा</button>
+                </div>
 
                 <!-- Form fields -->
                 <div class="field-grid">
@@ -1269,7 +1316,7 @@
                                 <div class="photo-frame-container">
                                     <div class="photo-frame-background"></div>
                                     <div class="photo-frame">
-                                        <img id="mainPhotoPreview" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE1MCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiNmMGYwZjAiLz48dGV4dCB4PSI3NSIgeT0iODAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5OTk5OTkiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiPkZvdG8gQWRkIEthcmVuPC90ZXh0Pjwvc3ZnPg==" alt="स्मारक बॅनरसाठी मुख्य फोटो">
+                                        <img id="mainPhotoPreview" src="sample-photo-male.png" alt="स्मारक बॅनरसाठी मुख्य फोटो">
                                     </div>
                                 </div>
                             </div>
@@ -1373,7 +1420,7 @@
             <div class="photo-frame-container">
                 <div class="photo-frame-background"></div>
                 <div class="photo-frame">
-                    <img id="socialPhotoPreview" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE1MCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiNmMGYwZjAiLz48L3N2Zz4=" alt="">
+                    <img id="socialPhotoPreview" src="sample-photo-male.png" alt="">
                 </div>
             </div>
         </div>
@@ -1426,6 +1473,7 @@
         'btn.generate':     'बॅनर तयार करा',
         'btn.download':     'बॅनर डाउनलोड करा',
         'btn.scrollPreview':'बॅनर पूर्वावलोकन पहा ↓',
+        'btn.randomize':    '🎲 नमुना भरा',
         'banner.prefix':    'कै. ',
         'banner.age':       '(वय: {0})',
         'banner.deathLine': 'यांचे {0} रोजी {1}',
@@ -1499,6 +1547,7 @@
         'btn.generate':     'बैनर बनाएं',
         'btn.download':     'बैनर डाउनलोड करें',
         'btn.scrollPreview':'बैनर पूर्वावलोकन देखें ↓',
+        'btn.randomize':    '🎲 नमूना भरें',
         'banner.prefix':    'स्व. ',
         'banner.age':       '(आयु: {0})',
         'banner.deathLine': 'उनका {0} को {1}',
@@ -1572,6 +1621,7 @@
         'btn.generate':     'Generate Banner',
         'btn.download':     'Download Banner',
         'btn.scrollPreview':'View Banner Preview ↓',
+        'btn.randomize':    '🎲 Load Sample',
         'banner.prefix':    'Late ',
         'banner.age':       '(Age: {0})',
         'banner.deathLine': 'passed away on {0} — {1}',
@@ -1645,6 +1695,7 @@
         'btn.generate':     'ব্যানার তৈরি করুন',
         'btn.download':     'ব্যানার ডাউনলোড করুন',
         'btn.scrollPreview':'ব্যানার প্রিভিউ দেখুন ↓',
+        'btn.randomize':    '🎲 নমুনা লোড',
         'banner.prefix':    'প্রয়াত ',
         'banner.age':       '(বয়স: {0})',
         'banner.deathLine': 'গত {0} তারিখে {1} হয়েছেন',
@@ -1714,6 +1765,7 @@
         'btn.generate':     'బ్యానర్ సృష్టించండి',
         'btn.download':     'బ్యానర్ డౌన్‌లోడ్ చేసుకోండి',
         'btn.scrollPreview':'బ్యానర్ ప్రివ్యూ చూడండి ↓',
+        'btn.randomize':    '🎲 నమూనాను లోడ్ చేయి',
         'banner.prefix':    'స్వ. ',
         'banner.age':       '(వయస్సు: {0})',
         'banner.deathLine': 'గారు {0} న {1}',
@@ -1783,6 +1835,7 @@
         'btn.generate':     'பேனரை உருவாக்கு',
         'btn.download':     'பேனரைப் பதிவிறக்கு',
         'btn.scrollPreview':'பேனர் முன்னோட்டத்தைக் காண்க ↓',
+        'btn.randomize':    '🎲 மாதிரி தரவு',
         'banner.prefix':    'மறைந்த ',
         'banner.age':       '(வயது: {0})',
         'banner.deathLine': 'அவர்கள் {0} அன்று {1}',
@@ -1852,6 +1905,7 @@
         'btn.generate':     'બેનર બનાવો',
         'btn.download':     'બેનર ડાઉનલોડ કરો',
         'btn.scrollPreview':'બેનર પૂર્વાવલોકન જુઓ ↓',
+        'btn.randomize':    '🎲 ડેમો માહિતી',
         'banner.prefix':    'સ્વ. ',
         'banner.age':       '(ઉંમર: {0})',
         'banner.deathLine': 'તેમનું {0} ના રોજ {1}',
@@ -1921,6 +1975,7 @@
         'btn.generate':     'ಬ್ಯಾನರ್ ರಚಿಸಿ',
         'btn.download':     'ಬ್ಯಾನರ್ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ',
         'btn.scrollPreview':'ಬ್ಯಾನರ್ ಮುನ್ನೋಟ ನೋಡಿ ↓',
+        'btn.randomize':    '🎲 ಮಾದರಿ ಲೋಡ್ ಮಾಡಿ',
         'banner.prefix':    'ಸ್ವ. ',
         'banner.age':       '(ವಯಸ್ಸು: {0})',
         'banner.deathLine': 'ಅವರು {0} ರಂದು {1}',
@@ -1990,6 +2045,7 @@
         'btn.generate':     'ബാനർ ഉണ്ടാക്കുക',
         'btn.download':     'ബാനർ ഡൗൺലോഡ് ചെയ്യുക',
         'btn.scrollPreview':'ബാനർ പ്രിവ്യൂ കാണുക ↓',
+        'btn.randomize':    '🎲 സാമ്പിൾ ലോഡ് ചെയ്യുക',
         'banner.prefix':    'അന്തരിച്ച ',
         'banner.age':       '(പ്രായം: {0})',
         'banner.deathLine': 'അവർ {0} തീയതിയിൽ {1}',
@@ -2059,6 +2115,7 @@
         'btn.generate':     'ਬੈਨਰ ਬਣਾਓ',
         'btn.download':     'ਬੈਨਰ ਡਾਊਨਲੋਡ ਕਰੋ',
         'btn.scrollPreview':'ਬੈਨਰ ਪ੍ਰਿਵਿਊ ਦੇਖੋ ↓',
+        'btn.randomize':    '🎲 ਨਮੂਨਾ ਲੋਡ ਕਰੋ',
         'banner.prefix':    'ਸਵ. ',
         'banner.age':       '(ਉਮਰ: {0})',
         'banner.deathLine': 'ਉਨ੍ਹਾਂ ਦਾ {0} ਨੂੰ {1}',
@@ -2128,6 +2185,7 @@
         'btn.generate':     'ବ୍ୟାନର୍ ତିଆରି କରନ୍ତୁ',
         'btn.download':     'ବ୍ୟାନର୍ ଡାଉନଲୋଡ୍ କରନ୍ତୁ',
         'btn.scrollPreview':'ବ୍ୟାନର୍ ପୂର୍ବାବଲୋକନ ଦେଖନ୍ତୁ ↓',
+        'btn.randomize':    '🎲 ନମୁନା ତଥ୍ୟ',
         'banner.prefix':    'ସ୍ୱର୍ଗତ ',
         'banner.age':       '(ବୟସ: {0})',
         'banner.deathLine': 'ତାଙ୍କର {0} ରିଖରେ {1}',
@@ -2197,6 +2255,7 @@
         'btn.generate':     'بینر تیار کریں',
         'btn.download':     'بینر ڈاؤن لوڈ کریں',
         'btn.scrollPreview':'بینر کا پیش نظارہ دیکھیں ↓',
+        'btn.randomize':    '🎲 نمونہ لوڈ کریں',
         'banner.prefix':    'مرحوم ',
         'banner.age':       '(عمر: {0})',
         'banner.deathLine': 'کا انتقال {0} کو {1}',
@@ -2243,6 +2302,228 @@
         'ph.family':        'شریمتی شوبھا بھگوان رامانے (اہلیہ)...',
       }
     };
+
+    const SAMPLE_PROFILES = [
+      {
+        gender: 'male',
+        photo: 'sample-photo-male.png',
+        mr: {
+          name: 'सदाशिव गणपतराव थोरात',
+          age: '७४ वर्षे',
+          deathDate: 'सोमवार ०८/०६/२०२६',
+          deathTime: 'दुःखद निधन झाले.',
+          memorialText: 'तुमचे उपकार कधीही विसरता येणार नाहीत,\nतुमच्या पवित्र स्मृतीस विनम्र अभिवादन...!',
+          ceremonyTitle: 'दशक्रिया विधी',
+          ceremonyDate: 'बुधवार १७/०६/२०२६',
+          ceremonyTime: 'सकाळी ०८.०० वा.',
+          ceremonyPlace: 'त्र्यंबकेश्वर गोदावरी घाट, जि. नाशिक.',
+          organizer: 'प्रवचनकार: ह.भ.प. आसाराम महाराज बढे (आळंदी देवाची) यांचे प्रवचन होईल.',
+          villageInfo: 'समस्त ग्रामस्थ संगमनेर',
+          familyMembers: 'श्रीमती. शकुंतला सदाशिव थोरात (पत्नी)\nश्री. राहुल सदाशिव थोरात (मुलगा)\nश्री. अमित सदाशिव थोरात (मुलगा)\nसौ. सुवर्णा सचिन कदम (मुलगी)\nश्री. बाळासाहेब गणपतराव थोरात (भाऊ)'
+        },
+        hi: {
+          name: 'सदाशिव गणपतराव थोरात',
+          age: '७४ वर्ष',
+          deathDate: 'सोमवार ०८/०६/२०२६',
+          deathTime: 'का दुखद निधन हो गया है।',
+          memorialText: 'आपका स्नेह और आशीर्वाद सदैव हमारे साथ रहेगा।\nआपकी पावन स्मृति को कोटि-कोटि नमन।',
+          ceremonyTitle: 'श्रद्धांजलि सभा',
+          ceremonyDate: 'बुधवार १७/०६/२०२६',
+          ceremonyTime: 'सुबह ०८.०० बजे',
+          ceremonyPlace: 'त्र्यंबकेश्वर गोदावरी घाट, नासिक।',
+          organizer: 'प्रवचनकार: ह.भ.प. आसाराम महाराज बढे (आळंदी देवाची) का प्रवचन होगा।',
+          villageInfo: 'समस्त ग्रामवासी संगमनेर',
+          familyMembers: 'श्रीमتی. शकुंतला सदाशिव थोरात (पत्नी)\nश्री. राहुल सदाशिव थोरात (पुत्र)\nश्री. अमित सदाशिव थोरात (पुत्र)\nसौ. सुवर्णा सचिन कदम (पुत्री)\nश्री. बाळासाहेब गणपतराव थोरात (भाई)'
+        },
+        en: {
+          name: 'Sadashiv Ganpatrao Thorat',
+          age: '74 Years',
+          deathDate: 'Monday 08/06/2026',
+          deathTime: 'passed away peacefully.',
+          memorialText: 'Your memories and blessings will guide us forever.\nOur humble tributes to a great soul.',
+          ceremonyTitle: 'Condolence Meet',
+          ceremonyDate: 'Wednesday 17/06/2026',
+          ceremonyTime: '08:00 AM',
+          ceremonyPlace: 'Trimbakeshwar Godavari Ghat, Nashik.',
+          organizer: 'Speaker: H.B.P. Asaram Maharaj Badhe (Alandi Devachi) will preach.',
+          villageInfo: 'All villagers of Sangamner',
+          familyMembers: 'Smt. Shakuntala Sadashiv Thorat (Wife)\nMr. Rahul Sadashiv Thorat (Son)\nMr. Amit Sadashiv Thorat (Son)\nMrs. Suvarna Sachin Kadam (Daughter)\nMr. Balasaheb Ganpatrao Thorat (Brother)'
+        }
+      },
+      {
+        gender: 'female',
+        photo: 'sample-photo-female.png',
+        mr: {
+          name: 'श्रीमती. राधाबाई रामचंद्र पाटील',
+          age: '८२ वर्षे',
+          deathDate: 'रविवार ०७/०६/२०२६',
+          deathTime: 'ईश्वरचरणी विलीन झाल्या.',
+          memorialText: 'आई, तुझ्या आठवणी आमच्या हृदयात कायम राहतील,\nतुझ्या प्रेमाला आणि त्यागाला आमचा कोटी कोटी प्रणाम.',
+          ceremonyTitle: 'दशक्रिया विधी व शोकसभा',
+          ceremonyDate: 'मंगळवार १६/०६/२०२६',
+          ceremonyTime: 'सकाळी ०७.४५ वा.',
+          ceremonyPlace: 'कृष्णानदी तिरावर, वाई, जि. सातारा.',
+          organizer: 'शोकाकुल: पाटील आणि घोरपडे परिवार',
+          villageInfo: 'समस्त ग्रामस्थ वाई',
+          familyMembers: 'श्री. शशिकांत रामचंद्र पाटील (मुलगा)\nश्री. विजय रामचंद्र पाटील (मुलगा)\nसौ. अंजली विकास घोरपडे (मुलगी)\nसौ. सुरेखा प्रकाश माने (मुलगी)\nकु. साहिल शशिकांत पाटील (नातू)'
+        },
+        hi: {
+          name: 'श्रीमती. राधाबाई रामचंद्र पाटिल',
+          age: '८२ वर्ष',
+          deathDate: 'रविवार ०७/०६/२०२६',
+          deathTime: 'का स्वर्गवास हो गया है।',
+          memorialText: 'माँ, आपकी ममता और त्याग सदा स्मरणीय रहेंगे।\nआपकी पावन स्मृति को सादर प्रणाम।',
+          ceremonyTitle: 'श्रद्धांजलि एवं शोक सभा',
+          ceremonyDate: 'मंगळवार १६/०६/२०२६',
+          ceremonyTime: 'सुबह ०७.४५ बजे',
+          ceremonyPlace: 'कृष्णा नदी तट, वाई, सातारा।',
+          organizer: 'शोकसंतप्त: पाटिल और घोरपडे परिवार',
+          villageInfo: 'समस्त ग्रामवासी वाई',
+          familyMembers: 'श्री. शशिकांत रामचंद्र पाटिल (पुत्र)\nश्री. विजय रामचंद्र पाटिल (पुत्र)\nसौ. अंजली विकास घोरपडे (पुत्री)\nसौ. सुरेखा प्रकाश माने (पुत्री)\nकु. साहिल शशिकांत पाटिल (पौत्र)'
+        },
+        en: {
+          name: 'Smt. Radhabai Ramchandra Patil',
+          age: '82 Years',
+          deathDate: 'Sunday 07/06/2026',
+          deathTime: 'left for her heavenly abode.',
+          memorialText: 'Mother, your love, guidance, and sacrifice will forever live in our hearts.\nOur humble prayers for your eternal peace.',
+          ceremonyTitle: 'Memorial Ceremony',
+          ceremonyDate: 'Tuesday 16/06/2026',
+          ceremonyTime: '07:45 AM',
+          ceremonyPlace: 'Krishna River Bank, Wai, Satara.',
+          organizer: 'Grieved By: Patil & Ghorpade Families',
+          villageInfo: 'All villagers of Wai',
+          familyMembers: 'Mr. Shashikant Ramchandra Patil (Son)\nMr. Vijay Ramchandra Patil (Son)\nMrs. Anjali Vikas Ghorpade (Daughter)\nMrs. Surekha Prakash Mane (Daughter)\nMaster Sahil Shashikant Patil (Grandson)'
+        }
+      },
+      {
+        gender: 'male',
+        photo: 'sample-photo-male.png',
+        mr: {
+          name: 'ज्ञानेश्वर बाळकृष्ण सिनलकर',
+          age: '६९ वर्षे',
+          deathDate: 'शनिवार ०६/०६/२०२६',
+          deathTime: 'स्वर्गवासी झाले.',
+          memorialText: 'तुमच्या प्रेमाची सावली आमच्या शिरावर कायम असो,\nतुम्ही दाखवलेल्या मार्गावर चालणे हीच आमची खरी श्रद्धांजली.',
+          ceremonyTitle: 'दशक्रिया विधी',
+          ceremonyDate: 'शुक्रवार १२/०६/२०२६',
+          ceremonyTime: 'सकाळी ०८.३० वा.',
+          ceremonyPlace: 'वेळनदी तिरावर, मु.पो. वाफगाव, ता. खेड, जि. पुणे.',
+          organizer: 'शोकाकुल: सिनलकर आणि रामाणे परिवार',
+          villageInfo: 'समस्त ग्रामस्थ वाफगाव व पिंपळगाव',
+          familyMembers: 'श्रीमती. सुहासिनी ज्ञानेश्वर सिनलकर (पत्नी)\nश्री. संजय ज्ञानेश्वर सिनलकर (मुलगा)\nश्री. सतीश ज्ञानेश्वर सिनलकर (मुलगा)\nसौ. प्रियांका निलेश रामाणे (मुलगी)\nश्री. बाळकृष्ण कोंडिबा सिनलकर (वडील)'
+        },
+        hi: {
+          name: 'ज्ञानेश्वर बालकृष्ण सिनलकर',
+          age: '६९ वर्ष',
+          deathDate: 'शनिवार ०६/०६/२०२६',
+          deathTime: 'का गोलोकवास हो गया है।',
+          memorialText: 'आपका सरल स्वभाव और नेक राह सदा हमारा मार्गदर्शन करेगी।\nभावभीनी श्रद्धांजलि।',
+          ceremonyTitle: 'दशक्रिया एवं शोक सभा',
+          ceremonyDate: 'शुक्रवार १२/०६/२०२६',
+          ceremonyTime: 'सुबह ०८.३० बजे',
+          ceremonyPlace: 'वेल नदी तट, वाफगांव, खेड, पुणे।',
+          organizer: 'शोकसंतप्त: सिनलकर और रामाणे परिवार',
+          villageInfo: 'समस्त ग्रामवासी वाफगांव',
+          familyMembers: 'श्रीमती. सुहासिनी ज्ञानेश्वर सिनलकर (पत्नी)\nश्री. संजय ज्ञानेश्वर सिनलकर (पुत्र)\nश्री. सतीश ज्ञानेश्वर सिनलकर (पुत्र)\nसौ. प्रियंका निलेश रामाणे (पुत्री)\nश्री. बालकृष्ण कोंडिबा सिनलकर (पिता)'
+        },
+        en: {
+          name: 'Dnyaneshwar Balkrishna Sinalkar',
+          age: '69 Years',
+          deathDate: 'Saturday 06/06/2026',
+          deathTime: 'departed for heavenly abode.',
+          memorialText: 'Your simple lifestyle and noble thoughts will inspire us forever.\nHeartfelt condolences and prayers.',
+          ceremonyTitle: 'Tribute Service',
+          ceremonyDate: 'Friday 12/06/2026',
+          ceremonyTime: '08:30 AM',
+          ceremonyPlace: 'Vel River Bank, Wafgaon, Khed, Pune.',
+          organizer: 'Grieved By: Sinalkar & Ramane Families',
+          villageInfo: 'All villagers of Wafgaon & Pimpalgaon',
+          familyMembers: 'Smt. Suhasini Dnyaneshwar Sinalkar (Wife)\nMr. Sanjay Dnyaneshwar Sinalkar (Son)\nMr. Satish Dnyaneshwar Sinalkar (Son)\nMrs. Priyanka Nilesh Ramane (Daughter)\nMr. Balkrishna Kondiba Sinalkar (Father)'
+        }
+      },
+      {
+        gender: 'female',
+        photo: 'sample-photo-female.png',
+        mr: {
+          name: 'सौ. लीलाबाई विठ्ठलराव देशमुख',
+          age: '७६ वर्षे',
+          deathDate: 'शुक्रवार ०५/०६/२०२६',
+          deathTime: 'चे दुःखद निधन झाले.',
+          memorialText: 'तुझ्या वात्सल्याची सावली हरपली, पण आठवण सदैव उरेल,\nईश्वर तुझ्या आत्म्यास शांती देवो, हीच प्रार्थना.',
+          ceremonyTitle: 'दशक्रिया विधी व प्रार्थना सभा',
+          ceremonyDate: 'गुरुवार ११/०६/२०२६',
+          ceremonyTime: 'सकाळी ०८.१५ वा.',
+          ceremonyPlace: 'गोदावरी घाट, कोपरगाव, जि. अहमदनगर.',
+          organizer: 'शोकाकुल: देशमुख आणि काळे परिवार',
+          villageInfo: 'समस्त मित्र परिवार कोपरगाव',
+          familyMembers: 'श्री. विठ्ठलराव गणपतराव देशमुख (पती)\nश्री. राजेंद्र विठ्ठलराव देशमुख (मुलगा)\nश्री. जितेंद्र विठ्ठलराव देशमुख (मुलगा)\nसौ. कल्पना नितीन काळे (मुलगी)\nसौ. मनिषा शरद शेंडे (मुलगी)'
+        },
+        hi: {
+          name: 'सौ. लीलाबाई विठ्ठलराव देशमुख',
+          age: '७६ वर्ष',
+          deathDate: 'शुक्रवार ०५/०६/२०२६',
+          deathTime: 'का दुखद निधन हो गया है।',
+          memorialText: 'आपकी स्नेहिल छाया सदैव हमारी यादों में जीवंत रहेगी।\nदिवंगत आत्मा की शांति के लिए ईश्वर से प्रार्थना।',
+          ceremonyTitle: 'श्रद्धांजलि एवं शोक सभा',
+          ceremonyDate: 'गुरुवार ११/०६/२०२६',
+          ceremonyTime: 'सुबह ०८.१५ बजे',
+          ceremonyPlace: 'गोदावरी तट, कोपरगांव, अहमदनगर।',
+          organizer: 'शोकसंतप्त: देशमुख और काले परिवार',
+          villageInfo: 'समस्त मित्र परिवार कोपरगांव',
+          familyMembers: 'श्री. विठ्ठलराव गणपतराव देशमुख (पति)\nश्री. राजेंद्र विठ्ठलराव देशमुख (पुत्र)\nश्री. जितेंद्र विठ्ठलराव देशमुख (पुत्र)\nसौ. कल्पना नितिन काले (पुत्री)\nसौ. मनीषा शरद शेंडे (पुत्री)'
+        },
+        en: {
+          name: 'Smt. Leelabai Vitthalrao Deshmukh',
+          age: '76 Years',
+          deathDate: 'Friday 05/06/2026',
+          deathTime: 'passed away peacefully.',
+          memorialText: 'Your loving presence will remain with us as a guiding light.\nPraying for the eternal peace of the departed soul.',
+          ceremonyTitle: 'Memorial Ceremony',
+          ceremonyDate: 'Thursday 11/06/2026',
+          ceremonyTime: '08:15 AM',
+          ceremonyPlace: 'Godavari River Bank, Kopargaon, Ahmednagar.',
+          organizer: 'Grieved By: Deshmukh & Kale Families',
+          villageInfo: 'All friends & villagers of Kopargaon',
+          familyMembers: 'Mr. Vitthalrao Ganpatrao Deshmukh (Husband)\nMr. Rajendra Vitthalrao Deshmukh (Son)\nMr. Jitendra Vitthalrao Deshmukh (Son)\nMrs. Kalpana Nitin Kale (Daughter)\nMrs. Manisha Sharad Shende (Daughter)'
+        }
+      }
+    ];
+
+    let currentProfileIndex = -1;
+
+    function loadRandomProfile(force = false) {
+      if (!force) {
+        currentProfileIndex = Math.floor(Math.random() * SAMPLE_PROFILES.length);
+      } else {
+        currentProfileIndex = (currentProfileIndex + 1) % SAMPLE_PROFILES.length;
+      }
+      const profile = SAMPLE_PROFILES[currentProfileIndex];
+
+      // Set the default photo previews
+      document.getElementById('mainPhotoPreview').src = profile.photo;
+      document.getElementById('socialPhotoPreview').src = profile.photo;
+
+      // Get language specific details, fallback to mr, then en
+      const data = profile[currentLang] || profile.mr || profile.en;
+
+      document.getElementById('name').value = data.name;
+      document.getElementById('age').value = data.age;
+      document.getElementById('deathDate').value = data.deathDate;
+      document.getElementById('deathTime').value = data.deathTime;
+      document.getElementById('memorialText').value = data.memorialText;
+      document.getElementById('ceremonyTitle').value = data.ceremonyTitle;
+      document.getElementById('ceremonyDate').value = data.ceremonyDate;
+      document.getElementById('ceremonyTime').value = data.ceremonyTime;
+      document.getElementById('ceremonyPlace').value = data.ceremonyPlace;
+      document.getElementById('organizer').value = data.organizer;
+      document.getElementById('villageInfo').value = data.villageInfo;
+      document.getElementById('familyMembers').value = data.familyMembers;
+
+      // Regenerate banner preview
+      applyI18n();
+      generateBanner();
+    }
 
     /* ════════════════════════════════════════════════════════════
        LANGUAGE SYSTEM
@@ -2450,8 +2731,22 @@
     function applyFrame(name) {
       const url = PHOTO_FRAMES[name] || PHOTO_FRAMES.classic;
       const value = 'url("' + url + '")';
-      document.getElementById('banner').style.setProperty('--bn-frame', value);
-      document.getElementById('bannerSocial').style.setProperty('--bn-frame', value);
+      
+      const banner = document.getElementById('banner');
+      const bannerSocial = document.getElementById('bannerSocial');
+      
+      banner.style.setProperty('--bn-frame', value);
+      bannerSocial.style.setProperty('--bn-frame', value);
+      
+      // Remove any existing frame-* classes
+      for (const frameName in PHOTO_FRAMES) {
+        banner.classList.remove('frame-' + frameName);
+        bannerSocial.classList.remove('frame-' + frameName);
+      }
+      
+      // Add current frame class
+      banner.classList.add('frame-' + name);
+      bannerSocial.classList.add('frame-' + name);
     }
 
     /* ════════════════════════════════════════════════════════════
@@ -3174,10 +3469,18 @@
           s.setAttribute('aria-pressed', on ? 'true' : 'false');
         });
         applyFrame(savedFrame);
+      } else {
+        applyFrame('classic');
       }
 
-      applyI18n();
-      generateBanner();
+      // Check if we should load a random profile (i.e. first visit / default values)
+      const nameVal = document.getElementById('name').value;
+      if (!nameVal || nameVal === 'भगवान जनाजी रामाणे') {
+        loadRandomProfile(false);
+      } else {
+        applyI18n();
+        generateBanner();
+      }
       updateBannerScale();
       updatePreviewMode();
 

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'shradhanjali-cache-v5';
+const CACHE_NAME = 'shradhanjali-cache-v6';
 
 // Static resources to cache immediately on installation
 const PRECACHE_ASSETS = [
@@ -6,6 +6,8 @@ const PRECACHE_ASSETS = [
   './index.html',
   './banner.html',
   './bg_photoframe.png',
+  './sample-photo-male.png',
+  './sample-photo-female.png',
   './frames/frame-gold-ring.png',
   './frames/frame-marigold.png',
   './frames/frame-pearl.png',
