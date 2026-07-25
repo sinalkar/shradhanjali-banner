@@ -2972,6 +2972,7 @@
             </button>
           </div>
         </div>
+
         <!-- Hidden select retained for JS compatibility -->
         <select id="colorTheme" style="display:none" aria-hidden="true">
           <option value="traditional">परंपरागत</option>
@@ -6043,19 +6044,43 @@
       targets.forEach(el => io.observe(el));
     }
 
-    /* ── Ambient marigold petals ────────────────────────────────
-       Each petal carries a real 3D position and spins on two axes; the
-       painter projects it, sorts back-to-front and fades with depth, which
-       reads as an actual volume rather than a flat sprite field. Marigold
-       (झेंडू) is the flower used at these ceremonies. */
+    /* ── Seasonal Ambient Particles (Petals / Rain / Snow) ───── */
     function initPetals() {
       const canvas = document.getElementById('petalCanvas');
       if (!canvas || prefersReducedMotion) return;
 
       const ctx = canvas.getContext('2d');
-      const PALETTE = ['#e8a33d', '#d9822b', '#f0c060', '#c96a1e', '#f2d089'];
+      const PETAL_PALETTE = ['#e8a33d', '#d9822b', '#f0c060', '#c96a1e', '#f2d089', '#e63946'];
+      const SNOW_PALETTE = ['#ffffff', '#e0f2fe', '#bae6fd', '#f1f5f9', '#dbeafe'];
       const FOCAL = 620;
-      let petals = [], w = 0, h = 0, raf = null, paused = false;
+
+      let mode = 'auto'; // 'auto' | 'petals' | 'rain' | 'snow'
+      let activeSeason = 'petals';
+      let particles = [], ripples = [], w = 0, h = 0, raf = null, paused = false;
+
+      function getAutoSeason() {
+        const month = new Date().getMonth() + 1; // 1-12
+        if (month >= 6 && month <= 9) return 'rain'; // Monsoon (June to September)
+        if (month === 11 || month === 12 || month === 1 || month === 2) return 'snow'; // Winter (Nov to Feb)
+        return 'petals'; // Spring / Autumn (Mar-May, Oct)
+      }
+
+      function resolveSeason() {
+        return mode === 'auto' ? getAutoSeason() : mode;
+      }
+
+      function updateBadge() {
+        const badge = document.getElementById('currentSeasonBadge');
+        if (!badge) return;
+        const current = resolveSeason();
+        if (current === 'rain') {
+          badge.textContent = '🌧️ पावसाळा (Monsoon Rain)';
+        } else if (current === 'snow') {
+          badge.textContent = '❄️ हिमवृष्टी (Winter Snow)';
+        } else {
+          badge.textContent = '🌸 भक्तिमय पाकळ्या (Devotional Petals)';
+        }
+      }
 
       function resize() {
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -6065,82 +6090,209 @@
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       }
 
-      function makePetal(seeded) {
-        return {
-          x: (Math.random() - 0.5) * w * 1.6,
-          y: seeded ? Math.random() * h - h / 2 : -h / 2 - Math.random() * 220,
-          z: Math.random() * 700 + 80,
-          size: 9 + Math.random() * 13,
-          vy: 0.22 + Math.random() * 0.5,
-          vx: (Math.random() - 0.5) * 0.32,
-          rot: Math.random() * Math.PI * 2,
-          vrot: (Math.random() - 0.5) * 0.012,
-          spin: Math.random() * Math.PI * 2,
-          vspin: 0.006 + Math.random() * 0.016,
-          sway: Math.random() * Math.PI * 2,
-          vsway: 0.004 + Math.random() * 0.009,
-          color: PALETTE[(Math.random() * PALETTE.length) | 0],
-        };
+      function makeParticle(seeded) {
+        activeSeason = resolveSeason();
+        if (activeSeason === 'rain') {
+          return {
+            type: 'rain',
+            x: Math.random() * (w + 200) - 100,
+            y: seeded ? Math.random() * h : -20 - Math.random() * 100,
+            len: 14 + Math.random() * 22,
+            vy: 14 + Math.random() * 10,
+            vx: -1.2 - Math.random() * 1.5,
+            alpha: 0.25 + Math.random() * 0.45,
+            thick: 0.8 + Math.random() * 1.2
+          };
+        } else if (activeSeason === 'snow') {
+          return {
+            type: 'snow',
+            x: (Math.random() - 0.5) * w * 1.5,
+            y: seeded ? Math.random() * h - h / 2 : -h / 2 - Math.random() * 150,
+            z: Math.random() * 700 + 80,
+            radius: 2.5 + Math.random() * 5.5,
+            vy: 0.4 + Math.random() * 0.9,
+            vx: (Math.random() - 0.5) * 0.4,
+            sway: Math.random() * Math.PI * 2,
+            vsway: 0.006 + Math.random() * 0.012,
+            rot: Math.random() * Math.PI * 2,
+            vrot: (Math.random() - 0.5) * 0.015,
+            color: SNOW_PALETTE[(Math.random() * SNOW_PALETTE.length) | 0]
+          };
+        } else {
+          return {
+            type: 'petal',
+            x: (Math.random() - 0.5) * w * 1.6,
+            y: seeded ? Math.random() * h - h / 2 : -h / 2 - Math.random() * 220,
+            z: Math.random() * 700 + 80,
+            size: 9 + Math.random() * 13,
+            vy: 0.22 + Math.random() * 0.5,
+            vx: (Math.random() - 0.5) * 0.32,
+            rot: Math.random() * Math.PI * 2,
+            vrot: (Math.random() - 0.5) * 0.012,
+            spin: Math.random() * Math.PI * 2,
+            vspin: 0.006 + Math.random() * 0.016,
+            sway: Math.random() * Math.PI * 2,
+            vsway: 0.004 + Math.random() * 0.009,
+            color: PETAL_PALETTE[(Math.random() * PETAL_PALETTE.length) | 0],
+          };
+        }
       }
 
       function reset() {
-        const density = Math.round(Math.min(46, Math.max(16, w / 26)));
-        petals = Array.from({ length: density }, () => makePetal(true));
+        activeSeason = resolveSeason();
+        updateBadge();
+        ripples = [];
+        let count = 36;
+        if (activeSeason === 'rain') count = 55;
+        else if (activeSeason === 'snow') count = 48;
+        particles = Array.from({ length: count }, () => makeParticle(true));
       }
 
       function draw() {
         ctx.clearRect(0, 0, w, h);
-        // Back-to-front so nearer petals occlude correctly.
-        petals.sort((a, b) => b.z - a.z);
+        activeSeason = resolveSeason();
 
-        for (const p of petals) {
-          p.y += p.vy * (1 + (700 - p.z) / 900);
-          p.sway += p.vsway;
-          p.x += p.vx + Math.sin(p.sway) * 0.55;
-          p.rot += p.vrot;
-          p.spin += p.vspin;
+        if (activeSeason === 'rain') {
+          for (const p of particles) {
+            p.y += p.vy;
+            p.x += p.vx;
 
-          if (p.y - h / 2 > h * 0.75) Object.assign(p, makePetal(false));
+            if (p.y > h - 15) {
+              if (Math.random() > 0.4) {
+                ripples.push({
+                  x: p.x,
+                  y: p.y + Math.random() * 10,
+                  r: 1,
+                  maxR: 8 + Math.random() * 12,
+                  alpha: 0.55
+                });
+              }
+              Object.assign(p, makeParticle(false));
+            }
 
-          const scale = FOCAL / (FOCAL + p.z);
-          const sx = w / 2 + p.x * scale;
-          const sy = h / 2 + p.y * scale;
-          if (sx < -80 || sx > w + 80) continue;
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p.x + p.vx * 2.5, p.y + p.len);
+            ctx.strokeStyle = 'rgba(195, 230, 255, ' + p.alpha + ')';
+            ctx.lineWidth = p.thick;
+            ctx.lineCap = 'round';
+            ctx.stroke();
+            ctx.restore();
+          }
 
-          // Depth cues: distant petals are smaller, dimmer and softer.
-          const depth = 1 - p.z / 800;
-          const alpha = 0.20 + depth * 0.42;
-          // Foreshortening from the spin gives each petal a solid feel.
-          const squash = Math.abs(Math.cos(p.spin)) * 0.82 + 0.18;
-          const r = p.size * scale;
+          for (let i = ripples.length - 1; i >= 0; i--) {
+            const r = ripples[i];
+            r.r += 0.45;
+            r.alpha -= 0.022;
+            if (r.alpha <= 0 || r.r >= r.maxR) {
+              ripples.splice(i, 1);
+              continue;
+            }
+            ctx.save();
+            ctx.beginPath();
+            ctx.ellipse(r.x, r.y, r.r * 1.8, r.r * 0.6, 0, 0, Math.PI * 2);
+            ctx.strokeStyle = 'rgba(215, 240, 255, ' + r.alpha + ')';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+            ctx.restore();
+          }
+        } else if (activeSeason === 'snow') {
+          particles.sort((a, b) => (b.z || 0) - (a.z || 0));
 
-          ctx.save();
-          ctx.translate(sx, sy);
-          ctx.rotate(p.rot);
-          ctx.scale(1, squash);
-          ctx.globalAlpha = alpha;
-          ctx.fillStyle = p.color;
-          ctx.shadowColor = 'rgba(120,50,0,0.5)';
-          ctx.shadowBlur = 7 * scale;
+          for (const p of particles) {
+            p.y += p.vy * (1 + (700 - (p.z || 100)) / 900);
+            p.sway += p.vsway;
+            p.x += p.vx + Math.sin(p.sway) * 0.6;
+            p.rot += p.vrot;
 
-          // Teardrop petal
-          ctx.beginPath();
-          ctx.moveTo(0, -r);
-          ctx.bezierCurveTo(r * 0.92, -r * 0.5, r * 0.62, r * 0.85, 0, r);
-          ctx.bezierCurveTo(-r * 0.62, r * 0.85, -r * 0.92, -r * 0.5, 0, -r);
-          ctx.fill();
+            if (p.y - h / 2 > h * 0.75) Object.assign(p, makeParticle(false));
 
-          // Centre vein catches the light
-          ctx.globalAlpha = alpha * 0.5;
-          ctx.strokeStyle = 'rgba(255,240,200,0.85)';
-          ctx.lineWidth = Math.max(0.5, r * 0.07);
-          ctx.shadowBlur = 0;
-          ctx.beginPath();
-          ctx.moveTo(0, -r * 0.75);
-          ctx.lineTo(0, r * 0.8);
-          ctx.stroke();
-          ctx.restore();
+            const scale = FOCAL / (FOCAL + (p.z || 200));
+            const sx = w / 2 + p.x * scale;
+            const sy = h / 2 + p.y * scale;
+            if (sx < -40 || sx > w + 40) continue;
+
+            const depth = 1 - (p.z || 200) / 800;
+            const alpha = 0.35 + depth * 0.55;
+            const r = p.radius * scale;
+
+            ctx.save();
+            ctx.translate(sx, sy);
+            ctx.rotate(p.rot);
+            ctx.globalAlpha = alpha;
+
+            ctx.fillStyle = p.color;
+            ctx.shadowColor = 'rgba(200, 235, 255, 0.8)';
+            ctx.shadowBlur = 6 * scale;
+
+            ctx.beginPath();
+            ctx.arc(0, 0, r, 0, Math.PI * 2);
+            ctx.fill();
+
+            if (r > 3) {
+              ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
+              ctx.lineWidth = Math.max(0.6, r * 0.2);
+              ctx.shadowBlur = 0;
+              for (let a = 0; a < 3; a++) {
+                ctx.beginPath();
+                ctx.moveTo(-r * 1.4, 0);
+                ctx.lineTo(r * 1.4, 0);
+                ctx.stroke();
+                ctx.rotate(Math.PI / 3);
+              }
+            }
+            ctx.restore();
+          }
+        } else {
+          particles.sort((a, b) => (b.z || 0) - (a.z || 0));
+
+          for (const p of particles) {
+            p.y += p.vy * (1 + (700 - (p.z || 100)) / 900);
+            p.sway += p.vsway;
+            p.x += p.vx + Math.sin(p.sway) * 0.55;
+            p.rot += p.vrot;
+            p.spin += p.vspin;
+
+            if (p.y - h / 2 > h * 0.75) Object.assign(p, makeParticle(false));
+
+            const scale = FOCAL / (FOCAL + (p.z || 200));
+            const sx = w / 2 + p.x * scale;
+            const sy = h / 2 + p.y * scale;
+            if (sx < -80 || sx > w + 80) continue;
+
+            const depth = 1 - (p.z || 200) / 800;
+            const alpha = 0.20 + depth * 0.42;
+            const squash = Math.abs(Math.cos(p.spin)) * 0.82 + 0.18;
+            const r = p.size * scale;
+
+            ctx.save();
+            ctx.translate(sx, sy);
+            ctx.rotate(p.rot);
+            ctx.scale(1, squash);
+            ctx.globalAlpha = alpha;
+            ctx.fillStyle = p.color;
+            ctx.shadowColor = 'rgba(120,50,0,0.5)';
+            ctx.shadowBlur = 7 * scale;
+
+            ctx.beginPath();
+            ctx.moveTo(0, -r);
+            ctx.bezierCurveTo(r * 0.92, -r * 0.5, r * 0.62, r * 0.85, 0, r);
+            ctx.bezierCurveTo(-r * 0.62, r * 0.85, -r * 0.92, -r * 0.5, 0, -r);
+            ctx.fill();
+
+            ctx.globalAlpha = alpha * 0.5;
+            ctx.strokeStyle = 'rgba(255,240,200,0.85)';
+            ctx.lineWidth = Math.max(0.5, r * 0.07);
+            ctx.shadowBlur = 0;
+            ctx.beginPath();
+            ctx.moveTo(0, -r * 0.75);
+            ctx.lineTo(0, r * 0.8);
+            ctx.stroke();
+            ctx.restore();
+          }
         }
+
         raf = requestAnimationFrame(draw);
       }
 
@@ -6152,6 +6304,15 @@
         if (raf) { cancelAnimationFrame(raf); raf = null; }
       }
 
+      document.querySelectorAll('.season-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          document.querySelectorAll('.season-btn').forEach(b => b.classList.remove('active'));
+          e.currentTarget.classList.add('active');
+          mode = e.currentTarget.dataset.season || 'auto';
+          reset();
+        });
+      });
+
       resize(); reset(); start();
       requestAnimationFrame(() => canvas.classList.add('lit'));
 
@@ -6160,7 +6321,6 @@
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(() => { resize(); reset(); }, 180);
       });
-      // Don't burn frames on a tab nobody is looking at.
       document.addEventListener('visibilitychange', () => {
         if (document.hidden) stop(); else start();
       });
@@ -6168,9 +6328,9 @@
       window.__petals = {
         suspend() { paused = true; stop(); },
         resume() { paused = false; start(); },
+        setSeason(newMode) { mode = newMode; reset(); }
       };
     }
-
     /* ── Capture guard ──────────────────────────────────────────
        html2canvas walks live computed styles, so an in-flight transform or
        animation frame would be baked into the download. Flatten first. */
