@@ -3425,8 +3425,8 @@
     function downloadBanner(event) {
       const fmt      = document.getElementById('bannerFormat').value;
       const btn      = event.currentTarget;
-      const origText = btn.innerHTML;
-      btn.innerHTML  = t('msg.downloading');
+      const origText = btn.textContent;
+      btn.textContent = t('msg.downloading');
       btn.disabled   = true;
       setExportProgress(true, t('msg.downloading'));
 
@@ -3451,7 +3451,7 @@
           .catch(() => showToast(t('msg.error'), 'error'))
           .finally(() => {
             socialCaptureRestore(savedSocial);
-            btn.innerHTML = origText; btn.disabled = false;
+            btn.textContent = origText; btn.disabled = false;
             setExportProgress(false);
           });
         return;
@@ -3480,7 +3480,7 @@
         .catch(() => showToast(t('msg.error'), 'error'))
         .finally(() => {
           restoreScale(bannerEl, saved);
-          btn.innerHTML = origText;
+          btn.textContent = origText;
           btn.disabled  = false;
           setExportProgress(false);
         });
@@ -3691,8 +3691,8 @@
       const mime = pickVideoMime();   // may be null on Safari; recorder falls back to default
 
       const dlBtn    = document.getElementById('btnDownload');
-      const origText = btn.innerHTML;
-      btn.innerHTML  = t('msg.recording');
+      const origText = btn.textContent;
+      btn.textContent = t('msg.recording');
       btn.disabled   = true;
       dlBtn.disabled = true;
 
@@ -3719,7 +3719,7 @@
         socialCaptureRestore(saved);
         if (recCanvas && recCanvas.parentNode) recCanvas.parentNode.removeChild(recCanvas);
         recCanvas = null;
-        btn.innerHTML = origText; btn.disabled = false;
+        btn.textContent = origText; btn.disabled = false;
         dlBtn.disabled = false;
       };
 
@@ -4083,9 +4083,9 @@
 
     function shareBanner(event) {
       const btn = event.currentTarget;
-      const originalLabel = btn.innerHTML;
+      const originalLabel = btn.textContent;
       btn.disabled = true;
-      btn.innerHTML = t('msg.preparing');
+      btn.textContent = t('msg.preparing');
 
       const fmt      = document.getElementById('bannerFormat').value;
       const isSocial = SOCIAL_FORMATS.includes(fmt);
@@ -4120,7 +4120,7 @@
         .finally(() => {
           if (isSocial) socialCaptureRestore(saved); else restoreScale(target, saved);
           btn.disabled = false;
-          btn.innerHTML = originalLabel;
+          btn.textContent = originalLabel;
         });
     }
 
