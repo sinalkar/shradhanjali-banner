@@ -1,109 +1,126 @@
-# श्रद्धांजलि बॅनर (Shradhanjali Banner Maker)
+# 🌸 श्रद्धांजलि बॅनर (Shradhanjali Banner Maker)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Hosting: Netlify](https://img.shields.io/badge/Hosting-Netlify-00C7B7?style=flat&logo=netlify)](https://shradhanjalibanner.in/)
 [![Website](https://img.shields.io/badge/Website-shradhanjalibanner.in-460137)](https://shradhanjalibanner.in/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![100% Free](https://img.shields.io/badge/Cost-100%25_Free-brightgreen)](https://shradhanjalibanner.in/)
+[![100% Private](https://img.shields.io/badge/Privacy-100%25_Browser_Local-blue)](https://shradhanjalibanner.in/)
+[![12 Languages](https://img.shields.io/badge/Languages-12_Indian_Languages-orange)](https://shradhanjalibanner.in/)
 
-> विनामूल्य श्रद्धांजलि बॅनर जनरेटर — १२ प्रमुख भारतीय भाषांमध्ये बॅनर तयार करा.
-> A free, client-side, highly-respectful online memorial and funeral tribute banner generator supporting 12 major Indian languages natively.
-
----
-
-## 🌸 Overview
-
-**श्रद्धांजलि बॅनर** helps grieving families and print shop operators create customized, high-quality printable and shareable memorial announcement banners (भावपूर्ण श्रद्धांजली बॅनर) within minutes.
-
-Built with deep cultural reverence for Maharashtrian rituals, the application features Devanagari-first typography, devotional color palettes (anchored around warm marigolds, ritual parchment, and deep plums), and runs entirely in the browser.
+> **विनामूल्य श्रद्धांजलि बॅनर जनरेटर** — १२ प्रमुख भारतीय भाषांमध्ये भावपूर्ण बॅनर तयार करा.
+> A free, respectful, privacy-first online memorial and funeral tribute banner creator supporting 12 major Indian languages with instant HD downloads.
 
 ---
 
-## ✨ Features
+## 🌺 About Shradhanjali Banner Maker
 
-- **🎨 6 Handcrafted Ritual Themes:**
-  - **परंपरागत (Traditional):** Warm parchment background, marigold garlands, and oil lamps.
-  - **सूर्यास्त (Sunset):** Serene orange-to-pink gradient representing the twilight of life.
-  - **सागर (Ocean):** Calm blue tones for a peaceful, flowing tribute.
-  - **क्लासिक (Classic):** Minimalist grayscale theme for a formal and dignified look.
-  - **सोने (Golden):** Premium dark-gold rich devotional design.
-  - **आकाश (Lavender):** Gentle, ethereal lavender gradient for peace and transcendence.
+**Shradhanjali Banner Maker** (श्रद्धांजलि बॅनर) is designed to help families and local print shop operators create dignified, high-resolution printable and shareable memorial announcement banners (*भावपूर्ण श्रद्धांजली बॅनर*) within minutes.
 
-- **🌐 12 Major Indian Languages Support:**
-  - Full UI localization and native canvas generation in **मराठी (Marathi)**, **हिन्दी (Hindi)**, **English**, **বাংলা (Bengali)**, **తెలుగు (Telugu)**, **தமிழ் (Tamil)**, **ગુજરાતી (Gujarati)**, **ಕನ್ನಡ (Kannada)**, **മലയാളം (Malayalam)**, **ਪੰਜਾਬੀ (Punjabi)**, **ଓଡ଼ିଆ (Odia)**, and **اردو (Urdu)**.
-
-- **🖼️ Photo Frames & Overlays:**
-  - Support for single or dual photo uploads with a choice of 7 decorative photo frame overlays (`frames/frame-*.webp`).
-
-- **📱 Multiple Export Formats & Dimensions:**
-  - **Standard Print Banner:** Landscape format for printing.
-  - **WhatsApp Status / Instagram Story:** 9:16 portrait layout (1080×1920 px).
-  - **Instagram Post:** 1:1 square layout (1080×1080 px).
-  - **Flex Print (फिक्स साईज):** Customizable banner sizes (2x3, 3x4, 4x6, 6x4 ft) at specific resolution settings (**72 / 150 / 300 DPI**).
-
-- **🔒 Privacy-First & Serverless:**
-  - No database, no backend server, no login, no accounts. All image compilation happens **entirely on your local browser** via `html2canvas`. User images never touch a server.
+Built with deep cultural reverence for traditional Maharashtrian & Indian rituals, the application features Devanagari-first typography, devotional color palettes (anchored around warm marigolds, ritual parchment, and deep plums), and runs **100% locally inside your browser** with zero server data uploads.
 
 ---
 
-## 🎨 Design Philosophy ("The Marigold Threshold")
+## ✨ Features & Highlights
 
-This system is built around a warm, respectful visual vocabulary representing the entrance to a memorial space — marigold garlands draped over a doorway, the amber glow of oil lamps, and warm incense.
-
-- **No SaaS Purple or Tech Gradients:** Rejects generic tech aesthetics in favor of deeply spiritual colors (Devotional Maroon `#460137`, Marigold Amber `#f39c12`, and Ceremony Mauve `#894dce`).
-- **Devanagari-First:** Font scales, line heights, and typography weights are optimized specifically for Devanagari letterforms (**Rozha One** for headlines/deceased names, **Tiro Devanagari Marathi** for text).
-- **Mobile-Native:** Optimized for older family members accessing via Android devices on the go, utilizing touch-friendly targets, high contrast, and legible, simple layouts.
-
----
-
-## 🛠️ Technology Stack & Architecture
-
-This is a pure static single-page web application (SPA) with **no heavy modern build tools or Node.js frameworks**, designed for instant loading, high durability, and simple hosting.
-
-- **Core:** Semantic HTML5, CSS3 Custom Properties (CSS variables) for immediate theme switching, and Vanilla JavaScript.
-- **Styling:** Hand-written CSS design system, plus [daisyUI](https://daisyui.com) for form controls, the FAQ accordion, toasts and progress. daisyUI is self-hosted and tree-shaken to only the components in use (`assets/daisyui.css`, ~48 KB), rebuilt with `npm run build:css`.
-  daisyUI classes are deliberately kept **outside** `#banner`/`#bannerSocial`: daisyUI resolves colours via `oklch()`, which html2canvas 1.4.1 cannot parse and would render as black in the exported JPG.
-- **Typography:** Google Fonts (`Rozha One` & `Tiro Devanagari Marathi`).
-- **Rendering/Export:** `html2canvas` (loaded via CDN) captures the active `#banner` DOM element at a custom scale multiplier (e.g. 2.5x for high resolution) and triggers a browser download.
-- **Analytics:** Minimal privacy-compliant Google Analytics tag.
+### 🌐 1. 12 Major Indian Languages with Automatic Prefill
+- Supports full native language generation across **12 Indian languages**:
+  - 🇲🇷 **मराठी (Marathi)**: *भावपूर्ण श्रद्धांजली बॅनर*
+  - 🇮🇳 **हिन्दी (Hindi)**: *भावपूर्ण श्रद्धांजलि बैनर*
+  - 🇬🇧 **English**: *Memorial Tribute Banner*
+  - 🇧🇩 **বাংলা (Bengali)**: *বিনম্র শ্রদ্ধাঞ্জলি ব্যানার*
+  - 🇮🇳 **తెలుగు (Telugu)**: *భావపూర్వక శ్రద్ధాంజలి బ్యానర్*
+  - 🇮🇳 **தமிழ் (Tamil)**: *கண்ணீர் நினைவஞ்சலி பேனர்*
+  - 🇮🇳 **ગુજરાતી (Gujarati)**: *ભાવપૂર્ણ શ્રદ્ધાંજલિ બેનર*
+  - 🇮🇳 **ಕನ್ನಡ (Kannada)**: *ಭಾವಪೂರ್ಣ ಶ್ರದ್ಧಾಂజಲಿ ಬ್ಯಾನർ*
+  - 🇮🇳 **മലയാളം (Malayalam)**: *ഹൃദയംഗമമായ ആദരാഞ്ജലി ബാനർ*
+  - 🇮🇳 **ਪੰਜਾਬੀ (Punjabi)**: *ਭਾਵਪੂਰਤ ਸ਼ਰਧਾਂਜਲੀ ਬੈਨਰ*
+  - 🇮🇳 **ଓଡ଼ିଆ (Odia)**: *ଭାବପୂର୍ଣ୍ଣ ଶ୍ରଦ୍ଧାଞ୍ଜଳି ବ୍ୟାନର*
+  - 🇮🇳 **اردو (Urdu)**: *خراجِ عقیدت تعزیتی بینر*
+- **Instant Translation & Auto-Prefill**: Switching language dropdowns automatically translates header titles, form placeholders, ritual quotes (*दशक्रिया विधी*, *श्रद्धांजलि सभा*, *Condolence Meet*), and sample profile data into the chosen native script.
 
 ---
 
-## 🚀 Getting Started (Local Development)
-
-Because this project is a serverless static web application, local setup requires no installation or package managers:
-
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/sinalkar/shradhanjali-banner.git
-   cd shradhanjali-banner
-   ```
-
-2. Start a local HTTP server (highly recommended, as `html2canvas` blocklists direct `file://` protocols for canvas image security):
-
-   Using **Python 3**:
-
-   ```bash
-   python3 -m http.server 8080
-   ```
-
-   Using **Node / npx**:
-
-   ```bash
-   npx serve .
-   ```
-
-3. Open [http://localhost:8080](http://localhost:8080) in your web browser.
+### 🎨 2. 11 Handcrafted Devotional Themes & 7 Photo Frames
+- **11 Themes**: Traditional Parchment, Sunset Twilight, Ocean Waves, Classic Grayscale, Golden Ember, Ethereal Lavender, Marigold Yellow, Saffron, Sacred Tulsi, Rose Crimson, Ivory Parchment.
+- **7 Decorative Photo Frames**: Gold Ring, Pearl Garland, Lotus Blossom, Silver Polish, Traditional Filigree, and more.
 
 ---
 
-## 📄 License
+### 📱 3. Multi-Format Downloads & Animated Video Status
+- **Print Banner (Landscape)**: Standard high-resolution banner layout for printing.
+- **Flex Print (फिक्स साईज)**: Custom flex banner sizes (2x3, 3x4, 4x6, 6x4 ft) at **72 / 150 / 300 DPI** for large outdoor venue hoardings (*कमान व स्टँडी*).
+- **WhatsApp Status & Instagram Story (9:16)**: Mobile portrait layout (1080×1920 px).
+- **Instagram Post (1:1)**: Square layout (1080×1080 px).
+- **🎞️ Animated Video Status**: Export animated WebM/MP4 status videos featuring glowing flames and falling petals for social sharing.
+
+---
+
+### 🔒 4. 100% Privacy-First & Offline Ready
+- **Zero Photo Uploads**: Your family photos and memorial text **never leave your device**. All processing happens 100% in your local browser memory.
+- **No Sign-Up / No Ads / No Watermark**: Free instant access without registrations or intrusive branding.
+- **Offline PWA Support**: Functions even when internet connectivity is limited.
+
+---
+
+## 🖼️ Resolution Format Banner Screenshots
+
+Below are actual cropped banner card previews and specs for each format supported by **Shradhanjali Banner Maker**:
+
+### 1. 🖨️ Standard Print Banner (High-Res HD Sample)
+![Shradhanjali Print Banner Card HD Sample — Deceased Photo, Ritual Quote, Ceremony Info & Family List](assets/banner-sample-print.jpg)
+- **Format Label**: `Standard Print Banner (High-Res HD)`
+- **Aspect Ratio**: Landscape (`4:3` / `16:9` printable ratio)
+- **Best For**: Family distribution, A4/A3 paper printouts, frame placement.
+- **Includes**: Deceased portrait photo, name, age, death date & time, ritual quote, ceremony location, preacher details, village list, and family list.
+
+---
+
+### 2. 📱 WhatsApp Status & Instagram Story (9:16 Portrait Sample)
+![Shradhanjali WhatsApp Status Mobile Banner Card Sample 9:16 Portrait](assets/banner-sample-whatsapp.jpg)
+- **Format Label**: `WhatsApp Status & IG Story (9:16 Portrait)`
+- **Dimensions**: `1080 × 1920 px` (High DPI mobile screen layout)
+- **Best For**: WhatsApp Status updates, Instagram Stories, Facebook Stories.
+- **Includes**: Portrait photo, name, age, death date, ceremony timing, and tribute message optimized for vertical smartphone screens.
+
+---
+
+### 3. 📸 Instagram Post (1:1 Square Feed Sample)
+![Shradhanjali Instagram Memorial Banner Card Sample 1:1 Square Feed Ratio](assets/banner-sample-instagram.jpg)
+- **Format Label**: `Instagram & Facebook Post (1:1 Square)`
+- **Dimensions**: `1080 × 1080 px` (Square social feed ratio)
+- **Best For**: Instagram feed posts, Facebook feed posts, memorial gallery cards.
+- **Includes**: Balanced square layout highlighting deceased portrait, title, and ceremony details.
+
+---
+
+### 4. 🎪 Outdoor Flex Print Banner (Venue Hoarding 4x6 ft Sample)
+![Shradhanjali Outdoor Flex Banner Card Sample for Funeral Venue Entrance Arch](assets/banner-sample-flex.jpg)
+- **Format Label**: `Outdoor Flex Print Banner (Venue Hoarding & Standee)`
+- **Custom Flex Sizes**: `2×3 ft`, `3×4 ft`, `4×6 ft`, `6×4 ft`
+- **Print Resolution**: Customizable **72 DPI** (draft), **150 DPI** (standard flex), or **300 DPI** (ultra-sharp high quality flex print)
+- **Best For**: Large outdoor flex hoardings, ceremony venue entrance arches (*स्वागत कमान*), tripod standees (*स्टँडी प्रिव्ह्यू*).
+
+---
+
+## 📋 How to Create a Memorial Banner in 3 Steps
+
+```
+┌───────────────────────────┐      ┌───────────────────────────┐      ┌───────────────────────────┐
+│  1. Choose Theme & Frame  │ ───► │   2. Enter Details & Photo│ ───► │  3. Download HD Image/Video│
+└───────────────────────────┘      └───────────────────────────┘      └───────────────────────────┘
+```
+
+1. **Select Language & Theme**: Choose your preferred language and ritual color theme.
+2. **Enter Deceased Details**: Fill in the name, age, death date, ceremony timing, and upload a portrait photo (or tap *"🎲 Fill Sample Data"* to preview).
+3. **Download & Share**: Click **"Download Banner"** for HD print/flex images or **"WhatsApp Status"** to share instantly with family and friends.
+
+---
+
+## 📄 License & Credits
 
 This project is open-source software licensed under the **[MIT License](LICENSE)**.
 
-```
-Copyright (c) 2026 Sanjay Sinalkar
-```
+Created with devotion by **[Sanjay Sinalkar](https://sinalkar.com)**.
 
 ---
 
-_For queries, issues, or contributions, please feel free to open a pull request or get in touch._
+*Visit [shradhanjalibanner.in](https://shradhanjalibanner.in/) to create a free, respectful tribute banner.*
