@@ -1247,9 +1247,202 @@
     .site-footer a:hover { opacity: 0.75; }
 
     /* ─── REDUCED MOTION ─────────────────────────────────────── */
+    /* ════════════════════════════════════════════════════════════
+       3D DEPTH SYSTEM
+
+       Everything here is presentation chrome that lives OUTSIDE the two
+       html2canvas capture targets (#banner, #bannerSocial). The exported JPG
+       must stay pixel-identical, so `body.is-capturing` flattens every
+       transform and pauses every animation for the duration of a capture.
+    ════════════════════════════════════════════════════════════ */
+
+    /* ── Ambient petal canvas ─────────────────────────────────── */
+    #petalCanvas {
+        position: fixed; inset: 0;
+        width: 100%; height: 100%;
+        pointer-events: none; z-index: 0;
+        opacity: 0; transition: opacity 1.6s ease;
+    }
+    #petalCanvas.lit { opacity: 1; }
+    .app-shell { position: relative; z-index: 1; }
+
+    /* ── Shared spring easing + pointer-tilt channel ──────────── */
+    :root {
+        --spring: cubic-bezier(0.22, 1, 0.36, 1);
+        --tilt-x: 0deg;
+        --tilt-y: 0deg;
+        --tilt-strength: 0;
+    }
+
+    /* ── Header: layered parallax depth ───────────────────────── */
+    .site-header { perspective: 1200px; perspective-origin: 50% 40%; }
+    .header-inner {
+        transform-style: preserve-3d;
+        transform: rotateX(calc(var(--tilt-x) * 0.35)) rotateY(calc(var(--tilt-y) * 0.35));
+        transition: transform 0.5s var(--spring);
+    }
+    .header-mantra { transform: translateZ(28px); }
+    .header-inner h1 {
+        transform: translateZ(60px);
+        text-shadow:
+            0 1px 0 rgba(255,225,190,0.28),
+            0 10px 30px rgba(0,0,0,0.5),
+            0 2px 10px rgba(201,160,106,0.35);
+    }
+    .header-sub     { transform: translateZ(34px); }
+    .header-divider { transform: translateZ(18px); }
+    .header-lamp    { transform: translateZ(48px); }
+
+    /* ── Banner stage: the preview as a physical object ───────── */
+    .banner-stage {
+        perspective: 1600px;
+        perspective-origin: 50% 45%;
+        padding: 0.5rem 0 2.5rem;
+        position: relative;
+    }
+    .banner-tilt {
+        transform-style: preserve-3d;
+        transform: rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateZ(0);
+        transition: transform 0.6s var(--spring);
+        will-change: transform;
+        position: relative;
+    }
+    .banner-tilt.idle { animation: stage-float 7s ease-in-out infinite; }
+    @keyframes stage-float {
+        0%, 100% { transform: rotateX(1.6deg) rotateY(-1.4deg) translateY(0); }
+        50%      { transform: rotateX(-1.2deg) rotateY(1.6deg) translateY(-9px); }
+    }
+
+    /* Specular sheen that slides across the surface as it tilts */
+    .banner-tilt::after {
+        content: ''; position: absolute; inset: 0;
+        pointer-events: none; z-index: 40;
+        border-radius: 6px;
+        background: linear-gradient(
+            105deg,
+            transparent 35%,
+            rgba(255,246,230,0.30) 48%,
+            rgba(255,255,255,0.42) 51%,
+            rgba(255,246,230,0.26) 55%,
+            transparent 68%);
+        background-size: 260% 100%;
+        background-position: calc(50% - var(--tilt-y) * 9%) 0;
+        opacity: calc(var(--tilt-strength) * 0.85);
+        transition: opacity 0.45s ease, background-position 0.5s var(--spring);
+        mix-blend-mode: screen;
+    }
+
+    /* Contact shadow that reacts to the tilt */
+    .banner-shadow {
+        position: absolute; left: 6%; right: 6%; bottom: -6px; height: 34px;
+        background: radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.28) 45%, transparent 72%);
+        filter: blur(18px);
+        transform: translateX(calc(var(--tilt-y) * -1.6)) scaleX(calc(1 - var(--tilt-strength) * 0.06));
+        transition: transform 0.6s var(--spring);
+        z-index: -1;
+    }
+
+    .banner-tilt.enter { animation: banner-settle 1.15s var(--spring) both; }
+    @keyframes banner-settle {
+        from { opacity: 0; transform: rotateX(-16deg) translateY(46px) scale(0.94); }
+        to   { opacity: 1; transform: rotateX(0) translateY(0) scale(1); }
+    }
+
+    /* ── Theme + frame swatches: real depth ───────────────────── */
+    .theme-swatches, .frame-swatches { perspective: 900px; }
+    .theme-swatch, .frame-swatch {
+        transform-style: preserve-3d;
+        transition: transform 0.42s var(--spring), box-shadow 0.42s var(--spring);
+        will-change: transform;
+    }
+    .theme-swatch:hover, .frame-swatch:hover {
+        transform: translateZ(26px) rotateX(7deg) scale(1.05);
+        box-shadow: 0 20px 34px rgba(0,0,0,0.34), 0 0 0 1px rgba(201,160,106,0.5);
+        z-index: 5;
+    }
+    .theme-swatch:active, .frame-swatch:active { transform: translateZ(8px) scale(0.99); }
+    .theme-swatch.active, .frame-swatch.active {
+        transform: translateZ(18px) scale(1.03);
+        box-shadow: 0 16px 30px rgba(70,1,55,0.42), 0 0 0 2px var(--gold);
+    }
+
+    /* ── Buttons: pressable depth ─────────────────────────────── */
+    .btn-generate, .btn-download, .btn-share, .btn-animate {
+        transform-style: preserve-3d;
+        transition: transform 0.3s var(--spring), box-shadow 0.3s var(--spring), background 0.25s ease;
+    }
+    .btn-generate:hover, .btn-download:hover, .btn-animate:hover {
+        transform: translateY(-3px) translateZ(12px) rotateX(-5deg);
+    }
+    .btn-generate:active, .btn-download:active,
+    .btn-share:active, .btn-animate:active {
+        transform: translateY(1px) translateZ(0) rotateX(2deg) scale(0.985);
+    }
+
+    /* ── FAQ: cards that open with depth ──────────────────────── */
+    .faq-list { perspective: 1400px; }
+    .faq-item {
+        transform-style: preserve-3d;
+        transition: transform 0.5s var(--spring), box-shadow 0.5s var(--spring);
+    }
+    .faq-item:hover { transform: translateZ(14px); box-shadow: 0 16px 34px rgba(0,0,0,0.3); }
+    .faq-item[open] { transform: translateZ(22px); box-shadow: 0 22px 44px rgba(0,0,0,0.36); }
+
+    /* ── Scroll reveal ────────────────────────────────────────── */
+    .reveal-3d {
+        opacity: 0;
+        transform: perspective(1200px) rotateX(10deg) translateY(38px) translateZ(-60px);
+        transition: opacity 0.9s var(--spring), transform 0.9s var(--spring);
+    }
+    .reveal-3d.shown {
+        opacity: 1;
+        transform: perspective(1200px) rotateX(0) translateY(0) translateZ(0);
+    }
+
+    /* ── Richer flame: volumetric halo ────────────────────────── */
+    .banner-lamp::after {
+        content: ''; position: absolute; top: -14px; left: 50%;
+        width: 74px; height: 74px; margin-left: -37px;
+        background: radial-gradient(circle, rgba(255,170,55,0.30) 0%, rgba(255,130,20,0.13) 42%, transparent 72%);
+        pointer-events: none; z-index: 1;
+        animation: halo-pulse 2.9s ease-in-out infinite;
+    }
+    @keyframes halo-pulse {
+        0%, 100% { opacity: 0.65; transform: scale(1); }
+        50%      { opacity: 1;    transform: scale(1.16); }
+    }
+
+    /* ── Capture guard: flatten everything for html2canvas ────── */
+    /* `transition: none` matters: the fade-out is 1.6s, and html2canvas reads
+       computed styles the instant capture starts — without this the canvas
+       would still be fully opaque at that moment. */
+    body.is-capturing #petalCanvas { opacity: 0 !important; transition: none !important; }
+    body.is-capturing .banner-tilt,
+    body.is-capturing .header-inner {
+        transform: none !important;
+        animation: none !important;
+        transition: none !important;
+    }
+    body.is-capturing .banner-tilt::after { opacity: 0 !important; }
+    body.is-capturing .banner-shadow { display: none !important; }
+    body.is-capturing .lamp-flame,
+    body.is-capturing .banner-lamp::after { animation: none !important; }
+    body.is-capturing .reveal-3d { opacity: 1 !important; transform: none !important; }
+
     @media (prefers-reduced-motion: reduce) {
         .app-shell, .form-panel, .preview-panel { animation: none; }
         .lamp-flame { animation: none; }
+        /* Motion sensitivity outranks decoration — drop the whole 3D layer. */
+        #petalCanvas { display: none; }
+        .banner-tilt, .header-inner { transform: none !important; animation: none !important; }
+        .banner-tilt::after { opacity: 0 !important; }
+        .banner-tilt.enter { animation: none !important; }
+        .banner-lamp::after { animation: none; }
+        .theme-swatch, .frame-swatch, .faq-item,
+        .btn-generate, .btn-download, .btn-share, .btn-animate { transition: none; }
+        .theme-swatch:hover, .frame-swatch:hover,
+        .btn-generate:hover, .btn-download:hover, .btn-animate:hover { transform: none; }
+        .reveal-3d { opacity: 1 !important; transform: none !important; }
         .banner, .memorial-text, .ceremony-info, .banner-foot,
         .main-text, .age-text, .death-info, .ceremony-title,
         .page-ambient, body, .main-card { transition: none; }
@@ -1267,6 +1460,7 @@
 </head>
 <body>
     <div class="page-ambient" aria-hidden="true"></div>
+    <canvas id="petalCanvas" aria-hidden="true"></canvas>
 
     <div class="app-shell">
 
@@ -1568,6 +1762,9 @@
                     </div>
                 </div>
 
+                <div class="banner-stage" id="bannerStage">
+                  <div class="banner-tilt" id="bannerTilt">
+                    <div class="banner-shadow" aria-hidden="true"></div>
                 <div class="banner-preview-wrapper">
                     <div id="banner" class="banner">
                         <div class="floral fl-tl" aria-hidden="true"></div>
@@ -1631,6 +1828,8 @@
                         </div>
                     </div>
                 </div>
+                  </div>
+                </div>
 
                 <!-- Inline portrait/square preview for WhatsApp & Instagram formats
                      (the offscreen #bannerSocial card is moved into .social-scaler by JS) -->
@@ -1643,7 +1842,7 @@
 
         <!-- ── SEO KEYWORD & FAQ SECTION ── -->
         <!-- ── FAQ / FEATURES (daisyUI collapse accordion) ── -->
-        <section class="seo-faq-section" id="faq" aria-labelledby="faqHeading">
+        <section class="seo-faq-section reveal-3d" id="faq" aria-labelledby="faqHeading">
             <hr class="faq-rule">
 
             <h3 id="faqHeading" class="faq-heading" data-i18n="heading.faq">Frequently Asked Questions</h3>
@@ -1701,7 +1900,7 @@
         </section>
 
 
-        <footer class="site-footer">
+        <footer class="site-footer reveal-3d">
             <p data-i18n="footer.text">shradhanjalibanner.in &nbsp;·&nbsp; विनामूल्य स्मारक बॅनर जनरेटर</p>
             <p style="margin-top: 0.5rem; opacity: 0.85;">
                 <span data-i18n="footer.owner">Owner:</span>
@@ -3350,6 +3549,7 @@
        DOWNLOAD HELPERS
     ════════════════════════════════════════════════════════════ */
     function saveAndResetScale(bannerEl) {
+      setCaptureMode(true);
       const wrapper = document.querySelector('.banner-preview-wrapper');
       const saved   = {
         transform: bannerEl.style.transform,
@@ -3367,6 +3567,7 @@
       bannerEl.style.transform = saved.transform;
       bannerEl.style.width     = saved.width;
       if (wrapper) wrapper.style.height = saved.wrapperH;
+      setCaptureMode(false);
     }
 
     function triggerDownload(canvas, filename) {
@@ -3574,6 +3775,7 @@
     /* Capture (download / full-screen) needs the social card at its natural,
        untransformed size. Temporarily peel off the inline scaling, then restore. */
     function socialCapturePrep() {
+      setCaptureMode(true);
       const social = document.getElementById('bannerSocial');
       const saved  = {
         inline:    social.classList.contains('is-inline'),
@@ -3591,6 +3793,7 @@
       social.style.transform = saved.transform;
       social.style.width = saved.width;
       updateSocialScale();
+      setCaptureMode(false);
     }
 
     /* ════════════════════════════════════════════════════════════
@@ -3899,6 +4102,239 @@
        INIT
     ════════════════════════════════════════════════════════════ */
     /* ════════════════════════════════════════════════════════════
+       3D DEPTH ENGINE
+
+       Three independent pieces: a pointer-driven tilt channel published as
+       CSS custom properties, a scroll reveal, and an ambient petal field.
+       All three are suspended by setCaptureMode(true) while html2canvas runs
+       so the exported JPG never picks up a transform or a half-drawn frame.
+    ════════════════════════════════════════════════════════════ */
+
+    const prefersReducedMotion =
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* ── Pointer tilt ───────────────────────────────────────────
+       Publishes --tilt-x / --tilt-y / --tilt-strength on :root; the CSS
+       decides how much each layer reacts, so there is one source of truth. */
+    function initTilt() {
+      if (prefersReducedMotion) return;
+      const root  = document.documentElement;
+      const stage = document.getElementById('bannerStage');
+      const tilt  = document.getElementById('bannerTilt');
+      if (!stage || !tilt) return;
+
+      const MAX = 7;                 // degrees
+      let targetX = 0, targetY = 0;
+      let curX = 0, curY = 0, curS = 0;
+      let running = false, idleTimer;
+
+      function loop() {
+        // critically-damped-ish follow, so the motion reads as weight
+        curX += (targetX - curX) * 0.09;
+        curY += (targetY - curY) * 0.09;
+        const strength = Math.min(1, (Math.abs(curX) + Math.abs(curY)) / MAX);
+        curS += (strength - curS) * 0.09;
+
+        root.style.setProperty('--tilt-x', curX.toFixed(3) + 'deg');
+        root.style.setProperty('--tilt-y', curY.toFixed(3) + 'deg');
+        root.style.setProperty('--tilt-strength', curS.toFixed(3));
+
+        if (Math.abs(targetX - curX) > 0.01 || Math.abs(targetY - curY) > 0.01) {
+          requestAnimationFrame(loop);
+        } else {
+          running = false;
+        }
+      }
+      function kick() {
+        if (!running) { running = true; requestAnimationFrame(loop); }
+      }
+
+      function onMove(e) {
+        const r = stage.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width  - 0.5;
+        const py = (e.clientY - r.top)  / r.height - 0.5;
+        targetY =  px * MAX * 2;
+        targetX = -py * MAX * 2;
+        tilt.classList.remove('idle');
+        clearTimeout(idleTimer);
+        kick();
+      }
+      function onLeave() {
+        targetX = 0; targetY = 0;
+        kick();
+        clearTimeout(idleTimer);
+        idleTimer = setTimeout(() => tilt.classList.add('idle'), 900);
+      }
+
+      // Pointer only — on touch the finger is usually on the element itself
+      // and a lagging tilt just fights the scroll.
+      if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        stage.addEventListener('pointermove', onMove);
+        stage.addEventListener('pointerleave', onLeave);
+        document.querySelector('.site-header')
+          ?.addEventListener('pointermove', onMove);
+      }
+      tilt.classList.add('idle', 'enter');
+      tilt.addEventListener('animationend', () => tilt.classList.remove('enter'), { once: true });
+    }
+
+    /* ── Scroll reveal ──────────────────────────────────────── */
+    function initReveal() {
+      const targets = document.querySelectorAll('.reveal-3d');
+      if (!targets.length) return;
+      if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+        targets.forEach(el => el.classList.add('shown'));
+        return;
+      }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('shown');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
+      targets.forEach(el => io.observe(el));
+    }
+
+    /* ── Ambient marigold petals ────────────────────────────────
+       Each petal carries a real 3D position and spins on two axes; the
+       painter projects it, sorts back-to-front and fades with depth, which
+       reads as an actual volume rather than a flat sprite field. Marigold
+       (झेंडू) is the flower used at these ceremonies. */
+    function initPetals() {
+      const canvas = document.getElementById('petalCanvas');
+      if (!canvas || prefersReducedMotion) return;
+
+      const ctx = canvas.getContext('2d');
+      const PALETTE = ['#e8a33d', '#d9822b', '#f0c060', '#c96a1e', '#f2d089'];
+      const FOCAL = 620;
+      let petals = [], w = 0, h = 0, raf = null, paused = false;
+
+      function resize() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        w = canvas.clientWidth; h = canvas.clientHeight;
+        canvas.width = Math.round(w * dpr);
+        canvas.height = Math.round(h * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function makePetal(seeded) {
+        return {
+          x: (Math.random() - 0.5) * w * 1.6,
+          y: seeded ? Math.random() * h - h / 2 : -h / 2 - Math.random() * 220,
+          z: Math.random() * 700 + 80,
+          size: 9 + Math.random() * 13,
+          vy: 0.22 + Math.random() * 0.5,
+          vx: (Math.random() - 0.5) * 0.32,
+          rot: Math.random() * Math.PI * 2,
+          vrot: (Math.random() - 0.5) * 0.012,
+          spin: Math.random() * Math.PI * 2,
+          vspin: 0.006 + Math.random() * 0.016,
+          sway: Math.random() * Math.PI * 2,
+          vsway: 0.004 + Math.random() * 0.009,
+          color: PALETTE[(Math.random() * PALETTE.length) | 0],
+        };
+      }
+
+      function reset() {
+        const density = Math.round(Math.min(46, Math.max(16, w / 26)));
+        petals = Array.from({ length: density }, () => makePetal(true));
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, w, h);
+        // Back-to-front so nearer petals occlude correctly.
+        petals.sort((a, b) => b.z - a.z);
+
+        for (const p of petals) {
+          p.y += p.vy * (1 + (700 - p.z) / 900);
+          p.sway += p.vsway;
+          p.x += p.vx + Math.sin(p.sway) * 0.55;
+          p.rot += p.vrot;
+          p.spin += p.vspin;
+
+          if (p.y - h / 2 > h * 0.75) Object.assign(p, makePetal(false));
+
+          const scale = FOCAL / (FOCAL + p.z);
+          const sx = w / 2 + p.x * scale;
+          const sy = h / 2 + p.y * scale;
+          if (sx < -80 || sx > w + 80) continue;
+
+          // Depth cues: distant petals are smaller, dimmer and softer.
+          const depth = 1 - p.z / 800;
+          const alpha = 0.20 + depth * 0.42;
+          // Foreshortening from the spin gives each petal a solid feel.
+          const squash = Math.abs(Math.cos(p.spin)) * 0.82 + 0.18;
+          const r = p.size * scale;
+
+          ctx.save();
+          ctx.translate(sx, sy);
+          ctx.rotate(p.rot);
+          ctx.scale(1, squash);
+          ctx.globalAlpha = alpha;
+          ctx.fillStyle = p.color;
+          ctx.shadowColor = 'rgba(120,50,0,0.5)';
+          ctx.shadowBlur = 7 * scale;
+
+          // Teardrop petal
+          ctx.beginPath();
+          ctx.moveTo(0, -r);
+          ctx.bezierCurveTo(r * 0.92, -r * 0.5, r * 0.62, r * 0.85, 0, r);
+          ctx.bezierCurveTo(-r * 0.62, r * 0.85, -r * 0.92, -r * 0.5, 0, -r);
+          ctx.fill();
+
+          // Centre vein catches the light
+          ctx.globalAlpha = alpha * 0.5;
+          ctx.strokeStyle = 'rgba(255,240,200,0.85)';
+          ctx.lineWidth = Math.max(0.5, r * 0.07);
+          ctx.shadowBlur = 0;
+          ctx.beginPath();
+          ctx.moveTo(0, -r * 0.75);
+          ctx.lineTo(0, r * 0.8);
+          ctx.stroke();
+          ctx.restore();
+        }
+        raf = requestAnimationFrame(draw);
+      }
+
+      function start() {
+        if (raf || paused) return;
+        raf = requestAnimationFrame(draw);
+      }
+      function stop() {
+        if (raf) { cancelAnimationFrame(raf); raf = null; }
+      }
+
+      resize(); reset(); start();
+      requestAnimationFrame(() => canvas.classList.add('lit'));
+
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => { resize(); reset(); }, 180);
+      });
+      // Don't burn frames on a tab nobody is looking at.
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) stop(); else start();
+      });
+
+      window.__petals = {
+        suspend() { paused = true; stop(); },
+        resume()  { paused = false; start(); },
+      };
+    }
+
+    /* ── Capture guard ──────────────────────────────────────────
+       html2canvas walks live computed styles, so an in-flight transform or
+       animation frame would be baked into the download. Flatten first. */
+    function setCaptureMode(on) {
+      document.body.classList.toggle('is-capturing', on);
+      if (!window.__petals) return;
+      if (on) window.__petals.suspend(); else window.__petals.resume();
+    }
+
+    /* ════════════════════════════════════════════════════════════
        RADIOGROUP BEHAVIOUR (theme + frame pickers)
 
        These are `role="radiogroup"` containers, so the options must be
@@ -4205,6 +4641,10 @@
 
       updateBannerScale();
       updatePreviewMode();
+
+      initTilt();
+      initReveal();
+      initPetals();
 
       // Register Service Worker for offline PWA support
       if ('serviceWorker' in navigator) {
