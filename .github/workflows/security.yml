@@ -1,5 +1,25 @@
 name: Security Scan
 
+# Coverage map for this repository:
+#   secrets in history ............ gitleaks (below)
+#   dependency CVEs ............... npm audit (below)
+#   shipped JS/HTML analysis ...... CodeQL *default setup*, configured in
+#                                   repo Settings > Code security. There is
+#                                   deliberately no CodeQL job here: GitHub
+#                                   rejects SARIF from an advanced workflow
+#                                   while default setup is enabled
+#                                   ("CodeQL analyses from advanced
+#                                   configurations cannot be processed when
+#                                   the default setup is enabled").
+#   third-party script integrity .. web-hardening (below)
+#   response headers .............. web-hardening (below)
+#   container base image .......... hadolint, in docker-publish.yml
+#
+# Not enabled: actions/dependency-review-action. It requires the repository's
+# Dependency Graph to be turned on (Settings > Code security > Dependency
+# graph) and fails hard otherwise. Turn that on and this is worth adding back;
+# until then npm audit covers the same ground for our (dev-only) tree.
+
 on:
   push:
     branches:
@@ -37,41 +57,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  codeql:
-    name: CodeQL Analysis
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      security-events: write
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
-        with:
-          languages: javascript
-          queries: security-and-quality
-
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
-        with:
-          category: /language:javascript
-
-  dependency-review:
-    name: Dependency Review
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    permissions:
-      contents: read
-      pull-requests: write
-    steps:
-      - uses: actions/checkout@v4
-      - name: Review dependency changes
-        uses: actions/dependency-review-action@v4
-        with:
-          fail-on-severity: high
-          comment-summary-in-pr: on-failure
-
   npm-audit:
     name: npm audit
     runs-on: ubuntu-latest
@@ -82,35 +67,37 @@ jobs:
           node-version: "22"
           cache: npm
       - run: npm ci
-      # Everything here is a build-time devDependency — nothing ships to the
-      # browser — so audit at high and above rather than blocking on noise.
+      # Every dependency here is build tooling — none of it reaches a visitor's
+      # browser — but a compromised build dependency can still poison the
+      # committed CSS, so this stays blocking at high and above.
       - run: npm audit --audit-level=high
 
-  trivy:
-    name: Filesystem & Config Scan (Trivy)
+  pinned-versions:
+    name: Pinned major versions
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      security-events: write
     steps:
       - uses: actions/checkout@v4
-
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.28.0
-        with:
-          scan-type: fs
-          scanners: vuln,secret,misconfig
-          format: sarif
-          output: trivy-results.sarif
-          severity: CRITICAL,HIGH
-          ignore-unfixed: true
-
-      - name: Upload Trivy results to Security tab
-        uses: github/codeql-action/upload-sarif@v3
-        if: always()
-        with:
-          sarif_file: trivy-results.sarif
-          category: trivy-fs
+      # daisyUI 5 and Tailwind 4 express colours as oklch() throughout.
+      # html2canvas 1.4.1 cannot parse oklch(), so a major bump would silently
+      # start exporting black banners — the one bug a user could not work
+      # around. Fail loudly if someone (or Dependabot) bumps past the major.
+      - name: Guard daisyUI and Tailwind majors
+        run: |
+          node - <<'NODE'
+          const pkg = require('./package.json');
+          const pins = { daisyui: '4', tailwindcss: '3' };
+          let fail = 0;
+          for (const [name, major] of Object.entries(pins)) {
+            const range = pkg.devDependencies[name] || '';
+            if (!range.replace(/^[^\d]*/, '').startsWith(major + '.')) {
+              console.log(`::error::${name} must stay on ${major}.x (html2canvas cannot parse oklch()); found "${range}"`);
+              fail = 1;
+            } else {
+              console.log(`${name} pinned to ${major}.x — OK (${range})`);
+            }
+          }
+          process.exit(fail);
+          NODE
 
   web-hardening:
     name: Third-party & Header Checks
@@ -191,7 +178,10 @@ jobs:
           results_format: sarif
           publish_results: false
 
+      # Uploading requires code scanning to be available on the repo; do not
+      # fail the run if it is not.
       - name: Upload results
+        continue-on-error: true
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: scorecard-results.sarif

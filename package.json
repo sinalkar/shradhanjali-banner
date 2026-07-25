@@ -20,12 +20,12 @@
     "serve": "python3 -m http.server 8080"
   },
   "devDependencies": {
-    "@eslint/js": "^9.17.0",
-    "daisyui": "^4.12.24",
-    "eslint": "^9.17.0",
-    "globals": "^15.14.0",
-    "html-validate": "^8.27.0",
+    "@eslint/js": "^10.0.1",
+    "daisyui": "4.12.24",
+    "eslint": "^10.8.0",
+    "globals": "^17.7.0",
+    "html-validate": "^11.5.6",
     "prettier": "^3.4.2",
-    "tailwindcss": "^3.4.17"
+    "tailwindcss": "3.4.19"
   }
 }

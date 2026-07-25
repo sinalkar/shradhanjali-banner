@@ -29,6 +29,7 @@ Deploying needs **no build step** — Netlify serves the files as they are in th
 ### Constraints worth knowing before editing
 
 - **Never put daisyUI classes inside `#banner` or `#bannerSocial`.** daisyUI resolves colours through `oklch()`, which html2canvas 1.4.1 cannot parse — it would render those areas black. Both elements pin an explicit `color` so nothing inherits an oklch value. daisyUI is for the surrounding form/chrome only.
+- **daisyUI stays on 4.x and Tailwind on 3.x**, pinned exactly in `package.json`. daisyUI 5 / Tailwind 4 emit `oklch()` throughout, so a major bump would start exporting black banners — the one failure a user cannot work around. A CI job (`Pinned major versions`) fails the build if either is bumped past its major.
 - **`data-theme` is the site's own light/dark attribute.** daisyUI's stock themes bind to the same attribute, so `tailwind.config.js` defines a single custom theme (`shraddha`) that emits under `:root` instead. Do not add daisyUI's built-in themes.
 - **`generateBanner()` runs on every keystroke**, so it must stay cheap and must not scroll. Use `generateBannerAndReveal()` for user-initiated regeneration that should scroll to the preview on mobile.
 - **Text colour tokens must be defined for both themes.** The FAQ/E-E-A-T section sits on `--page-bg` outside the white card; a token that is only defined for dark mode becomes invisible in light mode.
