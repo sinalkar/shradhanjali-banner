@@ -7,3 +7,12 @@ LICENSE
 node_modules
 *.log
 /tmp
+package.json
+package-lock.json
+tailwind.config.js
+eslint.config.js
+.prettierrc.json
+.prettierignore
+.htmlvalidate.json
+src
+*.md

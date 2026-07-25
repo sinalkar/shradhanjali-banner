@@ -1,31 +1,31 @@
-const CACHE_NAME = 'shradhanjali-cache-v6';
+const CACHE_NAME = 'shradhanjali-cache-v7';
 
 // Static resources to cache immediately on installation
 const PRECACHE_ASSETS = [
   './',
   './index.html',
-  './banner.html',
-  './bg_photoframe.png',
-  './sample-photo-male.png',
-  './sample-photo-female.png',
-  './frames/frame-gold-ring.png',
-  './frames/frame-marigold.png',
-  './frames/frame-pearl.png',
-  './frames/frame-lotus.png',
-  './frames/frame-silver.png',
-  './frames/frame-rose-gold.png',
-  './banner-preview.jpg',
+  './404.html',
+  './assets/daisyui.css',
   './manifest.json',
   './favicon.ico',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/favicon-32x32.png',
   './icons/favicon-16x16.png',
-  // Third-party CDNs
-  'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css',
-  'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js',
+  // Only the default frame + its picker thumbnails are needed for first paint;
+  // the other full-size frame overlays are cached on demand by the fetch handler.
+  './frames/frame-classic.webp',
+  './frames/thumb/classic.webp',
+  './frames/thumb/gold-ring.webp',
+  './frames/thumb/marigold.webp',
+  './frames/thumb/pearl.webp',
+  './frames/thumb/lotus.webp',
+  './frames/thumb/silver.webp',
+  './frames/thumb/rose-gold.webp',
+  './sample-photo-male.webp',
+  './sample-photo-female.webp',
+  // Third-party
   'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js',
-  // Google Fonts Stylesheet
   'https://fonts.googleapis.com/css2?family=Rozha+One&family=Tiro+Devanagari+Marathi:ital,wght@0,400;0,700;1,400&display=swap'
 ];
 

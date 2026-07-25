@@ -1,0 +1,9 @@
+/*
+ * Input for `npm run build:css` → assets/daisyui.css
+ *
+ * `@tailwind base` is included for daisyUI's theme custom properties only;
+ * Tailwind's preflight is disabled in tailwind.config.js.
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

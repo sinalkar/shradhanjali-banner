@@ -22,24 +22,24 @@ Open [http://localhost:8080](http://localhost:8080) in your browser.
 
 ## Features
 
-| Feature | Details |
-|---|---|
-| **Languages** | मराठी · हिन्दी · English · বাংলা · తెలుగు · தமிழ் · ગુજરાતી · ಕನ್ನಡ · മലയാളം · ਪੰਜਾਬੀ · ଓଡ଼ିଆ · اردو |
-| **Themes** | 6 handcrafted themes — Traditional, Sunset, Ocean, Classic, Golden, Lavender |
-| **Download formats** | Print · WhatsApp status (9:16) · Instagram post (1:1) · Flex print (2×3 to 6×4 ft, 72–300 DPI) |
-| **Photo frames** | Gold ornate oval frame · Optional speaker/organiser photo |
-| **Privacy** | 100% client-side — photos and data never leave the browser |
+| Feature              | Details                                                                                              |
+| -------------------- | ---------------------------------------------------------------------------------------------------- |
+| **Languages**        | मराठी · हिन्दी · English · বাংলা · తెలుగు · தமிழ் · ગુજરાતી · ಕನ್ನಡ · മലയാളം · ਪੰਜਾਬੀ · ଓଡ଼ିଆ · اردو |
+| **Themes**           | 6 handcrafted themes — Traditional, Sunset, Ocean, Classic, Golden, Lavender                         |
+| **Download formats** | Print · WhatsApp status (9:16) · Instagram post (1:1) · Flex print (2×3 to 6×4 ft, 72–300 DPI)       |
+| **Photo frames**     | Gold ornate oval frame · Optional speaker/organiser photo                                            |
+| **Privacy**          | 100% client-side — photos and data never leave the browser                                           |
 
 ---
 
 ## Available Tags
 
-| Tag | Description |
-|---|---|
-| `latest` | Latest stable build from `main` |
-| `1.x.x` | Specific release version |
-| `1.x` | Latest patch for a minor version |
-| `sha-xxxxxxx` | Exact commit build |
+| Tag           | Description                      |
+| ------------- | -------------------------------- |
+| `latest`      | Latest stable build from `main`  |
+| `1.x.x`       | Specific release version         |
+| `1.x`         | Latest patch for a minor version |
+| `sha-xxxxxxx` | Exact commit build               |
 
 ---
 
@@ -79,4 +79,4 @@ services:
 
 ---
 
-*Built with ❤️ for grieving families across India.*
+_Built with ❤️ for grieving families across India._

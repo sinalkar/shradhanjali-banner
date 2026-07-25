@@ -1,0 +1,7 @@
+node_modules/
+assets/daisyui.css
+package-lock.json
+*.min.js
+*.min.css
+sitemap.xml
+LICENSE

@@ -5,10 +5,10 @@ on:
     branches:
       - main
     paths-ignore:
-      - '**.md'                # Don't trigger releases on pure markdown/documentation changes
-      - '.gitignore'           # Don't trigger on gitignore changes
-      - 'LICENSE'              # Don't trigger on license changes
-      - '.github/workflows/**' # Don't trigger on pipeline file edits themselves to avoid loops
+      - "**.md" # Don't trigger releases on pure markdown/documentation changes
+      - ".gitignore" # Don't trigger on gitignore changes
+      - "LICENSE" # Don't trigger on license changes
+      - ".github/workflows/**" # Don't trigger on pipeline file edits themselves to avoid loops
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -28,7 +28,7 @@ jobs:
       - name: Setup Node.js Environment
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: "24"
 
       - name: Validate manifest.json Syntax
         run: |
@@ -67,9 +67,9 @@ jobs:
           name: Release ${{ steps.tagger.outputs.new_tag }}
           body: |
             ## 🌸 What's New in ${{ steps.tagger.outputs.new_tag }}
-            
+
             ${{ steps.tagger.outputs.changelog }}
-            
+
             ---
             *Automatically tagged and published by [GitHub Actions Workflow](https://github.com/${{ github.repository }}/actions).*
           draft: false
