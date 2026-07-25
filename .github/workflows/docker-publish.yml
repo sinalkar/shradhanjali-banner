@@ -5,11 +5,11 @@ on:
     branches:
       - main
     tags:
-      - 'v*.*.*'
+      - "v*.*.*"
     paths-ignore:
-      - '**.md'
-      - '.gitignore'
-      - 'LICENSE'
+      - "**.md"
+      - ".gitignore"
+      - "LICENSE"
   workflow_dispatch:
 
 concurrency:
@@ -31,7 +31,6 @@ env:
 # ─────────────────────────────────────────────────────────────────
 
 jobs:
-
   # ── GATE 1: Secrets & credential leak detection ──────────────────
   secrets-scan:
     name: Secrets Leak Scan (Gitleaks)
@@ -74,7 +73,7 @@ jobs:
 
     permissions:
       contents: read
-      packages: write    # Required for ghcr.io push via GITHUB_TOKEN
+      packages: write # Required for ghcr.io push via GITHUB_TOKEN
 
     steps:
       - name: Checkout repository
@@ -161,4 +160,4 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
           repository: ${{ env.DOCKERHUB_IMAGE }}
           readme-filepath: ./DOCKER_HUB_DESCRIPTION.md
-          short-description: "Free memorial banner generator — 12 Indian languages, 6 themes, WhatsApp/print/flex download"
+          short-description: "Free memorial banner generator — 12 Indian languages, 11 themes, WhatsApp/print/flex download"

@@ -1,0 +1,148 @@
+name: Code Quality
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint & Format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate JSON files
+        run: |
+          for f in manifest.json package.json; do
+            node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))" && echo "OK $f"
+          done
+
+      - name: Check service worker syntax
+        run: node --check sw.js
+
+      - name: Lint JavaScript
+        run: npm run lint:js
+
+      - name: Validate HTML
+        run: npm run lint:html
+
+      - name: Check formatting
+        run: npm run format:check
+
+  css-in-sync:
+    name: daisyUI CSS is in sync
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - run: npm ci
+
+      # assets/daisyui.css is committed so deploys need no build step. If someone
+      # adds a daisyUI class without rebuilding, the stylesheet silently lacks it
+      # — this rebuilds and fails when the committed output would have changed.
+      - name: Rebuild and diff
+        run: |
+          npm run build:css
+          if ! git diff --quiet -- assets/daisyui.css; then
+            echo "::error file=assets/daisyui.css::Committed CSS is stale. Run 'npm run build:css' and commit the result."
+            git diff --stat -- assets/daisyui.css
+            exit 1
+          fi
+          echo "assets/daisyui.css is up to date"
+
+  structured-data:
+    name: Structured data & SEO files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Validate JSON-LD blocks parse
+        run: |
+          node -e "
+            const fs = require('fs');
+            const html = fs.readFileSync('index.html', 'utf8');
+            const re = /<script type=\"application\/ld\+json\">([\s\S]*?)<\/script>/g;
+            let m, n = 0;
+            while ((m = re.exec(html))) {
+              JSON.parse(m[1]);
+              n++;
+            }
+            if (n === 0) throw new Error('No JSON-LD found in index.html');
+            console.log('Parsed ' + n + ' JSON-LD block(s)');
+          "
+
+      - name: Validate sitemap is well-formed XML
+        run: python3 -c "import xml.dom.minidom,sys; xml.dom.minidom.parse('sitemap.xml'); print('sitemap.xml OK')"
+
+      - name: Check required SEO files exist
+        run: |
+          for f in robots.txt sitemap.xml llms.txt _headers 404.html manifest.json; do
+            test -f "$f" || { echo "::error::Missing $f"; exit 1; }
+            echo "OK $f"
+          done
+
+  page-weight:
+    name: Page weight budget
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # The audience is largely on mobile data; regressions here are the single
+      # biggest risk to Core Web Vitals. Budget covers what a first visit pulls.
+      - name: Enforce budget
+        run: |
+          BUDGET_KB=900
+          total=0
+          for f in index.html assets/daisyui.css sample-photo-male.webp \
+                   frames/frame-classic.webp frames/thumb/*.webp; do
+            [ -f "$f" ] || continue
+            size=$(( $(stat -c%s "$f") / 1024 ))
+            total=$(( total + size ))
+            printf '%6s KB  %s\n' "$size" "$f"
+          done
+          echo "----------------------------"
+          printf '%6s KB  TOTAL (budget %s KB)\n' "$total" "$BUDGET_KB"
+          if [ "$total" -gt "$BUDGET_KB" ]; then
+            echo "::error::First-load budget exceeded: ${total}KB > ${BUDGET_KB}KB"
+            exit 1
+          fi
+
+      - name: Fail on oversized images
+        run: |
+          fail=0
+          while IFS= read -r img; do
+            size=$(( $(stat -c%s "$img") / 1024 ))
+            if [ "$size" -gt 250 ]; then
+              echo "::error file=$img::$img is ${size}KB (limit 250KB) — re-encode or resize"
+              fail=1
+            fi
+          done < <(find . -path ./node_modules -prune -o \
+                     \( -name '*.png' -o -name '*.jpg' -o -name '*.webp' \) -print)
+          exit $fail

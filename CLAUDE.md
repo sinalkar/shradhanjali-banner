@@ -4,48 +4,67 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-A static memorial/tribute banner generator web app for Marathi/Hindi-speaking users. It renders a customizable funeral announcement banner in the browser and allows download as a JPG image. Deployed at `https://shradhanjalibanner.in/`.
+A static memorial/tribute banner generator web app for Indian families, with a UI in 12 languages (Marathi default). It renders a customizable funeral announcement banner in the browser and allows download as a JPG image. Deployed at `https://shradhanjalibanner.in/`.
 
-No build system, no dependencies to install — just static HTML files served directly (Netlify).
+Deploying needs **no build step** — Netlify serves the files as they are in the repo. There is a small optional build (`npm run build:css`) that regenerates the committed daisyUI stylesheet; see below.
 
 ## Files
 
-- **[index.html](index.html)** — The primary production page (~555 lines). Full-featured generator with Bootstrap 5, Google Fonts (Rozha One, Tiro Devanagari Marathi), and html2canvas for download.
-- **[banner.html](banner.html)** — A simpler, earlier prototype using an HTML5 `<canvas>` element directly (no html2canvas). Useful as a reference for the canvas-based approach.
-- **[bg_photoframe.png](bg_photoframe.png)** — Decorative photo frame overlay used in the banner preview.
-- **[banner-preview.jpg](banner-preview.jpg)** — OG/Twitter card image referenced in meta tags.
-- **[sitemap.xml](sitemap.xml)** / **[robots.txt](robots.txt)** — SEO files pointing to `https://shradhanjalibanner.in/`.
+- **[index.html](index.html)** — The primary production page. Self-contained single-page app: inline CSS, inline JS, inline translations for 12 languages.
+- **[assets/daisyui.css](assets/daisyui.css)** — **Generated, committed.** Tree-shaken daisyUI build. Do not hand-edit; run `npm run build:css`.
+- **[src/daisyui.css](src/daisyui.css)** / **[tailwind.config.js](tailwind.config.js)** — Input + config for that build.
+- **[banner.html](banner.html)** — Frozen early prototype using a raw `<canvas>`. `noindex`, disallowed in robots.txt. Reference only.
+- **[frames/](frames/)** — Photo-frame overlays (`frame-*.webp`, ~960px) and `thumb/*.webp` (128px) for the picker. Keep the two in sync.
+- **[404.html](404.html)**, **[_headers](_headers)** — Netlify error page and cache/security headers.
+- **[sitemap.xml](sitemap.xml)** / **[robots.txt](robots.txt)** / **[llms.txt](llms.txt)** — SEO and AI-crawler discovery files.
 
 ## Architecture
 
-`index.html` is a single-page app with no framework:
+`index.html` is a single-page app with no runtime framework:
 
-1. **Form inputs** (left column) — collect name, age, death date, message, ceremony details, family members, and a color theme selector.
-2. **Live banner preview** (`#banner` div) — a styled HTML div (not canvas) that updates immediately via `generateBanner()`. The photo frame uses `bg_photoframe.png` as an overlay.
-3. **Download** — `html2canvas` (loaded from CDN) captures the `#banner` div at 2.5× scale and saves it as `memorial-banner.jpg`.
+1. **Form inputs** (left column) — name, age, death date, message, ceremony details, family members.
+2. **Live banner preview** (`#banner` div) — a styled HTML div (not canvas). Every field has a debounced `input` listener, so the preview always matches what will download.
+3. **Download** — `html2canvas` (CDN, SRI-pinned) captures `#banner` (or the offscreen `#bannerSocial` card for 9:16 / 1:1 formats) and saves a JPG.
+
+### Constraints worth knowing before editing
+
+- **Never put daisyUI classes inside `#banner` or `#bannerSocial`.** daisyUI resolves colours through `oklch()`, which html2canvas 1.4.1 cannot parse — it would render those areas black. Both elements pin an explicit `color` so nothing inherits an oklch value. daisyUI is for the surrounding form/chrome only.
+- **`data-theme` is the site's own light/dark attribute.** daisyUI's stock themes bind to the same attribute, so `tailwind.config.js` defines a single custom theme (`shraddha`) that emits under `:root` instead. Do not add daisyUI's built-in themes.
+- **`generateBanner()` runs on every keystroke**, so it must stay cheap and must not scroll. Use `generateBannerAndReveal()` for user-initiated regeneration that should scroll to the preview on mobile.
+- **Text colour tokens must be defined for both themes.** The FAQ/E-E-A-T section sits on `--page-bg` outside the white card; a token that is only defined for dark mode becomes invisible in light mode.
 
 ### Theme system
 
-`applyTheme(selectedTheme)` in the script switches CSS variables on the banner div. Four themes: `traditional`, `sunset`, `ocean`, `classic`. Each theme object defines banner background, text colors, and whether decorative flowers are shown.
+`applyTheme(themeName)` switches CSS variables on the banner div. Eleven themes: `traditional`, `marigold`, `sunset`, `saffron`, `tulsi`, `rose`, `ocean`, `lavender`, `golden`, `ivory`, `classic`.
 
 ### Photo handling
 
-User uploads via `<input type="file" id="mainPhoto">`. A `FileReader` reads it as a data URL and sets it as the `src` of `#mainPhotoPreview` inside the frame. `html2canvas` uses `useCORS: true` to handle the data URL during capture.
+User uploads via `<input type="file" id="mainPhoto">`. A `FileReader` reads it as a data URL and sets it as the `src` of `#mainPhotoPreview`. Nothing is uploaded to a server. Typed details are persisted to `localStorage` under `shradhDraft`.
 
 ## Development
 
-Open `index.html` directly in a browser — no server needed for local editing. For download functionality, serve over HTTP since html2canvas can behave differently with `file://` protocol:
-
 ```bash
-python3 -m http.server 8080
+npm install          # dev tooling only — nothing ships to the browser
+npm run serve        # http://localhost:8080
 ```
 
-Then open `http://localhost:8080/index.html`.
+Serve over HTTP rather than opening the file directly; html2canvas behaves differently under `file://`.
 
-## Key CDN dependencies (no local npm)
+```bash
+npm run build:css    # regenerate assets/daisyui.css after changing daisyUI classes
+npm run lint:js      # eslint (sw.js + build config)
+npm run lint:html    # html-validate
+npm run format       # prettier
+```
 
-- Bootstrap 5.3.3
-- html2canvas (loaded inline via CDN script tag in index.html)
+CI enforces that `assets/daisyui.css` matches a fresh build, so commit it whenever you add a daisyUI class.
+
+### Page-weight budget
+
+CI fails if the first-load set exceeds 900 KB or any single image exceeds 250 KB. The audience is largely on mobile data — encode images as WebP and keep frame overlays around 960px wide.
+
+## Runtime dependencies
+
+- html2canvas 1.4.1 — CDN, SRI-pinned (update the `integrity` hash if the version changes)
 - Google Fonts: Rozha One, Tiro Devanagari Marathi
-
-
+- daisyUI 4.x — self-hosted, tree-shaken, committed at `assets/daisyui.css`

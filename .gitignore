@@ -22,3 +22,9 @@ Thumbs.db
 mama.jpg
 photo-2024-11-10-09-42-39.jpg
 cf60c3a0-bdb1-4dd6-a98b-c856ecc8cf3e.jpg
+
+# Node build tooling (devDependencies only — nothing ships to the browser).
+# assets/daisyui.css IS committed so deploys need no build step.
+node_modules/
+npm-debug.log*
+*.sarif

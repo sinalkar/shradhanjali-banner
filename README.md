@@ -11,7 +11,7 @@
 
 ## 🌸 Overview
 
-**श्रद्धांजलि बॅनर** helps grieving families and print shop operators create customized, high-quality printable and shareable memorial announcement banners (भावपूर्ण श्रद्धांजली बॅनर) within minutes. 
+**श्रद्धांजलि बॅनर** helps grieving families and print shop operators create customized, high-quality printable and shareable memorial announcement banners (भावपूर्ण श्रद्धांजली बॅनर) within minutes.
 
 Built with deep cultural reverence for Maharashtrian rituals, the application features Devanagari-first typography, devotional color palettes (anchored around warm marigolds, ritual parchment, and deep plums), and runs entirely in the browser.
 
@@ -31,7 +31,7 @@ Built with deep cultural reverence for Maharashtrian rituals, the application fe
   - Full UI localization and native canvas generation in **मराठी (Marathi)**, **हिन्दी (Hindi)**, **English**, **বাংলা (Bengali)**, **తెలుగు (Telugu)**, **தமிழ் (Tamil)**, **ગુજરાતી (Gujarati)**, **ಕನ್ನಡ (Kannada)**, **മലയാളം (Malayalam)**, **ਪੰਜਾਬੀ (Punjabi)**, **ଓଡ଼ିଆ (Odia)**, and **اردو (Urdu)**.
 
 - **🖼️ Photo Frames & Overlays:**
-  - Support for single or dual photo uploads with a beautiful, traditional gold-border photo frame overlay (`bg_photoframe.png`).
+  - Support for single or dual photo uploads with a choice of 7 decorative photo frame overlays (`frames/frame-*.webp`).
 
 - **📱 Multiple Export Formats & Dimensions:**
   - **Standard Print Banner:** Landscape format for printing.
@@ -59,7 +59,8 @@ This system is built around a warm, respectful visual vocabulary representing th
 This is a pure static single-page web application (SPA) with **no heavy modern build tools or Node.js frameworks**, designed for instant loading, high durability, and simple hosting.
 
 - **Core:** Semantic HTML5, CSS3 Custom Properties (CSS variables) for immediate theme switching, and Vanilla JavaScript.
-- **Styling:** Bootstrap 5.3.3 grid classes (primarily used for form grouping and structural capture layout within `html2canvas`).
+- **Styling:** Hand-written CSS design system, plus [daisyUI](https://daisyui.com) for form controls, the FAQ accordion, toasts and progress. daisyUI is self-hosted and tree-shaken to only the components in use (`assets/daisyui.css`, ~48 KB), rebuilt with `npm run build:css`.
+  daisyUI classes are deliberately kept **outside** `#banner`/`#bannerSocial`: daisyUI resolves colours via `oklch()`, which html2canvas 1.4.1 cannot parse and would render as black in the exported JPG.
 - **Typography:** Google Fonts (`Rozha One` & `Tiro Devanagari Marathi`).
 - **Rendering/Export:** `html2canvas` (loaded via CDN) captures the active `#banner` DOM element at a custom scale multiplier (e.g. 2.5x for high resolution) and triggers a browser download.
 - **Analytics:** Minimal privacy-compliant Google Analytics tag.
@@ -71,25 +72,27 @@ This is a pure static single-page web application (SPA) with **no heavy modern b
 Because this project is a serverless static web application, local setup requires no installation or package managers:
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/sinalkar/shradhanjali-banner.git
    cd shradhanjali-banner
    ```
 
 2. Start a local HTTP server (highly recommended, as `html2canvas` blocklists direct `file://` protocols for canvas image security):
-   
+
    Using **Python 3**:
+
    ```bash
    python3 -m http.server 8080
    ```
-   
+
    Using **Node / npx**:
+
    ```bash
    npx serve .
    ```
 
 3. Open [http://localhost:8080](http://localhost:8080) in your web browser.
-
 
 ---
 
@@ -103,4 +106,4 @@ Copyright (c) 2026 Sanjay Sinalkar
 
 ---
 
-*For queries, issues, or contributions, please feel free to open a pull request or get in touch.*
+_For queries, issues, or contributions, please feel free to open a pull request or get in touch._

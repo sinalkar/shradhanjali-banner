@@ -1,42 +1,52 @@
-# श्रद्धांजलि बॅनर
+# श्रद्धांजलि बॅनर (Shradhanjali Banner)
 
-> Free online memorial banner generator supporting 12 major Indian languages — for families across Maharashtra and all Indian regions.
+> Free online memorial/tribute banner generator supporting 12 major Indian languages — for families across Maharashtra and all Indian regions. No account, no watermark, no cost, and no data ever leaves the device.
 
 ## What this site does
 
-Creates customizable funeral/memorial announcement banners that families can download and print or share digitally. The user fills in details — deceased name, age, date of passing, ceremony location, family members — and a formatted banner image is generated entirely in the browser and downloaded as a JPG. The full UI (labels, buttons, banner output text) switches language instantly without a page reload.
+Creates customizable funeral and memorial announcement banners that families can print or share digitally. The user fills in details — deceased name, age, date of passing, ceremony location, family members — and a formatted banner image is generated entirely in the browser and downloaded as a JPG. The preview updates live as the user types. The full UI (labels, buttons, banner output text) switches language instantly without a page reload.
 
 ## Key features
 
-- 6 visual banner themes (परंपरागत / Traditional, सूर्यास्त / Sunset, सागर / Ocean, क्लासिक / Classic, सोने / Golden, आकाश / Lavender)
+- **11 visual banner themes:** परंपरागत (Traditional), झेंडू (Marigold), सूर्यास्त (Sunset), केशरी (Saffron), तुळस (Tulsi), गुलाब (Rose), सागर (Ocean), आकाश (Lavender), सोने (Golden), हस्तिदंत (Ivory), क्लासिक (Classic)
+- **7 decorative photo frames:** Classic, Gold ring, Marigold, Pearl, Lotus, Silver, Rose & gold
 - **12 Indian language UI:** मराठी (Marathi, default), हिन्दी (Hindi), English, বাংলা (Bengali), తెలుగు (Telugu), தமிழ் (Tamil), ગુજરાતી (Gujarati), ಕನ್ನಡ (Kannada), മലയാളം (Malayalam), ਪੰਜਾਬੀ (Punjabi), ଓଡ଼ିଆ (Odia), اردو (Urdu)
-- Language preference persists across sessions (localStorage)
-- Photo upload with decorative gold frame overlay; optional second photo for speaker/organizer
+- Live preview that updates as you type
+- Photo upload with decorative frame overlay; optional second photo for the speaker/organizer
+- Language preference and in-progress drafts persist locally (localStorage), with a "Clear form" button
+- Direct share to WhatsApp and other apps via the Web Share API where supported
+- Animated video export for WhatsApp status (where the browser supports MediaRecorder)
+- Installable PWA — works fully offline after the first visit
 - Multiple download formats:
   - Standard print banner (landscape)
   - WhatsApp status (9:16 portrait, 1080×1920)
   - Instagram story (9:16 portrait, 1080×1920)
   - Instagram post (1:1 square, 1080×1080)
   - Flex print (2×3, 3×4, 4×6, 6×4 ft at 72/150/300 DPI)
-- Completely free, no account, no data stored on server
+
+## Privacy
+
+All image generation and data processing happens in the visitor's browser. There is no backend server. Uploaded photos are read with the HTML5 FileReader API and never transmitted. Typed details are stored only in the visitor's own localStorage so a refresh does not lose their work, and can be erased with the "Clear form" button. The only third-party request is Google Analytics (G-67SQSS4D5L) plus Google Fonts and the html2canvas CDN.
 
 ## Audience
 
-Indian families across all regions — Marathi, Hindi, Bengali, Telugu, Tamil, Gujarati, Kannada, Malayalam, Punjabi, Odia, and Urdu speaking — who need to create memorial announcement banners (श्रद्धांजलि बॅनर) for religious ceremonies: दशक्रिया, अंत्यसंस्कार, shradhanjali programmes, punyatithi.
+Indian families across all regions — Marathi, Hindi, Bengali, Telugu, Tamil, Gujarati, Kannada, Malayalam, Punjabi, Odia and Urdu speaking — who need to create memorial announcement banners (श्रद्धांजलि बॅनर) for religious ceremonies: दशक्रिया विधी, अंत्यसंस्कार, shradhanjali programmes, punyatithi.
 
 ## Common search terms this serves
 
-श्रद्धांजलि बॅनर, शोक संदेश बॅनर, अंत्यसंस्कार बॅनर, nidhan banner generator, dasagriya banner, diwangat banner, free marathi memorial banner, shraddhanjali banner online, Bengali shradhanjali card, Telugu memorial banner, Tamil funeral card, Gujarati shradhanjali poster, 12 language memorial banner India
+श्रद्धांजलि बॅनर, शोक संदेश बॅनर, अंत्यसंस्कार बॅनर, shradhanjali card maker, shradhanjali photo kaise banaye, rip card creator, punyatithi card creation, death anniversary card, funeral card design, memorial card creator, nidhan banner generator, dashkriya banner, free marathi memorial banner, Bengali shradhanjali card, Telugu memorial banner, Tamil funeral card, Gujarati shradhanjali poster
 
 ## Technical
 
 - Static single-page application, hosted on Netlify
-- Client-side only image generation using html2canvas library
-- No backend, no cookies, no analytics beyond Google Tag (G-67SQSS4D5L)
-- Bootstrap 5 grid used only inside the banner element for layout capture
+- Client-side only image generation using the html2canvas library
+- No backend, no cookies beyond Google Analytics
+- UI components from daisyUI, self-hosted and tree-shaken (`assets/daisyui.css`, ~48 KB)
 - Fonts: Rozha One (display), Tiro Devanagari Marathi (body) via Google Fonts
+- Service worker (`sw.js`) provides offline support
 
 ## URLs
 
 - Main app: https://shradhanjalibanner.in/
 - Sitemap: https://shradhanjalibanner.in/sitemap.xml
+- Source: https://github.com/sinalkar/shradhanjali-banner

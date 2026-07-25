@@ -2,6 +2,8 @@ User-agent: *
 Allow: /
 Disallow: /cgi-bin/
 Disallow: /tmp/
+# Early prototype kept for reference only — not the production app
+Disallow: /banner.html
 
 # Allow search engines to crawl all content
 User-agent: Googlebot

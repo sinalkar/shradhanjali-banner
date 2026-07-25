@@ -7,6 +7,10 @@ on:
   pull_request:
     branches:
       - main
+  schedule:
+    # Weekly re-scan so newly disclosed CVEs surface without a push.
+    - cron: "0 4 * * 1"
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -14,6 +18,9 @@ concurrency:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+permissions:
+  contents: read
 
 jobs:
   gitleaks:
@@ -29,3 +36,163 @@ jobs:
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  codeql:
+    name: CodeQL Analysis
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+          queries: security-and-quality
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: /language:javascript
+
+  dependency-review:
+    name: Dependency Review
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Review dependency changes
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high
+          comment-summary-in-pr: on-failure
+
+  npm-audit:
+    name: npm audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      # Everything here is a build-time devDependency — nothing ships to the
+      # browser — so audit at high and above rather than blocking on noise.
+      - run: npm audit --audit-level=high
+
+  trivy:
+    name: Filesystem & Config Scan (Trivy)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: fs
+          scanners: vuln,secret,misconfig
+          format: sarif
+          output: trivy-results.sarif
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+
+      - name: Upload Trivy results to Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: trivy-results.sarif
+          category: trivy-fs
+
+  web-hardening:
+    name: Third-party & Header Checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # grep cannot see tags that span lines, so parse the markup instead —
+      # a multi-line <script> tag would otherwise slip through unchecked.
+      - name: Require SRI, safe external links and security headers
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          let fail = 0;
+          const html = fs.readFileSync('index.html', 'utf8');
+
+          // 1. Remote scripts must be integrity-pinned. A compromised CDN would
+          //    otherwise run arbitrary code while families type names and
+          //    upload photographs. gtag.js is generated per request and has no
+          //    stable hash, so it is exempt by necessity — any NEW exemption
+          //    belongs here with a justification.
+          const EXEMPT = [/googletagmanager\.com/];
+          for (const tag of html.match(/<script\b[^>]*>/gs) || []) {
+            if (!/src\s*=\s*"https:/.test(tag)) continue;
+            if (EXEMPT.some((re) => re.test(tag))) {
+              console.log('SRI skipped (no stable hash): gtag.js');
+              continue;
+            }
+            if (!/integrity\s*=/.test(tag) || !/crossorigin/.test(tag)) {
+              console.log(`::error::Remote script without integrity+crossorigin: ${tag.slice(0, 120)}`);
+              fail = 1;
+            } else {
+              console.log('SRI present:', (tag.match(/src="([^"]+)"/) || [])[1]);
+            }
+          }
+
+          // 2. target=_blank without rel=noopener hands the opener window to
+          //    the destination page (reverse tabnabbing).
+          for (const tag of html.match(/<a\b[^>]*>/gs) || []) {
+            if (/target\s*=\s*"_blank"/.test(tag) && !/noopener/.test(tag)) {
+              console.log(`::error::target=_blank without rel=noopener: ${tag.slice(0, 120)}`);
+              fail = 1;
+            }
+          }
+          console.log('External links checked.');
+
+          // 3. Required response headers must be declared for Netlify.
+          const headers = fs.readFileSync('_headers', 'utf8');
+          for (const h of ['X-Content-Type-Options', 'X-Frame-Options', 'Referrer-Policy',
+                           'Content-Security-Policy', 'Permissions-Policy']) {
+            if (!headers.includes(h)) {
+              console.log(`::error::_headers missing ${h}`);
+              fail = 1;
+            }
+          }
+          console.log('Security headers checked.');
+
+          process.exit(fail);
+          NODE
+
+  scorecard:
+    name: OSSF Scorecard
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event_name == 'schedule'
+    permissions:
+      contents: read
+      security-events: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Run analysis
+        uses: ossf/scorecard-action@v2.4.0
+        with:
+          results_file: scorecard-results.sarif
+          results_format: sarif
+          publish_results: false
+
+      - name: Upload results
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: scorecard-results.sarif
+          category: scorecard
