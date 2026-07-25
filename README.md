@@ -4,10 +4,10 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![100% Free](https://img.shields.io/badge/Cost-100%25_Free-brightgreen)](https://shradhanjalibanner.in/)
 [![100% Private](https://img.shields.io/badge/Privacy-100%25_Browser_Local-blue)](https://shradhanjalibanner.in/)
-[![12 Languages](https://img.shields.io/badge/Languages-12_Indian_Languages-orange)](https://shradhanjalibanner.in/)
+[![12 Languages](https://img.shields.io/badge/Languages-11_Indian_Languages-orange)](https://shradhanjalibanner.in/)
 
-> **विनामूल्य श्रद्धांजलि बॅनर जनरेटर** — १२ प्रमुख भारतीय भाषांमध्ये भावपूर्ण बॅनर तयार करा.
-> A free, respectful, privacy-first online memorial and funeral tribute banner creator supporting 12 major Indian languages with instant HD downloads.
+> **विनामूल्य श्रद्धांजलि बॅनर जनरेटर** — ११ प्रमुख भारतीय भाषांमध्ये भावपूर्ण बॅनर तयार करा.
+> A free, respectful, privacy-first online memorial and funeral tribute banner creator supporting 11 major Indian languages with instant HD downloads.
 
 ---
 
@@ -22,7 +22,7 @@ Built with deep cultural reverence for traditional Maharashtrian & Indian ritual
 ## ✨ Features & Highlights
 
 ### 🌐 1. 12 Major Indian Languages with Automatic Prefill
-- Supports full native language generation across **12 Indian languages**:
+- Supports full native language generation across **11 Indian languages**:
   - 🇲🇷 **मराठी (Marathi)**: *भावपूर्ण श्रद्धांजली बॅनर*
   - 🇮🇳 **हिन्दी (Hindi)**: *भावपूर्ण श्रद्धांजलि बैनर*
   - 🇬🇧 **English**: *Memorial Tribute Banner*
@@ -34,7 +34,6 @@ Built with deep cultural reverence for traditional Maharashtrian & Indian ritual
   - 🇮🇳 **മലയാളം (Malayalam)**: *ഹൃദയംഗമമായ ആദരാഞ്ജലി ബാനർ*
   - 🇮🇳 **ਪੰਜਾਬੀ (Punjabi)**: *ਭਾਵਪੂਰਤ ਸ਼ਰਧਾਂਜਲੀ ਬੈਨਰ*
   - 🇮🇳 **ଓଡ଼ିଆ (Odia)**: *ଭାବପୂର୍ଣ୍ଣ ଶ୍ରଦ୍ଧାଞ୍ଜଳି ବ୍ୟାନର*
-  - 🇮🇳 **اردو (Urdu)**: *خراجِ عقیدت تعزیتی بینر*
 - **Instant Translation & Auto-Prefill**: Switching language dropdowns automatically translates header titles, form placeholders, ritual quotes (*दशक्रिया विधी*, *श्रद्धांजलि सभा*, *Condolence Meet*), and sample profile data into the chosen native script.
 
 ---
