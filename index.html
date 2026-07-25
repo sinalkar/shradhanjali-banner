@@ -1109,6 +1109,9 @@
         font-style: italic; font-weight: 700; font-size: 24px; line-height: 1.5;
         color: var(--bn-mem); background: var(--bn-mem-bg);
         border-radius: 10px; padding: 6px 10px;
+        /* The text is set with textContent (not <br> in innerHTML), so the
+           author's line breaks are preserved by the style instead. */
+        white-space: pre-line;
     }
     .ceremony-title {
         font-family: 'Rozha One', serif; font-size: 46px; line-height: 1.05;
@@ -3184,6 +3187,35 @@
     ════════════════════════════════════════════════════════════ */
     function val(id) { return document.getElementById(id).value; }
 
+    /* ── SAFE DOM BUILDERS ───────────────────────────────────────
+       These blocks used to be assembled as HTML strings and assigned to
+       innerHTML with the form values interpolated in. Anything a user typed —
+       a name containing "<", or a pasted string — was parsed as markup, which
+       is both an injection sink and a rendering bug. Drafts now persist in
+       localStorage too, so a broken value would survive a reload. Building
+       the nodes and setting textContent keeps the same output with no parsing.
+    ──────────────────────────────────────────────────────────── */
+    function divWithText(className, text) {
+      const el = document.createElement('div');
+      el.className = className;
+      el.textContent = text;
+      return el;
+    }
+
+    function renderCeremonyBlock(host, cDate, cTime, cPlace) {
+      host.replaceChildren(
+        divWithText('ceremony-ritual', t('banner.ritual')),
+        divWithText('ceremony-line', t('banner.heldOn', cDate, cTime)),
+        divWithText('ceremony-line', t('banner.heldAt', cPlace.replace(/\n/g, ' ')))
+      );
+    }
+
+    function renderMemberList(host, members) {
+      host.replaceChildren(
+        ...members.map(m => divWithText('family-member-item', m.trim()))
+      );
+    }
+
     function generateBanner() {
       const selectedTheme = document.getElementById('colorTheme').value;
       applyTheme(selectedTheme);
@@ -3206,16 +3238,12 @@
       document.getElementById('nameDisplay').textContent      = fullName;
       document.getElementById('ageDisplay').textContent       = ageLine;
       document.getElementById('deathInfoDisplay').textContent = deathLine;
-      document.getElementById('memorialDisplay').innerHTML    = val('memorialText').replace(/\n/g, '<br>');
+      document.getElementById('memorialDisplay').textContent  = val('memorialText');
       document.getElementById('ceremonyTitleDisplay').textContent = cTitle;
       document.getElementById('villageInfoDisplay').textContent   = t('banner.bereaved');
       document.getElementById('villageInfoDisplay2').textContent  = val('villageInfo');
 
-      const ceremonyHTML =
-        `<div class="ceremony-ritual">${t('banner.ritual')}</div>` +
-        `<div class="ceremony-line">${t('banner.heldOn', cDate, cTime)}</div>` +
-        `<div class="ceremony-line">${t('banner.heldAt', cPlace.replace(/\n/g, ' '))}</div>`;
-      document.getElementById('ceremonyDetailsDisplay').innerHTML = ceremonyHTML;
+      renderCeremonyBlock(document.getElementById('ceremonyDetailsDisplay'), cDate, cTime, cPlace);
       document.getElementById('organizerDisplay').textContent = organizer;
 
       const members = val('familyMembers').split('\n').filter(m => m.trim());
@@ -3223,20 +3251,15 @@
       const leftMembers = members.slice(0, half);
       const rightMembers = members.slice(half);
 
-      document.getElementById('familyLeftDisplay').innerHTML =
-        leftMembers.map(m => `<div class="family-member-item">${m.trim()}</div>`).join('');
-      document.getElementById('familyRightDisplay').innerHTML =
-        rightMembers.map(m => `<div class="family-member-item">${m.trim()}</div>`).join('');
+      renderMemberList(document.getElementById('familyLeftDisplay'), leftMembers);
+      renderMemberList(document.getElementById('familyRightDisplay'), rightMembers);
 
       /* ── compact social card (essential info only) ── */
       document.getElementById('socialName').textContent  = fullName;
       document.getElementById('socialAge').textContent   = ageLine;
       document.getElementById('socialDeath').textContent = deathLine;
       document.querySelector('.bs-eyebrow').textContent  = t('social.eyebrow');
-      document.getElementById('socialCer').innerHTML =
-        `<div class="ceremony-ritual">${t('banner.ritual')}</div>` +
-        `<div class="ceremony-line">${t('banner.heldOn', cDate, cTime)}</div>` +
-        `<div class="ceremony-line">${t('banner.heldAt', cPlace.replace(/\n/g, ' '))}</div>`;
+      renderCeremonyBlock(document.getElementById('socialCer'), cDate, cTime, cPlace);
 
       // Keep the inline social preview in sync when a social format is active
       if (typeof updateSocialScale === 'function' &&
@@ -4041,9 +4064,11 @@
     function showToast(message, kind = 'info') {
       const host = document.getElementById('toastHost');
       if (!host) return;
-      host.innerHTML =
-        '<div class="alert alert-' + kind + ' shadow-lg"><span></span></div>';
-      host.querySelector('span').textContent = message;
+      const alert = document.createElement('div');
+      alert.className = 'alert alert-' + kind + ' shadow-lg';
+      alert.append(document.createElement('span'));
+      alert.firstChild.textContent = message;
+      host.replaceChildren(alert);
       host.hidden = false;
       clearTimeout(toastTimer);
       toastTimer = setTimeout(() => { host.hidden = true; }, 3200);
