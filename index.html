@@ -121,17 +121,17 @@
           "creator": {
             "@type": "Person",
             "@id": "https://sinalkar.com/#person",
-            "name": "Sanjay Sinalkar",
+            "name": "Sanjay Jadhav",
             "url": "https://sinalkar.com"
           }
         },
         {
           "@type": "Person",
           "@id": "https://sinalkar.com/#person",
-          "name": "Sanjay Sinalkar",
+          "name": "Sanjay Jadhav",
           "url": "https://sinalkar.com",
           "jobTitle": "Software Engineer & Creator",
-          "description": "Sanjay Sinalkar is a software developer focused on building free, privacy-first web utilities and community-focused applications."
+          "description": "Sanjay Jadhav is a software developer focused on building free, privacy-first web utilities and community-focused applications."
         },
         {
           "@type": "FAQPage",
@@ -2351,6 +2351,52 @@
       }
     }
 
+    /* ── Banner internal 3D layer depth ────────────────────────── */
+    .banner {
+      transform-style: preserve-3d;
+    }
+
+    .banner .floral {
+      transform: translateZ(24px);
+    }
+
+    .banner .banner-lamp {
+      transform: translateZ(36px);
+    }
+
+    .banner-head {
+      transform-style: preserve-3d;
+      transform: translateZ(48px);
+    }
+
+    .main-text {
+      transform: translateZ(22px);
+      text-shadow: 0 14px 28px rgba(0, 0, 0, 0.22), 0 2px 4px rgba(0, 0, 0, 0.12);
+    }
+
+    .banner-mid {
+      transform-style: preserve-3d;
+      transform: translateZ(40px);
+    }
+
+    .photo-frame-container {
+      transform-style: preserve-3d;
+      transform: translateZ(28px);
+      transition: transform 0.4s var(--spring);
+    }
+
+    .photo-frame-container:hover {
+      transform: translateZ(45px) scale(1.03);
+    }
+
+    .ceremony-title {
+      transform: translateZ(16px);
+    }
+
+    .banner-foot {
+      transform: translateZ(26px);
+    }
+
     /* ── Theme + frame swatches: real depth ───────────────────── */
     .theme-swatches,
     .frame-swatches {
@@ -2475,7 +2521,16 @@
     }
 
     body.is-capturing .banner-tilt,
-    body.is-capturing .header-inner {
+    body.is-capturing .header-inner,
+    body.is-capturing .banner,
+    body.is-capturing .banner-head,
+    body.is-capturing .main-text,
+    body.is-capturing .banner-mid,
+    body.is-capturing .photo-frame-container,
+    body.is-capturing .ceremony-title,
+    body.is-capturing .banner-foot,
+    body.is-capturing .banner-lamp,
+    body.is-capturing .floral {
       transform: none !important;
       animation: none !important;
       transition: none !important;
@@ -2644,7 +2699,7 @@
       </div>
       <div class="header-inner">
         <div class="header-mantra" aria-hidden="true">॥ श्री ॥</div>
-        <h1>श्रद्धांजलि बॅनर</h1>
+        <h1 data-i18n="heading.title">श्रद्धांजलि बॅनर</h1>
         <p class="header-sub" data-i18n="heading.subtitle">स्मारक बॅनर जनरेटर</p>
         <div class="header-divider" aria-hidden="true"></div>
       </div>
@@ -2689,8 +2744,8 @@
             </div>
             <div class="field-group">
               <label for="name" class="field-label" data-i18n="label.name">नाव</label>
-              <input type="text" class="field-input" id="name" placeholder="भगवान जनाजी रामाणे"
-                value="भगवान जनाजी रामाणे" data-i18n-ph="ph.name">
+              <input type="text" class="field-input" id="name" placeholder="भगवान जनाजी शिंदे"
+                value="भगवान जनाजी शिंदे" data-i18n-ph="ph.name">
             </div>
             <div class="field-group">
               <label for="age" class="field-label" data-i18n="label.age">वय</label>
@@ -2758,17 +2813,17 @@
             <div class="field-group">
               <label for="familyMembers" class="field-label" data-i18n="label.family">कुटुंब / शोकाकुल सदस्य</label>
               <textarea class="field-textarea" id="familyMembers" rows="6"
-                placeholder="श्रीमती. शोभा भगवान रामाणे (पत्नी)..." data-i18n-ph="ph.family">श्रीमती. शोभा भगवान रामाणे (पत्नी)
-श्री. मधुर भगवान रामाणे (मुलगा)
-श्री. ज्ञानेश्वर जनाजी रामाणे (भाऊ)
-श्री. गोपीनाथ जनाजी रामाणे (भाऊ)
-सौ. अलका दत्तात्रय सिनलकर (बहीण)
-श्री. निलेश निवृत्ती रामाणे (पुतण्या)
-श्री. मनोज भगवान रामाणे (मुलगा)
+                placeholder="श्रीमती. शोभा भगवान शिंदे (पत्नी)..." data-i18n-ph="ph.family">श्रीमती. शोभा भगवान शिंदे (पत्नी)
+श्री. मधुर भगवान शिंदे (मुलगा)
+श्री. ज्ञानेश्वर जनाजी शिंदे (भाऊ)
+श्री. गोपीनाथ जनाजी शिंदे (भाऊ)
+सौ. अलका दत्तात्रय जाधव (बहीण)
+श्री. निलेश निवृत्ती शिंदे (पुतण्या)
+श्री. मनोज भगवान शिंदे (मुलगा)
 सौ. माधुरी अक्षय खेडकर (मुलगी)
-श्री. सत्यवान निवृत्ती रामाणे (पुतण्या)
+श्री. सत्यवान निवृत्ती शिंदे (पुतण्या)
 श्री. अक्षय मोहन खेडकर (जावई)
-श्री. विशाल गोपीनाथ रामाणे (पुतण्या)</textarea>
+श्री. विशाल गोपीनाथ शिंदे (पुतण्या)</textarea>
             </div>
           </div>
         </div>
@@ -3134,7 +3189,7 @@
         <h4 class="about-heading">ℹ️ About the Project &amp; Creator</h4>
         <p>
           <strong>Shradhanjali Banner Maker</strong> was created and is actively maintained by
-          <a href="https://sinalkar.com" target="_blank" rel="noopener">Sanjay Sinalkar</a>,
+          <a href="https://sinalkar.com" target="_blank" rel="noopener">Sanjay Jadhav</a>,
           a software engineer dedicated to building free, privacy-first web utilities for the community.
           The project was started to provide a respectful, advertising-free alternative to complex commercial
           graphic design applications. By removing account sign-ups, subscriptions and backend storage, the tool
@@ -3153,7 +3208,7 @@
       <p data-i18n="footer.text">shradhanjalibanner.in &nbsp;·&nbsp; विनामूल्य स्मारक बॅनर जनरेटर</p>
       <p style="margin-top: 0.5rem; opacity: 0.85;">
         <span data-i18n="footer.owner">Owner:</span>
-        <a href="https://sinalkar.com" target="_blank" rel="noopener">Sanjay Sinalkar</a>
+        <a href="https://sinalkar.com" target="_blank" rel="noopener">Sanjay Jadhav</a>
       </p>
     </footer>
 
@@ -3225,6 +3280,7 @@
     ════════════════════════════════════════════════════════════ */
     const TRANSLATIONS = {
       mr: {
+        'heading.title': 'भावपूर्ण श्रद्धांजली बॅनर',
         'heading.subtitle': 'स्मारक बॅनर जनरेटर',
         'heading.form': 'बॅनर माहिती भरा',
         'heading.preview': 'बॅनर पूर्वावलोकन',
@@ -3296,7 +3352,7 @@
         'fmt.igPost': 'Instagram पोस्ट (1:1)',
         'fmt.flex': 'फ्लेक्स प्रिंट (पूर्ण)',
         'social.eyebrow': '॥ श्रद्धांजली ॥',
-        'ph.name': 'भगवान जनाजी रामाणे',
+        'ph.name': 'भगवान जनाजी शिंदे',
         'ph.age': '६८ वर्षे',
         'ph.message': 'दुःखद निधन झाले.',
         'ph.memorial': 'तुमचं असणं सर्व काही होतं...',
@@ -3305,9 +3361,10 @@
         'ph.cerPlace': 'स्थान...',
         'ph.organizer': 'प्रवचनकार...',
         'ph.village': 'समस्त ग्रामस्थ...',
-        'ph.family': 'श्रीमती. शोभा भगवान रामाणे (पत्नी)...',
+        'ph.family': 'श्रीमती. शोभा भगवान शिंदे (पत्नी)...',
       },
       hi: {
+        'heading.title': 'भावपूर्ण श्रद्धांजलि बैनर',
         'heading.subtitle': 'स्मारक बैनर जनरेटर',
         'heading.form': 'बैनर जानकारी भरें',
         'heading.preview': 'बैनर पूर्वावलोकन',
@@ -3379,7 +3436,7 @@
         'fmt.igPost': 'Instagram पोस्ट (1:1)',
         'fmt.flex': 'फ्लेक्स प्रिंट (पूर्ण)',
         'social.eyebrow': '॥ श्रद्धांजलि ॥',
-        'ph.name': 'भगवान जनाजी रामाणे',
+        'ph.name': 'भगवान जनाजी शिंदे',
         'ph.age': '६८ वर्ष',
         'ph.message': 'दुखद निधन हुआ।',
         'ph.memorial': 'आपका होना सब कुछ था...',
@@ -3388,9 +3445,10 @@
         'ph.cerPlace': 'स्थान...',
         'ph.organizer': 'प्रवचनकार...',
         'ph.village': 'समस्त ग्रामवासी...',
-        'ph.family': 'श्रीमती. शोभा भगवान रामाणे (पत्नी)...',
+        'ph.family': 'श्रीमती. शोभा भगवान शिंदे (पत्नी)...',
       },
       en: {
+        'heading.title': 'Memorial Tribute Banner',
         'heading.subtitle': 'Memorial Banner Generator',
         'heading.form': 'Fill Banner Details',
         'heading.preview': 'Banner Preview',
@@ -3421,7 +3479,7 @@
         'msg.cleared': 'Form cleared.',
         'msg.preparing': 'Preparing...',
         'msg.shareFallback': 'Sharing is not available here. Please download the banner and send it.',
-        'share.title': 'Shradhanjali Banner',
+        'share.title': 'Shradhanjali Memorial Banner',
         'btn.scrollPreview': 'View Banner Preview ↓',
         'btn.randomize': '🎲 Load Sample',
         'banner.prefix': 'Late ',
@@ -3462,7 +3520,7 @@
         'fmt.igPost': 'Instagram Post (1:1)',
         'fmt.flex': 'Flex Print (full)',
         'social.eyebrow': '॥ Tribute ॥',
-        'ph.name': 'Bhagwan Janaji Ramane',
+        'ph.name': 'Bhagwan Janaji Shinde',
         'ph.age': '68 years',
         'ph.message': 'passed away peacefully.',
         'ph.memorial': 'Your presence was everything...',
@@ -3471,9 +3529,10 @@
         'ph.cerPlace': 'Venue...',
         'ph.organizer': 'Speaker...',
         'ph.village': 'All villagers...',
-        'ph.family': 'Smt. Shobha Bhagwan Ramane (Wife)...',
+        'ph.family': 'Smt. Shobha Bhagwan Shinde (Wife)...',
       },
       bn: {
+        'heading.title': 'বিনম্র শ্রদ্ধাঞ্জলি ব্যানার',
         'heading.subtitle': 'স্মারক ব্যানার জেনারেটর',
         'heading.form': 'ব্যানারের তথ্য পূরণ করুন',
         'heading.preview': 'ব্যানার প্রিভিউ',
@@ -3540,7 +3599,7 @@
         'fmt.igStory': 'Instagram স্টোরি (9:16)',
         'fmt.igPost': 'Instagram পোস্ট (1:1)',
         'fmt.flex': 'ফ্লেক্স প্রিন্ট (সম্পূর্ণ)',
-        'social.eyebrow': '॥ শ্রদ্ধাঞ্জলি ॥',
+        'social.eyebrow': '॥ বিনম্র শ্রদ্ধাঞ্জলি ॥',
         'ph.name': 'ভগবান জনজী রামাণে',
         'ph.age': '৬৮ বছর',
         'ph.message': 'পরলোকগমন করেছেন।',
@@ -3553,6 +3612,7 @@
         'ph.family': 'শ্রীমতী শোভা ভগবান রামাণে (স্ত্রী)...',
       },
       te: {
+        'heading.title': 'భావపూర్వక శ్రద్ధాంజలి బ్యానర్',
         'heading.subtitle': 'స్మారక బ్యానర్ జనరేటర్',
         'heading.form': 'బ్యానర్ వివరాలను నింపండి',
         'heading.preview': 'బ్యానర్ ప్రివ్యూ',
@@ -3619,7 +3679,7 @@
         'fmt.igStory': 'Instagram స్టోరీ (9:16)',
         'fmt.igPost': 'Instagram పోస్ట్ (1:1)',
         'fmt.flex': 'ఫ్లెక్స్ ప్రింట్ (పూర్తి)',
-        'social.eyebrow': '॥ శ్రద్ధాంజలి ॥',
+        'social.eyebrow': '॥ భావపూర్వక శ్రద్ధాంజలి ॥',
         'ph.name': 'భగవాన్ జనాజీ రామణే',
         'ph.age': '68 సంవత్సరాలు',
         'ph.message': 'స్వర్గస్తులయ్యారు.',
@@ -3632,6 +3692,7 @@
         'ph.family': 'శ్రీమతి శోభా భగవాన్ రామణే (భార్య)...',
       },
       ta: {
+        'heading.title': 'கண்ணீர் நினைவஞ்சலி பேனர்',
         'heading.subtitle': 'நினைவு பேனர் உருவாக்குபவர்',
         'heading.form': 'பேனர் விவரங்களை நிரப்பவும்',
         'heading.preview': 'பேனர் முன்னோட்டம்',
@@ -3662,7 +3723,7 @@
         'msg.cleared': 'படிவம் காலி செய்யப்பட்டது.',
         'msg.preparing': 'தயாராகிறது...',
         'msg.shareFallback': 'பகிர முடியவில்லை. பேனரைப் பதிவிறக்கி அனுப்பவும்.',
-        'share.title': 'சிரத்தாஞ்சலி பேனர்',
+        'share.title': 'நினைவஞ்சலி பேனர்',
         'btn.scrollPreview': 'பேனர் முன்னோட்டத்தைக் காண்க ↓',
         'btn.randomize': '🎲 மாதிரி தரவு',
         'banner.prefix': 'மறைந்த ',
@@ -3698,7 +3759,7 @@
         'fmt.igStory': 'Instagram கதை (9:16)',
         'fmt.igPost': 'Instagram பதிவு (1:1)',
         'fmt.flex': 'பிளெக்ஸ் அச்சிடு (முழு)',
-        'social.eyebrow': '॥ அஞ்சலி ॥',
+        'social.eyebrow': '॥ கண்ணீர் அஞ்சலி ॥',
         'ph.name': 'பகவான் ஜனாஜி ரமனே',
         'ph.age': '68 வயது',
         'ph.message': 'இயற்கையெய்தினார்.',
@@ -3711,6 +3772,7 @@
         'ph.family': 'திருமடி சோபா பகவான் ரமனே (மனைவி)...',
       },
       gu: {
+        'heading.title': 'ભાવપૂર્ણ શ્રદ્ધાંજલિ બેનર',
         'heading.subtitle': 'સ્મારક બેનર જનરેટર',
         'heading.form': 'બેનર વિગતો ભરો',
         'heading.preview': 'બેનર પૂર્વાવલોકન',
@@ -3777,7 +3839,7 @@
         'fmt.igStory': 'Instagram સ્ટોરી (9:16)',
         'fmt.igPost': 'Instagram પોસ્ટ (1:1)',
         'fmt.flex': 'ફ્લેક્સ પ્રિન્ટ (સંપૂર્ણ)',
-        'social.eyebrow': '॥ શ્રદ્ધાંજલિ ॥',
+        'social.eyebrow': '॥ ભાવપૂર્ણ શ્રદ્ધાંજલિ ॥',
         'ph.name': 'ભગવાન જનાજી રામાણે',
         'ph.age': '૬૮ વર્ષ',
         'ph.message': 'દુઃખદ અવસાન થયું છે.',
@@ -3790,6 +3852,7 @@
         'ph.family': 'શ્રીમતી શોભા ભગવાન રામાણે (પત્ની)...',
       },
       kn: {
+        'heading.title': 'ಭಾವಪೂರ್ಣ ಶ್ರದ್ಧಾಂಜಲಿ ಬ್ಯಾನರ್',
         'heading.subtitle': 'ಸ್ಮರಣಾರ್ಥ ಬ್ಯಾನರ್ ಜನರೇಟರ್',
         'heading.form': 'ಬ್ಯಾನರ್ ವಿವರಗಳನ್ನು ತುಂಬಿ',
         'heading.preview': 'ಬ್ಯಾನರ್ ಮುನ್ನೋಟ',
@@ -3856,7 +3919,7 @@
         'fmt.igStory': 'Instagram ಸ್ಟೋರಿ (9:16)',
         'fmt.igPost': 'Instagram ಪೋಸ್ಟ್ (1:1)',
         'fmt.flex': 'ಫ್ಲೆಕ್ಸ್ ಪ್ರಿಂಟ್ (ಪೂರ್ಣ)',
-        'social.eyebrow': '॥ ಶ್ರದ್ಧಾಂಜಲಿ ॥',
+        'social.eyebrow': '॥ ಭಾವಪೂರ್ಣ ಶ್ರದ್ಧಾಂಜಲಿ ॥',
         'ph.name': 'ಭಗವಾನ್ ಜನಾಜಿ ರಾಮಣೆ',
         'ph.age': '68 ವರ್ಷ',
         'ph.message': 'ಲಿಂಗೈಕ್ಯರಾಗಿದ್ದಾರೆ.',
@@ -3869,6 +3932,7 @@
         'ph.family': 'ಶ್ರೀಮತಿ ಶೋಭಾ ಭಗವಾನ್ ರಾಮಣೆ (ಪತ್ನಿ)...',
       },
       ml: {
+        'heading.title': 'ഹൃദയംഗമമായ ആദരാഞ്ജലി ബാനർ',
         'heading.subtitle': 'സ്മരണാഞ്ജലി ബാനർ ജനറേറ്റർ',
         'heading.form': 'വിവരങ്ങൾ നൽകുക',
         'heading.preview': 'ബാനർ പ്രിവ്യൂ',
@@ -3899,7 +3963,7 @@
         'msg.cleared': 'ഫോം ഒഴിവാക്കി.',
         'msg.preparing': 'തയ്യാറാകുന്നു...',
         'msg.shareFallback': 'പങ്കിടാൻ കഴിഞ്ഞില്ല. ബാനർ ഡൗൺലോഡ് ചെയ്ത് അയയ്ക്കുക.',
-        'share.title': 'ശ്രദ്ധാഞ്ജലി ബാനർ',
+        'share.title': 'ആദരാഞ്ജലി ബാനർ',
         'btn.scrollPreview': 'ബാനർ പ്രിവ്യൂ കാണുക ↓',
         'btn.randomize': '🎲 സാമ്പിൾ ലോഡ് ചെയ്യുക',
         'banner.prefix': 'അന്തരിച്ച ',
@@ -3935,7 +3999,7 @@
         'fmt.igStory': 'Instagram സ്റ്റോറി (9:16)',
         'fmt.igPost': 'Instagram പോസ്റ്റ് (1:1)',
         'fmt.flex': 'ഫ്ലെക്സ് പ്രിന്റ് (പൂർണ്ണം)',
-        'social.eyebrow': '॥ ആദരാഞ്ജലികൾ ॥',
+        'social.eyebrow': '॥ ഹൃദയാഞ്ജലികൾ ॥',
         'ph.name': 'ഭഗവാൻ ജനാജി രാമണെ',
         'ph.age': '68 വയസ്സ്',
         'ph.message': 'അന്തരിച്ചു.',
@@ -3948,6 +4012,7 @@
         'ph.family': 'ശ്രീമതി ശോഭ ഭഗവാൻ രാമണെ (ഭാര്യ)...',
       },
       pa: {
+        'heading.title': 'ਭਾਵਪੂਰਤ ਸ਼ਰਧਾਂਜਲੀ ਬੈਨਰ',
         'heading.subtitle': 'ਸਰਧਾਂਜਲੀ ਬੈਨਰ ਜਨਰੇਟਰ',
         'heading.form': 'ਬੈਨਰ ਦੀ ਜਾਣਕਾਰੀ ਭਰੋ',
         'heading.preview': 'ਬੈਨਰ ਪ੍ਰਿਵਿਊ',
@@ -4014,7 +4079,7 @@
         'fmt.igStory': 'Instagram ਸਟੋਰੀ (9:16)',
         'fmt.igPost': 'Instagram ਪੋਸਟ (1:1)',
         'fmt.flex': 'ਫਲੈਕਸ ਪ੍ਰਿੰਟ (ਪੂਰਾ)',
-        'social.eyebrow': '॥ ਸ਼ਰਧਾਂਜਲੀ ॥',
+        'social.eyebrow': '॥ ਭਾਵਪੂਰਤ ਸ਼ਰਧਾਂਜਲੀ ॥',
         'ph.name': 'ਭਗਵਾਨ ਜਨਾਜੀ ਰਾਮਾਣੇ',
         'ph.age': '68 ਸਾਲ',
         'ph.message': 'ਅਕਾਲ ਚਲਾਣਾ ਕਰ ਗਏ ਹਨ।',
@@ -4027,6 +4092,7 @@
         'ph.family': 'ਸ੍ਰੀਮਤੀ ਸੋਭਾ ਭਗਵਾਨ ਰਾਮਾਣੇ (ਪਤਨੀ)...',
       },
       or: {
+        'heading.title': 'ଭାବପୂର୍ଣ୍ଣ ଶ୍ରଦ୍ଧାଞ୍ଜଳି ବ୍ୟାନର',
         'heading.subtitle': 'ସ୍ମୃତି ବ୍ୟାନର୍ ଜେନେରେଟର୍',
         'heading.form': 'ବ୍ୟାନର୍ ସୂଚନା ଭରନ୍ତୁ',
         'heading.preview': 'ବ୍ୟାନର୍ ପୂର୍ବାବଲୋକନ',
@@ -4093,7 +4159,7 @@
         'fmt.igStory': 'Instagram ଷ୍ଟୋରୀ (9:16)',
         'fmt.igPost': 'Instagram ପୋଷ୍ଟ୍ (1:1)',
         'fmt.flex': 'ଫ୍ଲେକ୍ସ ପ୍ରିଣ୍ଟ୍ (ସମ୍ପୂର୍ଣ୍ଣ)',
-        'social.eyebrow': '॥ ଶ୍ରଦ୍ଧାଞ୍ଜଳି ॥',
+        'social.eyebrow': '॥ ଭାବପୂର୍ଣ୍ଣ ଶ୍ରଦ୍ଧାଞ୍ଜଳି ॥',
         'ph.name': 'ଭଗବାନ ଜନାଜୀ ରାମାଣେ',
         'ph.age': '୬୮ ବର୍ଷ',
         'ph.message': 'ପରଲୋକ ଗମନ କରିଛନ୍ତି।',
@@ -4106,6 +4172,7 @@
         'ph.family': 'ଶ୍ରୀମତୀ ଶୋଭା ଭଗବାନ ରାମାଣେ (ପତ୍ନୀ)...',
       },
       ur: {
+        'heading.title': 'خراجِ عقیدت تعزیتی بینر',
         'heading.subtitle': 'تعزیتی بینر بنانے والا',
         'heading.form': 'بینر کی تفصیلات بھریں',
         'heading.preview': 'بینر کا معائنہ',
@@ -4136,7 +4203,7 @@
         'msg.cleared': 'فارم خالی کر دیا گیا۔',
         'msg.preparing': 'تیار ہو رہا ہے...',
         'msg.shareFallback': 'شیئر نہیں ہو سکا۔ براہ کرم بینر ڈاؤن لوڈ کر کے بھیجیں۔',
-        'share.title': 'شردھانجلی بینر',
+        'share.title': 'تعزیتی بینر',
         'btn.scrollPreview': 'بینر کا پیش نظارہ دیکھیں ↓',
         'btn.randomize': '🎲 نمونہ لوڈ کریں',
         'banner.prefix': 'مرحوم ',
@@ -4186,11 +4253,12 @@
       }
     };
 
-    const SAMPLE_PROFILES = [
+        const SAMPLE_PROFILES = [
       {
         gender: 'male',
         photo: 'sample-photo-male.webp',
         mr: {
+        'heading.title': 'श्रद्धांजली बॅनर',
           name: 'सदाशिव गणपतराव थोरात',
           age: '७४ वर्षे',
           deathDate: 'सोमवार ०८/०६/२०२६',
@@ -4205,6 +4273,7 @@
           familyMembers: 'श्रीमती. शकुंतला सदाशिव थोरात (पत्नी)\nश्री. राहुल सदाशिव थोरात (मुलगा)\nश्री. अमित सदाशिव थोरात (मुलगा)\nसौ. सुवर्णा सचिन कदम (मुलगी)\nश्री. बाळासाहेब गणपतराव थोरात (भाऊ)'
         },
         hi: {
+        'heading.title': 'श्रद्धांजलि बैनर',
           name: 'सदाशिव गणपतराव थोरात',
           age: '७४ वर्ष',
           deathDate: 'सोमवार ०८/०६/२०२६',
@@ -4216,9 +4285,10 @@
           ceremonyPlace: 'त्र्यंबकेश्वर गोदावरी घाट, नासिक।',
           organizer: 'प्रवचनकार: ह.भ.प. आसाराम महाराज बढे (आळंदी देवाची) का प्रवचन होगा।',
           villageInfo: 'समस्त ग्रामवासी संगमनेर',
-          familyMembers: 'श्रीमتی. शकुंतला सदाशिव थोरात (पत्नी)\nश्री. राहुल सदाशिव थोरात (पुत्र)\nश्री. अमित सदाशिव थोरात (पुत्र)\nसौ. सुवर्णा सचिन कदम (पुत्री)\nश्री. बाळासाहेब गणपतराव थोरात (भाई)'
+          familyMembers: 'श्रीमती. शकुंतला सदाशिव थोरात (पत्नी)\nश्री. राहुल सदाशिव थोरात (पुत्र)\nश्री. अमित सदाशिव थोरात (पुत्र)\nसौ. सुवर्णा सचिन कदम (पुत्री)\nश्री. बाळासाहेब गणपतराव थोरात (भाई)'
         },
         en: {
+        'heading.title': 'Shradhanjali Banner',
           name: 'Sadashiv Ganpatrao Thorat',
           age: '74 Years',
           deathDate: 'Monday 08/06/2026',
@@ -4231,12 +4301,148 @@
           organizer: 'Speaker: H.B.P. Asaram Maharaj Badhe (Alandi Devachi) will preach.',
           villageInfo: 'All villagers of Sangamner',
           familyMembers: 'Smt. Shakuntala Sadashiv Thorat (Wife)\nMr. Rahul Sadashiv Thorat (Son)\nMr. Amit Sadashiv Thorat (Son)\nMrs. Suvarna Sachin Kadam (Daughter)\nMr. Balasaheb Ganpatrao Thorat (Brother)'
+        },
+        bn: {
+        'heading.title': 'শ্রদ্ধাঞ্জলি ব্যানার',
+          name: 'সদাশিব গণপতরাও থোরাত',
+          age: '৭৪ বছর',
+          deathDate: 'সোমবার ০৮/০৬/২০২৬',
+          deathTime: 'পরলোক গমন করেছেন।',
+          memorialText: 'আপনার স্মৃতি এবং আশীর্বাদ চিরকাল আমাদের সাথে থাকবে।\nআপনার পবিত্র আত্মাকে আমাদের কোটি প্রণাম।',
+          ceremonyTitle: 'শ্রদ্ধাঞ্জলি ও প্রার্থনা সভা',
+          ceremonyDate: 'বুধবার ১৭/০৬/২০২৬',
+          ceremonyTime: 'সকাল ০৮.০০ ঘটিকা',
+          ceremonyPlace: 'ত্র্যম্বকেশ্বর গোদাবরী ঘাট, নাসিক।',
+          organizer: 'প্রবচনকার: হ.ভ.প. আসারাম মহারাজ বঢে (আলন্দী)।',
+          villageInfo: 'সমস্ত গ্রামবাসী সঙ্গমনেড়',
+          familyMembers: 'শ্রীমতী শকুন্তলা সদাশিব থোরাত (স্ত্রী)\nশ্রী রাহুল সদাশিব থোরাত (পুত্র)\nশ্রী অমিত সদাশিব থোরাত (পুত্র)\nশ্রীমতী সুবর্ণা শচীন কদম (কন্যা)\nশ্রী বালাসাহেব গণপতরাও থোরাত (ভ্রাতা)'
+        },
+        te: {
+        'heading.title': 'శ్రద్ధాంజలి బ్యానర్',
+          name: 'సదాశివ్ గణపత్రావ్ తోరాట్',
+          age: '74 సంవత్సరాలు',
+          deathDate: 'సోమవారం 08/06/2026',
+          deathTime: 'పరమపదించారు.',
+          memorialText: 'మీ జ్ఞాపకాలు మరియు ఆశీర్వాదాలు మాకు ఎల్లప్పుడూ దారి చూపుతాయి.\nమీ పవిత్ర ఆత్మకు మా వినమ్ర నివాళులు.',
+          ceremonyTitle: 'శ్రద్ధాంజలి మరియు ప్రార్థన సభ',
+          ceremonyDate: 'బుధవారం 17/06/2026',
+          ceremonyTime: 'ఉదయం 08:00 గంటలకు',
+          ceremonyPlace: 'త్రయంబకేశ్వర్ గోదావరి ఘాట్, నాసిక్.',
+          organizer: 'ప్రవచనకర్త: హ.భ.ప. ఆసారాం మహారాజ్ బఢే (ఆళంది).',
+          villageInfo: 'సమస్త గ్రామస్తులు సంగమ్నేర్',
+          familyMembers: 'శ్రీమతి శకుంతల సదాశివ్ తోరాట్ (భార్య)\nశ్రీ రాహుల్ సదాశివ్ తోరాట్ (కుమారుడు)\nశ్రీ అమిత్ సదాశివ్ తోరాట్ (కుమారుడు)\nశ్రీమతి సువర్ణ సచిన్ కదమ్ (కుమార్తె)\nశ్రీ బాలాసాహెబ్ గణపత్రావ్ తోరాట్ (సోదరుడు)'
+        },
+        ta: {
+        'heading.title': 'நினைவஞ்சலி பேனர்',
+          name: 'சதாசிவ் கணபதிராவ் தோரட்',
+          age: '74 ஆண்டுகள்',
+          deathDate: 'திங்கட்கிழமை 08/06/2026',
+          deathTime: 'இயற்கை எய்தினார்.',
+          memorialText: 'உங்கள் நினைவுகளும் ஆசிகளும் என்றும் எங்களை வழிநடத்தும்.\nஉங்கள் ஆன்மாவிற்கு எங்களது ஆழ்ந்த அஞ்சலிகள்.',
+          ceremonyTitle: 'நினைவஞ்சலி மற்றும் பிரார்த்தனை கூட்டம்',
+          ceremonyDate: 'புதன்கிழமை 17/06/2026',
+          ceremonyTime: 'காலை 08.00 மணி',
+          ceremonyPlace: 'திரியம்பகேஷ்வர் கோதாவரி காட், நாசிக்.',
+          organizer: 'சொற்பொழிவாளர்: ஹ.ப.ப. ஆசாராம் மகாராஜ் படே (ஆளந்தி).',
+          villageInfo: 'சங்கமனேர் கிராம மக்கள்',
+          familyMembers: 'திருமதி சகுந்தலா சதாசிவ் தோரட் (மனைவி)\nதிரு ராகுல் சதாசிவ் தோரட் (மகன்)\nதிரு அமித் சதாசிவ் தோரட் (மகன்)\nதிருமதி சுவர்ணா சச்சின் கடம் (மகள்)\nதிரு பாலாசாஹேப் கணபதிராவ் தோரட் (சகோதரர்)'
+        },
+        gu: {
+        'heading.title': 'શ્રદ્ધાંજલિ બેનર',
+          name: 'સદાશિવ ગણપતરાવ થોરાટ',
+          age: '૭૪ વર્ષ',
+          deathDate: 'સોમવાર ૦૮/૦૬/૨૦૨૬',
+          deathTime: 'નું દુઃખદ અવસાન થયેલ છે.',
+          memorialText: 'તમારો સ્નેહ અને આશીર્વાદ હંમેશાં અમારી સાથે રહેશે.\nતમારી પવિત્ર સ્મૃતિને કોટિ-કોટિ વંદન.',
+          ceremonyTitle: 'શ્રદ્ધાંજલિ અને પ્રાર્થના સભા',
+          ceremonyDate: 'બુધવાર ૧૭/૦૬/૨૦૨૬',
+          ceremonyTime: 'સવારે ૦૮.૦૦ વાગ્યે',
+          ceremonyPlace: 'ત્ર્યંબકેશ્વર ગોદાવરી ઘાટ, નાસિક.',
+          organizer: 'પ્રવચનકાર: હ.ભ.પ. આસારામ મહારાજ બઢે (આળંદી).',
+          villageInfo: 'સમસ્ત ગ્રામજનો સંગમનેર',
+          familyMembers: 'શ્રીમતી શંકુતલા સદાશિવ થોરાટ (પત્ની)\nશ્રી રાહુલ સદાશિવ થોરાટ (પુત્ર)\nશ્રી અમિત સદાશિવ થોરાટ (પુત્ર)\nશ્રીમતી સુવર્ણા સચિન કદમ (પુત્રી)\nશ્રી બાળાસાહેબ ગણપતરાવ થોરાટ (ભાઈ)'
+        },
+        kn: {
+        'heading.title': 'ಶ್ರದ್ಧಾಂಜಲಿ ಬ್ಯಾನರ್',
+          name: 'ಸದಾಶಿವ್ ಗಣಪತರಾವ್ ತೋರಾಟ್',
+          age: '೭೪ ವರ್ಷ',
+          deathDate: 'ಸೋಮವಾರ ೦೮/೦೬/೨೦೨೬',
+          deathTime: 'ಲಿಂಗೈಕ್ಯರಾಗಿದ್ದಾರೆ.',
+          memorialText: 'ನಿಮ್ಮ ಸವಿನೆನಪುಗಳು ಮತ್ತು ಆಶೀರ್ವಾದಗಳು ನಮಗೆ ಸದಾ ದಾರಿದೀಪ.\nನಿಮ್ಮ ಪವಿತ್ರ ಆತ್ಮಕ್ಕೆ ನಮ್ಮ ಭಾವಪೂರ್ಣ ಶ್ರದ್ಧಾಂಜಲಿ.',
+          ceremonyTitle: 'ಶ್ರದ್ಧಾಂಜಲಿ ಮತ್ತು ಪ್ರಾರ್ಥನಾ ಸಭೆ',
+          ceremonyDate: 'ಬುಧವಾರ ೧೭/೦೬/೨೦೨೬',
+          ceremonyTime: 'ಬೆಳಿಗ್ಗೆ ೦೮.೦૦ ಗಂಟೆಗೆ',
+          ceremonyPlace: 'ತ್ರ್ಯಂಬಕೇಶ್ವರ ಗೋದಾವರಿ ಘಾಟ್, ನಾಸಿಕ್.',
+          organizer: 'ಪ್ರವಚನಕಾರರು: ಹ.ಭ.ಪ. ಆಸಾರಾಮ್ ಮಹಾರಾಜ್ ಬಢೆ (ಆಳಂದಿ).',
+          villageInfo: 'ಸಮಸ್ತ ಗ್ರಾಮಸ್ಥರು ಸಂಗಮ್ನೇರ್',
+          familyMembers: 'ಶ್ರೀಮತಿ ಶಕುಂತಲಾ ಸದಾಶಿವ್ ತೋರಾಟ್ (ಪತ್ನಿ)\nಶ್ರೀ ರಾಹುಲ್ ಸದಾಶಿವ್ ತೋರಾಟ್ (ಮಗ)\nಶ್ರೀ ಅಮಿತ್ ಸದಾಶಿವ್ ತೋರಾಟ್ (ಮಗ)\nಶ್ರೀಮತಿ ಸುವರ್ಣ ಸಚಿನ್ ಕದಮ್ (ಮಗಳು)\nಶ್ರೀ ಬಾಳಾಸಾಹೇಬ್ ಗಣಪತರಾವ್ ತೋರಾಟ್ (ಸಹೋದರ)'
+        },
+        ml: {
+        'heading.title': 'അനുശോചന ബാനർ',
+          name: 'സദാശിവ് ഗണപത്റാവു തോറാട്ട്',
+          age: '74 വയസ്സ്',
+          deathDate: 'തിങ്കൾ 08/06/2026',
+          deathTime: 'അന്തരിച്ചു.',
+          memorialText: 'നിങ്ങളുടെ ഓർമ്മകളും അനുഗ്രഹങ്ങളും എന്നും ഞങ്ങളെ വഴിനടത്തും.\nനിങ്ങളുടെ ആത്മാവിന് ഞങ്ങളുടെ പ്രണാമം.',
+          ceremonyTitle: 'അനുശോചന യോഗവും പ്രാർത്ഥനയും',
+          ceremonyDate: 'ബുധൻ 17/06/2026',
+          ceremonyTime: 'രാവിലെ 08.00 മണിക്ക്',
+          ceremonyPlace: 'ത്ര്യംബകേശ്വർ ഗോദാവരി ഘാട്ട്, നാസിക്.',
+          organizer: 'പ്രഭാഷകൻ: ഹ.ഭ.പ. ആശാറാം മഹാരാജ് ബഢേ (ആളന്ദി).',
+          villageInfo: 'സംഗംനേർ ഗ്രാമവാസികൾ',
+          familyMembers: 'ശ്രീമതി ശകുന്തള സദാശിവ് തോറാട്ട് (ഭാര്യ)\nശ്രീ രാഹുൽ സദാശിവ് തോറാട്ട് (മകൻ)\nശ്രീ അമിത് സദാശിവ് തോറാട്ട് (മകൻ)\nശ്രീമതി സുവർണ്ണ സചിൻ കദം (മകൾ)\nശ്രീ ബാലാസാഹെബ് ഗണപത്റാവു തോറാട്ട് (സഹോദരൻ)'
+        },
+        pa: {
+        'heading.title': 'ਸ਼ਰਧਾਂਜਲੀ ਬੈਨਰ',
+          name: 'ਸਦਾਸ਼ਿਵ ਗਣਪਤਰਾਓ ਥੋਰਾਟ',
+          age: '੭੪ ਸਾਲ',
+          deathDate: 'ਸੋਮਵਾਰ ੦੮/੦੬/੨੦੨੬',
+          deathTime: 'ਅਕਾਲ ਚਲਾਣਾ ਕਰ ਗਏ ਹਨ।',
+          memorialText: 'ਤੁਹਾਡੀਆਂ ਯਾਦਾਂ ਅਤੇ ਅਸੀਸਾਂ ਹਮੇਸ਼ਾ ਸਾਡੇ ਨਾਲ ਰਹਿਣਗੀਆਂ।\nਤੁਹਾਡੀ ਪਵਿੱਤਰ ਰੂਹ ਨੂੰ ਕੋਟਿ-ਕੋਟਿ ਪ੍ਰਣਾਮ।',
+          ceremonyTitle: 'ਸ਼ਰਧਾਂਜਲੀ ਅਤੇ ਅੰਤਿਮ ਅਰਦਾਸ',
+          ceremonyDate: 'ਬੁਧਵਾਰ ੧੭/੦੬/੨੦੨੬',
+          ceremonyTime: 'ਸਵੇਰੇ ੦੮.੦੦ ਵਜੇ',
+          ceremonyPlace: 'ਤ੍ਰਿੰਬਕੇਸ਼ਵਰ ਗੋਦਾਵਰੀ ਘਾਟ, ਨਾਸਿਕ।',
+          organizer: 'ਕਥਾਵਾਚਕ: ਹ.ਭ.ਪ. ਆਸਾਰਾਮ ਮਹਾਰਾਜ ਬਢੇ (ਆਲੰਦੀ)।',
+          villageInfo: 'ਸਮੂਹ ਨਗਰ ਨਿਵਾਸੀ ਸੰਗਮਨੇਰ',
+          familyMembers: 'ਸ੍ਰੀਮਤੀ ਸ਼ਕੁੰਤਲਾ ਸਦਾਸ਼ਿਵ ਥੋਰਾਟ (ਪਤਨੀ)\nਸ੍ਰੀ ਰਾਹੁਲ ਸਦਾਸ਼ਿਵ ਥੋਰਾਟ (ਪੁੱਤਰ)\nਸ੍ਰੀ ਅਮਿਤ ਸਦਾਸ਼ਿਵ ਥੋਰਾਟ (ਪੁੱਤਰ)\nਸ੍ਰੀਮਤੀ ਸੁਵਰਨਾ ਸਚਿਨ ਕਦਮ (ਪੁੱਤਰੀ)\nਸ੍ਰੀ ਬਾਲਾਸਾਹਿਬ ਗਣਪਤਰਾਓ ਥੋਰਾਟ (ਭਰਾ)'
+        },
+        or: {
+        'heading.title': 'ଶ୍ରଦ୍ଧାଞ୍ଜଳି ବ୍ୟାନର',
+          name: 'ସଦାଶିବ ଗଣପତରାଓ ଥୋରାଟ',
+          age: '୭୪ ବର୍ଷ',
+          deathDate: 'ସୋମବାର ୦୮/୦୬/୨୦୨୬',
+          deathTime: 'ଇହଲୀଳା ସାଙ୍ଗ କରିଛନ୍ତି।',
+          memorialText: 'ଆପଣଙ୍କ ସ୍ମୃତି ଓ ଆଶୀର୍ବାଦ ସଦା ସର୍ବଦା ଆମ ସାଥୀରେ ରହିବ।\nଆପଣଙ୍କ ଅମର ଆତ୍ମାକୁ କୋଟି କୋଟି ପ୍ରଣାମ।',
+          ceremonyTitle: 'ଶ୍ରଦ୍ଧାଞ୍ଜଳି ଓ ପ୍ରାର୍ଥନା ସଭା',
+          ceremonyDate: 'ବୁଧବାର ୧୭/୦୬/୨୦୨୬',
+          ceremonyTime: 'ସକାଳ ୦୮.୦୦ ଘଟିକା',
+          ceremonyPlace: 'ତ୍ରିମ୍ବକେଶ୍ୱର ଗୋଦାବରୀ ଘାଟ, ନାସିକ।',
+          organizer: 'ପ୍ରବଚକ: ହ.ଭ.ପ. ଆସାରାମ ମହାରାଜ ବଢେ (ଆଳନ୍ଦୀ)।',
+          villageInfo: 'ସମସ୍ତ ଗ୍ରାମବାସୀ ସଙ୍ଗମନେର',
+          familyMembers: 'ଶ୍ରୀମତୀ ଶକୁନ୍ତଳା ସଦାଶିବ ଥୋରାଟ (ପତ୍ନୀ)\nଶ୍ରୀ ରାହୁଲ ସଦାଶିବ ଥୋରାଟ (ପୁତ୍ର)\nଶ୍ରୀ ଅମିତ ସଦାଶିବ ଥୋରାଟ (ପୁତ୍ର)\nଶ୍ରୀମତୀ ସୁବର୍ଣ୍ଣା ସଚିନ କଦମ (କନ୍ୟା)\nଶ୍ରୀ ବାଳାସାହେବ ଗଣପତରାଓ ଥୋରାଟ (ଭାଇ)'
+        },
+        ur: {
+        'heading.title': 'تعزیتی بینر',
+          name: 'سداشیو گنپت راؤ تھوراٹ',
+          age: '74 سال',
+          deathDate: 'پیر 08/06/2026',
+          deathTime: 'کا انتقال پرملال ہو گیا ہے۔',
+          memorialText: 'آپ کی یادیں اور دعائیں ہمیشہ ہمارے ساتھ رہیں گی۔\nروح کے لیے مغفرت اور بلندی کی دعا۔',
+          ceremonyTitle: 'تعزیتی نشست و دعائیہ مجلس',
+          ceremonyDate: 'بدھ 17/06/2026',
+          ceremonyTime: 'صبح 08:00 بجے',
+          ceremonyPlace: 'ترئمبکیشور گوداوری گھاٹ، ناسک۔',
+          organizer: 'مقرر: آسا رام مہاراج (آلندی)',
+          villageInfo: 'تمام اہل موضع سنگمنیر',
+          familyMembers: 'شریمتی شکنتلا سداشیو تھوراٹ (اہلیہ)\nمسٹر راہل سداشیو تھوراٹ (فرزند)\nمسٹر امیت سداشیو تھوراٹ (فرزند)\nمسز سورنا سچن قدم (دختر)\nمسٹر بالاصاحب گنپت راؤ تھوراٹ (برادر)'
         }
       },
       {
         gender: 'female',
         photo: 'sample-photo-female.webp',
         mr: {
+        'heading.title': 'श्रद्धांजली बॅनर',
           name: 'श्रीमती. राधाबाई रामचंद्र पाटील',
           age: '८२ वर्षे',
           deathDate: 'रविवार ०७/०६/२०२६',
@@ -4251,6 +4457,7 @@
           familyMembers: 'श्री. शशिकांत रामचंद्र पाटील (मुलगा)\nश्री. विजय रामचंद्र पाटील (मुलगा)\nसौ. अंजली विकास घोरपडे (मुलगी)\nसौ. सुरेखा प्रकाश माने (मुलगी)\nकु. साहिल शशिकांत पाटील (नातू)'
         },
         hi: {
+        'heading.title': 'श्रद्धांजलि बैनर',
           name: 'श्रीमती. राधाबाई रामचंद्र पाटिल',
           age: '८२ वर्ष',
           deathDate: 'रविवार ०७/०६/२०२६',
@@ -4258,13 +4465,14 @@
           memorialText: 'माँ, आपकी ममता और त्याग सदा स्मरणीय रहेंगे।\nआपकी पावन स्मृति को सादर प्रणाम।',
           ceremonyTitle: 'श्रद्धांजलि एवं शोक सभा',
           ceremonyDate: 'मंगळवार १६/०६/२०२६',
-          ceremonyTime: 'सुबह ०७.४५ बजे',
+          ceremonyTime: 'सुबह ०८.४५ बजे',
           ceremonyPlace: 'कृष्णा नदी तट, वाई, सातारा।',
           organizer: 'शोकसंतप्त: पाटिल और घोरपडे परिवार',
           villageInfo: 'समस्त ग्रामवासी वाई',
           familyMembers: 'श्री. शशिकांत रामचंद्र पाटिल (पुत्र)\nश्री. विजय रामचंद्र पाटिल (पुत्र)\nसौ. अंजली विकास घोरपडे (पुत्री)\nसौ. सुरेखा प्रकाश माने (पुत्री)\nकु. साहिल शशिकांत पाटिल (पौत्र)'
         },
         en: {
+        'heading.title': 'Shradhanjali Banner',
           name: 'Smt. Radhabai Ramchandra Patil',
           age: '82 Years',
           deathDate: 'Sunday 07/06/2026',
@@ -4277,13 +4485,149 @@
           organizer: 'Grieved By: Patil & Ghorpade Families',
           villageInfo: 'All villagers of Wai',
           familyMembers: 'Mr. Shashikant Ramchandra Patil (Son)\nMr. Vijay Ramchandra Patil (Son)\nMrs. Anjali Vikas Ghorpade (Daughter)\nMrs. Surekha Prakash Mane (Daughter)\nMaster Sahil Shashikant Patil (Grandson)'
+        },
+        bn: {
+        'heading.title': 'শ্রদ্ধাঞ্জলি ব্যানার',
+          name: 'শ্ৰীমতী রাধাবাই রামচন্দ্র পাতিল',
+          age: '৮২ বছর',
+          deathDate: 'রবিবার ০৭/০৬/২০২৬',
+          deathTime: 'স্বর্গবাস গমন করেছেন।',
+          memorialText: 'মা, আপনার ভালোবাসা ও ত্যাগ চিরস্মরণীয় হয়ে থাকবে।\nআপনার পবিত্র স্মৃতিতে আমাদের বিনীত শ্রদ্ধা।',
+          ceremonyTitle: 'শ্রদ্ধাঞ্জলি ও শোকসভা',
+          ceremonyDate: 'মঙ্গলবার ১৬/০৬/২০২৬',
+          ceremonyTime: 'সকাল ০৭.৪৫ ঘটিকা',
+          ceremonyPlace: 'কৃষ্ণা নদী তীর, ওয়াই, সাতারা।',
+          organizer: 'শোকার্ত: পাতিল ও ঘোরপড়ে পরিবার',
+          villageInfo: 'সমস্ত গ্রামবাসী ওয়াই',
+          familyMembers: 'শ্রী শশিকান্ত রামচন্দ্র পাতিল (পুত্র)\nশ্রী বিজয় রামচন্দ্র পাতিল (পুত্র)\nশ্রীমতী অঞ্জলি বিকাশ ঘোরপড়ে (কন্যা)\nশ্রীমতী সুরেশা প্রকাশ মানে (কন্যা)\nকুমারী সাহিল শশিকান্ত পাতিল (পৌত্র)'
+        },
+        te: {
+        'heading.title': 'శ్రద్ధాంజలి బ్యానర్',
+          name: 'శ్రీమతి రాధాబాయి రామచంద్ర పాటిల్',
+          age: '82 సంవత్సరాలు',
+          deathDate: 'ఆదివారం 07/06/2026',
+          deathTime: 'స్వర్గస్తులయ్యారు.',
+          memorialText: 'అమ్మా, నీ ప్రేమ మరియు త్యాగం మా హృదయాలలో నిలిచిపోతాయి.\nనీ పవిత్ర స్మృతికి మా ప్రణామాలు.',
+          ceremonyTitle: 'శ్రద్ధాంజలి మరియు ప్రార్థన సభ',
+          ceremonyDate: 'మంగళవారం 16/06/2026',
+          ceremonyTime: 'ఉదయం 07:45 గంటలకు',
+          ceremonyPlace: 'కృష్ణా నది ఒడ్డు, వై, సతారా.',
+          organizer: 'శోకసంతప్తులు: పాటిల్ మరియు ఘోర్పడే కుటుంబం',
+          villageInfo: 'సమస్త గ్రామస్తులు వై',
+          familyMembers: 'శ్రీ శశికాంత్ రామచంద్ర పాటిల్ (కుమారుడు)\nశ్రీ విజయ్ రామచంద్ర పాటిల్ (కుమారుడు)\nశ్రీమతి అంజలి వికాస్ ఘోర్పడే (కుమార్తె)\nశ్రీమతి సురేఖ ప్రకాష్ మానే (కుమార్తె)\nకుమార్ సాహిల్ శశికాంత్ పాటిల్ (మనుమడు)'
+        },
+        ta: {
+        'heading.title': 'நினைவஞ்சலி பேனர்',
+          name: 'திருமதி ராதாபாய் ராமச்சந்திர பாட்டீல்',
+          age: '82 ஆண்டுகள்',
+          deathDate: 'ஞாயிற்றுக்கிழமை 07/06/2026',
+          deathTime: 'இறைவனடி சேர்ந்தார்.',
+          memorialText: 'அம்மா, உங்கள் அன்பும் தியாகமும் என்றும் எங்கள் நினைவில் வாழும்.\nஉங்கள் ஆன்மாவிற்கு எங்களது வணக்கங்கள்.',
+          ceremonyTitle: 'நினைவஞ்சலி மற்றும் பிரார்த்தனை கூட்டம்',
+          ceremonyDate: 'செவ்வாய்க்கிழமை 16/06/2026',
+          ceremonyTime: 'காலை 07.45 மணி',
+          ceremonyPlace: 'கிருஷ்ணா நதிக்கரை, வாய், சதாரா.',
+          organizer: 'துயருற்றோர்: பாட்டீல் மற்றும் கோர்படே குடும்பத்தினர்',
+          villageInfo: 'வாய் கிராம மக்கள்',
+          familyMembers: 'திரு சசிகாந்த் ராமச்சந்திர பாட்டீல் (மகன்)\nதிரு விஜய் ராமச்சந்திர பாட்டீல் (மகன்)\nதிருமதி அஞ்சலி விகாஸ் கோர்படே (மகள்)\nதிருமதி சுரேகா பிரகாஷ் மானே (மகள்)\nசெல்வன் சாஹில் சசிகாந்த் பாட்டீல் (பேரன்)'
+        },
+        gu: {
+        'heading.title': 'શ્રદ્ધાંજલિ બેનર',
+          name: 'શ્રીમતી રાધાબાઈ રામચંદ્ર પાટીલ',
+          age: '૮૨ વર્ષ',
+          deathDate: 'રવિવાર ૦૭/૦૬/૨૦૨૬',
+          deathTime: 'નું સ્વર્ગવાસ થયેલ છે.',
+          memorialText: 'માતાજી, તમારો પ્રેમ અને ત્યાગ સદા સ્મરણીય રહેશે.\nતમારી પવિત્ર સ્મૃતિને આદરપૂર્વક પ્રણામ.',
+          ceremonyTitle: 'શ્રદ્ધાંજલિ અને શોક સભા',
+          ceremonyDate: 'મંગળવાર ૧૬/૦૬/૨૦૨૬',
+          ceremonyTime: 'સવારે ૦૭.૪૫ વાગ્યે',
+          ceremonyPlace: 'કૃષ્ણા નદી તટ, વાઈ, સાતારા.',
+          organizer: 'શોકસંતપ્ત: પાટીલ અને ઘોરપડે પરિવાર',
+          villageInfo: 'સમસ્ત ગ્રામજનો વાઈ',
+          familyMembers: 'શ્રી શશિકાંત રામચંદ્ર પાટીલ (પુત્ર)\nશ્રી વિજય રામચંદ્ર પાટીલ (પુત્ર)\nશ્રીમતી અંજલિ વિકાસ ઘોરપડે (પુત્રી)\nશ્રીમતી સુરેખા પ્રકાશ માને (પુત્રી)\nકુમાર સાહિલ શશિકાંત પાટીલ (પૌત્ર)'
+        },
+        kn: {
+        'heading.title': 'ಶ್ರದ್ಧಾಂಜಲಿ ಬ್ಯಾನರ್',
+          name: 'ಶ್ರೀಮತಿ ರಾಧಾಬಾಯಿ ರಾಮಚಂದ್ರ ಪಾಟೀಲ್',
+          age: '೮೨ ವರ್ಷ',
+          deathDate: 'ಭಾನುವಾರ ೦೭/೦೬/೨೦೨೬',
+          deathTime: 'ಶಿವೈಕ್ಯರಾಗಿದ್ದಾರೆ.',
+          memorialText: 'ಅಮ್ಮಾ, ನಿಮ್ಮ ವಾತ್ಸಲ್ಯ ಮತ್ತು ತಾಗ ನಮಗೆ ಸದಾ ಸ್ಮರಣೀಯ.\nನಿಮ್ಮ ಪವಿತ್ರ ನೆನಪಿಗೆ ನಮ್ಮ ಸಾಷ್ಟಾಂಗ ಪ್ರಣಾಮಗಳು.',
+          ceremonyTitle: 'ಶ್ರದ್ಧಾಂಜಲಿ ಮತ್ತು ಶೋಕ ಸಭೆ',
+          ceremonyDate: 'ಮಂಗಳವಾರ ೧೬/೦೬/೨೦೨೬',
+          ceremonyTime: 'ಬೆಳಿಗ್ಗೆ ೦೭.೪೫ ಗಂಟೆಗೆ',
+          ceremonyPlace: 'ಕೃಷ್ಣಾ ನದಿ ತೀರ, ವಾಯಿ, ಸತಾರಾ.',
+          organizer: 'ಶೋಕಾರ್ತರು: ಪಾಟೀಲ್ ಮತ್ತು ಘೋರ್ಪಡೆ ಕುಟುಂಬ',
+          villageInfo: 'ಸಮಸ್ತ ಗ್ರಾಮಸ್ಥರು ವಾಯಿ',
+          familyMembers: 'ಶ್ರೀ ಶಶಿಕಾಂತ್ ರಾಮಚಂದ್ರ ಪಾಟೀಲ್ (ಮಗ)\nಶ್ರೀ ವಿಜಯ್ ರಾಮಚಂದ್ರ ಪಾಟೀಲ್ (ಮಗ)\nಶ್ರೀಮತಿ ಅಂಜಲಿ ವಿಕಾಸ್ ಘೋರ್ಪಡೆ (ಮಗಳು)\nಶ್ರೀಮತಿ ಸುಲೇಖಾ ಪ್ರಕಾಶ್ ಮಾನೆ (ಮಗಳು)\nಕುಮಾರ್ ಸಾಹಿಲ್ ಶಶಿಕಾಂತ್ ಪಾಟೀಲ್ (ಮೊಮ್ಮಗ)'
+        },
+        ml: {
+        'heading.title': 'അനുശോചന ബാനർ',
+          name: 'ശ്രീമതി രാധാബായി രാമചന്ദ്ര പാട്ടീൽ',
+          age: '82 വയസ്സ്',
+          deathDate: 'ഞായർ 07/06/2026',
+          deathTime: 'അന്തരിച്ചു.',
+          memorialText: 'അമ്മാ, നിങ്ങളുടെ സ്നേഹവും ത്യാഗവും എന്നും ഞങ്ങളുടെ മനസ്സിൽ ജീവിക്കും.\nനിങ്ങളുടെ ആത്മാവിന് പ്രണാമം.',
+          ceremonyTitle: 'അനുശോചന യോഗം',
+          ceremonyDate: 'ചൊവ്വ 16/06/2026',
+          ceremonyTime: 'രാവിലെ 07.45 മണിക്ക്',
+          ceremonyPlace: 'കൃഷ്ണാ നദീതീരം, വായ്, സത്താറ.',
+          organizer: 'ശോകാകുലർ: പാട്ടീൽ & ഘോർപഡെ കുടുംബം',
+          villageInfo: 'വായ് ഗ്രാമവാസികൾ',
+          familyMembers: 'ശ്രീ ശശികാന്ത് രാമചന്ദ്ര പാട്ടീൽ (മകൻ)\nശ്രീ വിജയ് രാമചന്ദ്ര പാട്ടീൽ (മകൻ)\nശ്രീമതി അഞ്ജലി വികാസ് ഘോർപഡെ (മകൾ)\nശ്രീമതി സുരേഖ പ്രകാശ് മാനെ (മകൾ)\nകുമാരൻ സാഹിൽ ശശികാന്ത് പാട്ടീൽ (പേരമകൻ)'
+        },
+        pa: {
+        'heading.title': 'ਸ਼ਰਧਾਂਜਲੀ ਬੈਨਰ',
+          name: 'ਸ੍ਰੀਮਤੀ ਰਾਧਾਬਾਈ ਰਾਮਚੰਦਰ ਪਾਟਿਲ',
+          age: '੮੨ ਸਾਲ',
+          deathDate: 'ਐਤਵਾਰ ੦੭/੦੬/੨੦੨੬',
+          deathTime: 'ਅਕਾਲ ਚਲਾਣਾ ਕਰ ਗਏ ਹਨ।',
+          memorialText: 'ਮਾਤਾ ਜੀ, ਤੁਹਾਡਾ ਪਿਆਰ ਅਤੇ ਤਿਆਗ ਹਮੇਸ਼ਾ ਯਾਦ ਰਹੇਗਾ।\nਤੁਹਾਡੀ ਪਵਿੱਤਰ ਯਾਦ ਨੂੰ ਸਾਡਾ ਪ੍ਰਣਾਮ।',
+          ceremonyTitle: 'ਸ਼ਰਧਾਂਜਲੀ ਅਤੇ ਅੰਤਿਮ ਅਰਦਾਸ',
+          ceremonyDate: 'ਮੰਗਲਵਾਰ ੧੬/੦੬/੨੦੨੬',
+          ceremonyTime: 'ਸਵੇਰੇ ੦੭.੪੫ ਵਜੇ',
+          ceremonyPlace: 'ਕ੍ਰਿਸ਼ਨਾ ਨਦੀ ਤਟ, ਵਾਈ, ਸਤਾਰਾ।',
+          organizer: 'ਸ਼ੋਕਗ੍ਰਸਤ: ਪਾਟਿਲ ਅਤੇ ਘੋਰਪੜੇ ਪਰਿਵਾਰ',
+          villageInfo: 'ਸਮੂਹ ਨਗਰ ਨਿਵਾਸੀ ਵਾਈ',
+          familyMembers: 'ਸ੍ਰੀ ਸ਼ਸ਼ੀਕਾਂਤ ਰਾਮਚੰਦਰ ਪਾਟਿਲ (ਪੁੱਤਰ)\nਸ੍ਰੀ ਵਿਜੇ ਰਾਮਚੰਦਰ ਪਾਟਿਲ (ਪੁੱਤਰ)\nਸ੍ਰੀਮਤੀ ਅੰਜਲੀ ਵਿਕਾਸ ਘੋਰਪੜੇ (ਪੁੱਤਰੀ)\nਸ੍ਰੀਮਤੀ ਸੁੁਰੇਖਾ ਪ੍ਰਕਾਸ਼ ਮਾਨੇ (ਪੁੱਤਰੀ)\nਮਾਸਟਰ ਸਾਹਿਲ ਸ਼ਸ਼ੀਕਾਂਤ ਪਾਟਿਲ (ਪੋਤਾ)'
+        },
+        or: {
+        'heading.title': 'ଶ୍ରଦ୍ଧାଞ୍ଜଳି ବ୍ୟାନର',
+          name: 'ଶ୍ରୀମତୀ ରାଧାବାଈ ରାମଚନ୍ଦ୍ର ପାଟିଲ',
+          age: '୮୨ ବର୍ଷ',
+          deathDate: 'ରବିବାର ୦୭/୦୬/୨୦୨୬',
+          deathTime: 'ଇହଲୀଳା ସାଙ୍ଗ କରିଛନ୍ତି।',
+          memorialText: 'ମାଆ, ଆପଣଙ୍କ ସ୍ନେହ ଓ ତ୍ୟାଗ ସଦା ସ୍ମରଣୀୟ ରହିବ।\nଆପଣଙ୍କ ଅମର ଆତ୍ମାକୁ ଆମର ସାଦର ପ୍ରଣାମ।',
+          ceremonyTitle: 'ଶ୍ରଦ୍ଧାଞ୍ଜଳି ଓ ପ୍ରାର୍ଥନା ସଭା',
+          ceremonyDate: 'ମଙ୍ଗଳବାର ୧୬/୦୬/୨୦୨୬',
+          ceremonyTime: 'ସକାଳ ୦୭.୪୫ ଘଟିକା',
+          ceremonyPlace: 'କୃଷ୍ଣା ନଦୀ କୂଳ, ୱାଇ, ସାତାରା।',
+          organizer: 'ଶୋକସନ୍ତପ୍ତ: ପାଟିଲ ଓ ଘୋରପଡେ ପରିବାର',
+          villageInfo: 'ସମସ୍ତ ଗ୍ରାମବାସୀ ୱାଇ',
+          familyMembers: 'ଶ୍ରୀ ଶଶିକାନ୍ତ ରାମଚନ୍ଦ୍ର ପାଟିଲ (ପୁତ୍ର)\nଶ୍ରୀ ବିଜୟ ରାମଚନ୍ଦ୍ର ପାଟିଲ (ପୁତ୍ର)\nଶ୍ରୀମତୀ ଅଞ୍ଜଳି ବିକାଶ ଘୋରପଡେ (କନ୍ୟା)\nଶ୍ରୀମତୀ ସୁରେଖା ପ୍ରକାଶ ମାନେ (କନ୍ୟା)\nକୁମାର ସାହିଲ ଶଶିକାନ୍ତ ପାଟିଲ (ନାତି)'
+        },
+        ur: {
+        'heading.title': 'تعزیتی بینر',
+          name: 'شریمتی رادھا بائی رام چندر پاٹل',
+          age: '82 سال',
+          deathDate: 'اتوار 07/06/2026',
+          deathTime: 'کا انتقال ہو گیا ہے۔',
+          memorialText: 'ماں، آپ کی محبت اور قربانی ہمیشہ یاد رہے گی۔\nروح کے لیے مغفرت اور بلندی درجات کی دعا۔',
+          ceremonyTitle: 'تعزیتی نشست و دعائیہ مجلس',
+          ceremonyDate: 'منگل 16/06/2026',
+          ceremonyTime: 'صبح 07:45 بجے',
+          ceremonyPlace: 'کرشنا ندی گھاٹ، وائی، ستارا۔',
+          organizer: 'سوگواران: پاٹل و گھورپڑے خاندان',
+          villageInfo: 'تمام اہل موضع وائی',
+          familyMembers: 'مسٹر ششیکانت رام چندر پاٹل (فرزند)\nمسٹر وجے رام چندر پاٹل (فرزند)\nمسز انجلی وکاس گھورپڑے (دختر)\nمسز سریکھا پرکاش مانے (دختر)\nماسٹر ساحل ششیکانت پاٹل (پوتا)'
         }
       },
       {
         gender: 'male',
         photo: 'sample-photo-male.webp',
         mr: {
-          name: 'ज्ञानेश्वर बाळकृष्ण सिनलकर',
+        'heading.title': 'श्रद्धांजली बॅनर',
+          name: 'ज्ञानेश्वर बाळकृष्ण जाधव',
           age: '६९ वर्षे',
           deathDate: 'शनिवार ०६/०६/२०२६',
           deathTime: 'स्वर्गवासी झाले.',
@@ -4292,12 +4636,13 @@
           ceremonyDate: 'शुक्रवार १२/०६/२०२६',
           ceremonyTime: 'सकाळी ०८.३० वा.',
           ceremonyPlace: 'वेळनदी तिरावर, मु.पो. वाफगाव, ता. खेड, जि. पुणे.',
-          organizer: 'शोकाकुल: सिनलकर आणि रामाणे परिवार',
+          organizer: 'शोकाकुल: जाधव आणि शिंदे परिवार',
           villageInfo: 'समस्त ग्रामस्थ वाफगाव व पिंपळगाव',
-          familyMembers: 'श्रीमती. सुहासिनी ज्ञानेश्वर सिनलकर (पत्नी)\nश्री. संजय ज्ञानेश्वर सिनलकर (मुलगा)\nश्री. सतीश ज्ञानेश्वर सिनलकर (मुलगा)\nसौ. प्रियांका निलेश रामाणे (मुलगी)\nश्री. बाळकृष्ण कोंडिबा सिनलकर (वडील)'
+          familyMembers: 'श्रीमती. सुहासिनी ज्ञानेश्वर जाधव (पत्नी)\nश्री. संजय ज्ञानेश्वर जाधव (मुलगा)\nश्री. सतीश ज्ञानेश्वर जाधव (मुलगा)\nसौ. प्रियांका निलेश शिंदे (मुलगी)\nश्री. बाळकृष्ण कोंडिबा जाधव (वडील)'
         },
         hi: {
-          name: 'ज्ञानेश्वर बालकृष्ण सिनलकर',
+        'heading.title': 'श्रद्धांजलि बैनर',
+          name: 'ज्ञानेश्वर बालकृष्ण जाधव',
           age: '६९ वर्ष',
           deathDate: 'शनिवार ०६/०६/२०२६',
           deathTime: 'का गोलोकवास हो गया है।',
@@ -4306,12 +4651,13 @@
           ceremonyDate: 'शुक्रवार १२/०६/२०२६',
           ceremonyTime: 'सुबह ०८.३० बजे',
           ceremonyPlace: 'वेल नदी तट, वाफगांव, खेड, पुणे।',
-          organizer: 'शोकसंतप्त: सिनलकर और रामाणे परिवार',
+          organizer: 'शोकसंतप्त: जाधव और शिंदे परिवार',
           villageInfo: 'समस्त ग्रामवासी वाफगांव',
-          familyMembers: 'श्रीमती. सुहासिनी ज्ञानेश्वर सिनलकर (पत्नी)\nश्री. संजय ज्ञानेश्वर सिनलकर (पुत्र)\nश्री. सतीश ज्ञानेश्वर सिनलकर (पुत्र)\nसौ. प्रियंका निलेश रामाणे (पुत्री)\nश्री. बालकृष्ण कोंडिबा सिनलकर (पिता)'
+          familyMembers: 'श्रीमती. सुहासिनी ज्ञानेश्वर जाधव (पत्नी)\nश्री. संजय ज्ञानेश्वर जाधव (पुत्र)\nश्री. सतीश ज्ञानेश्वर जाधव (पुत्र)\nसौ. प्रियंका निलेश शिंदे (पुत्री)\nश्री. बालकृष्ण कोंडिबा जाधव (पिता)'
         },
         en: {
-          name: 'Dnyaneshwar Balkrishna Sinalkar',
+        'heading.title': 'Shradhanjali Banner',
+          name: 'Dnyaneshwar Balkrishna Jadhav',
           age: '69 Years',
           deathDate: 'Saturday 06/06/2026',
           deathTime: 'departed for heavenly abode.',
@@ -4320,15 +4666,151 @@
           ceremonyDate: 'Friday 12/06/2026',
           ceremonyTime: '08:30 AM',
           ceremonyPlace: 'Vel River Bank, Wafgaon, Khed, Pune.',
-          organizer: 'Grieved By: Sinalkar & Ramane Families',
+          organizer: 'Grieved By: Jadhav & Shinde Families',
           villageInfo: 'All villagers of Wafgaon & Pimpalgaon',
-          familyMembers: 'Smt. Suhasini Dnyaneshwar Sinalkar (Wife)\nMr. Sanjay Dnyaneshwar Sinalkar (Son)\nMr. Satish Dnyaneshwar Sinalkar (Son)\nMrs. Priyanka Nilesh Ramane (Daughter)\nMr. Balkrishna Kondiba Sinalkar (Father)'
+          familyMembers: 'Smt. Suhasini Dnyaneshwar Jadhav (Wife)\nMr. Sanjay Dnyaneshwar Jadhav (Son)\nMr. Satish Dnyaneshwar Jadhav (Son)\nMrs. Priyanka Nilesh Shinde (Daughter)\nMr. Balkrishna Kondiba Jadhav (Father)'
+        },
+        bn: {
+        'heading.title': 'শ্রদ্ধাঞ্জলি ব্যানার',
+          name: 'জ্ঞানেশ্বর বালকৃষ্ণ সিনলকর',
+          age: '৬৯ বছর',
+          deathDate: 'শনিবার ০৬/০৬/২০২৬',
+          deathTime: 'পরলোক গমন করেছেন।',
+          memorialText: 'আপনার আদর্শ ও সৎ পথ আমাদের চিরকাল অনুপ্রেরণা দেবে।\nআমাদের বিনম্র শ্রদ্ধাঞ্জলি।',
+          ceremonyTitle: 'শ্রদ্ধাঞ্জলি সভা',
+          ceremonyDate: 'শুক্রবার ১২/০৬/২০২৬',
+          ceremonyTime: 'সকাল ০৮.৩০ ঘটিকা',
+          ceremonyPlace: 'ভেল নদী তীর, ওয়াফগাঁও, খেড়, পুণে।',
+          organizer: 'শোকার্ত: সিনলকর ও রামাণে পরিবার',
+          villageInfo: 'সমস্ত গ্রামবাসী ওয়াফগাঁও',
+          familyMembers: 'শ্রীমতী সুহাসিনী জ্ঞানেশ্বর সিনলকর (স্ত্রী)\nশ্রী সঞ্জয় জ্ঞানেশ্বর সিনলকর (পুত্র)\nশ্রী সতীশ জ্ঞানেশ্বর সিনলকর (পুত্র)\nশ্রীমতী প্রিয়াঙ্কা নিলেশ রামাণে (কন্যা)\nশ্রী বালকৃষ্ণ কোল্ডিবা সিনলকর (পিতা)'
+        },
+        te: {
+        'heading.title': 'శ్రద్ధాంజలి బ్యానర్',
+          name: 'జ్ఞానేశ్వర్ బాలకృష్ణ సినాల్కర్',
+          age: '69 సంవత్సరాలు',
+          deathDate: 'శనివారం 06/06/2026',
+          deathTime: 'స్వర్గస్తులయ్యారు.',
+          memorialText: 'మీ సరళమైన స్వభావం మరియు మంచి మార్గం మాకు ఎల్లప్పుడూ దారి చూపుతాయి.\nభావపూర్వక శ్రద్ధాంజలి.',
+          ceremonyTitle: 'శ్రద్ధాంజలి మరియు ప్రార్థన సభ',
+          ceremonyDate: 'శుక్రవారం 12/06/2026',
+          ceremonyTime: 'ఉదయం 08:30 గంటలకు',
+          ceremonyPlace: 'వెల్ నది ఒడ్డు, వాఫ్‌గావ్, ఖేడ్, పుణే.',
+          organizer: 'శోకసంతప్తులు: సినాల్కర్ మరియు రామాణే కుటుంబం',
+          villageInfo: 'సమస్త గ్రామస్తులు వాఫ్‌గావ్',
+          familyMembers: 'శ్రీమతి సుహాసిని జ్ఞానేశ్వర్ సినాల్కర్ (భార్య)\nశ్రీ సంజయ్ జ్ఞానేశ్వర్ సినాల్కర్ (కుమారుడు)\nశ్రీ సతీష్ జ్ఞానేశ్వర్ సినాల్కర్ (కుమారుడు)\nశ్రీమతి ప్రియాంక నిలేష్ రామాణే (కుమార్తె)\nశ్రీ బాలకృష్ణ కొండిబా సినాల్కర్ (తండ్రి)'
+        },
+        ta: {
+        'heading.title': 'நினைவஞ்சலி பேனர்',
+          name: 'ஞானேஸ்வர் பாலகிருஷ்ண சினால்கர்',
+          age: '69 ஆண்டுகள்',
+          deathDate: 'சனிக்கிழமை 06/06/2026',
+          deathTime: 'இயற்கை எய்தினார்.',
+          memorialText: 'உங்கள் எளிமையான வாழ்വും நன்னெறியும் என்றும் எங்களை வழிநடத்தும்.\nஎங்கள் கண்ணீர் அஞ்சலி.',
+          ceremonyTitle: 'நினைவஞ்சலி கூட்டம்',
+          ceremonyDate: 'வெள்ளிக்கிழமை 12/06/2026',
+          ceremonyTime: 'காலை 08.30 மணி',
+          ceremonyPlace: 'வெல் நதிக்கரை, வாப்காவ், கேட், புனே.',
+          organizer: 'துயருற்றோர்: சினால்கர் மற்றும் ராமானே குடும்பத்தினர்',
+          villageInfo: 'வாப்காவ் கிராம மக்கள்',
+          familyMembers: 'திருமதி சுகாசினி ஞானேஸ்வர் சினால்கர் (மனைவி)\nதிரு சஞ்சய் ஞானேஸ்வர் சினால்கர் (மகன்)\nதிரு சதீஷ் ஞானேஸ்வர் சினால்கர் (மகன்)\nதிருமதி பிரியங்கா நிலேஷ் ராமானே (மகள்)\nதிரு பாலகிருஷ்ண கொண்டிபா சினால்கர் (தந்தை)'
+        },
+        gu: {
+        'heading.title': 'શ્રદ્ધાંજલિ બેનર',
+          name: 'જ્ઞાનેશ્વર બાળકૃષ્ણ સિનલકર',
+          age: '૬૯ વર્ષ',
+          deathDate: 'શનિવાર ૦૬/૦૬/૨૦૨૬',
+          deathTime: 'નું સ્વર્ગવાસ થયેલ છે.',
+          memorialText: 'તમારો સરળ સ્વભાવ અને નેક રાહ સદા અમારું માર્ગદર્શન કરશે.\nભાવભીની શ્રદ્ધાંજલિ.',
+          ceremonyTitle: 'શ્રદ્ધાંજલિ સભા',
+          ceremonyDate: 'શુક્રવાર ૧૨/૦૬/૨૦૨૬',
+          ceremonyTime: 'સવારે ૦૮.૩૦ વાગ્યે',
+          ceremonyPlace: 'વેલ નદી તટ, વાફગાંવ, ખેડ, પુણે.',
+          organizer: 'શોકસંતપ્ત: સિનલકર અને રામાણે પરિવાર',
+          villageInfo: 'સમસ્ત ગ્રામજનો વાફગાંવ',
+          familyMembers: 'શ્રીમતી સુહાસિની જ્ઞાનેશ્વર સિનલકર (પત્ની)\nશ્રી સંજય જ્ઞાનેશ્વર સિનલકર (પુત્ર)\nશ્રી સતીશ જ્ઞાનેશ્વર સિનલકર (પુત્ર)\nશ્રીમતી પ્રિયંકા નિલેશ રામાણે (પુત્રી)\nશ્રી બાળકૃષ્ણ કોંડિબા સિનલકર (પિતા)'
+        },
+        kn: {
+        'heading.title': 'ಶ್ರದ್ಧಾಂಜಲಿ ಬ್ಯಾನರ್',
+          name: 'ಜ್ಞಾನೇಶ್ವರ್ ಬಾಳಕೃಷ್ಣ ಸಿನಾಲ್ಕರ್',
+          age: '೬೯ ವರ್ಷ',
+          deathDate: 'ಶನಿವಾರ ೦೬/೦೬/೨೦೨೬',
+          deathTime: 'ಲಿಂಗೈಕ್ಯರಾಗಿದ್ದಾರೆ.',
+          memorialText: 'ನಿಮ್ಮ ಸರಳ ಸ್ವಭಾವ ಮತ್ತು ಸನ್ಮಾರ್ಗ ನಮಗೆ ಸದಾ ದಾರಿದೀಪ.\nಭಾವಪೂರ್ಣ ಶ್ರದ್ಧಾಂಜಲಿ.',
+          ceremonyTitle: 'ಶ್ರದ್ಧಾಂಜಲಿ ಮತ್ತು ಪ್ರಾರ್ಥನಾ ಸಭೆ',
+          ceremonyDate: 'ಶುಕ್ರವಾರ ೧೨/೦೬/೨೦೨೬',
+          ceremonyTime: 'ಬೆಳಿಗ್ಗೆ ೦೮.೩೦ ಗಂಟೆಗೆ',
+          ceremonyPlace: 'ವೆಲ್ ನದಿ ತೀರ, ವಾಪ್‌ಗಾವ್, ಖೇಡ್, ಪುಣೆ.',
+          organizer: 'ಶೋಕಾರ್ತರು: ಸಿನಾಲ್ಕರ್ ಮತ್ತು ರಾಮಾಣೇ ಕುಟುಂಬ',
+          villageInfo: 'ಸಮಸ್ತ ಗ್ರಾಮಸ್ಥರು ವಾಪ್‌ಗಾವ್',
+          familyMembers: 'ಶ್ರೀಮತಿ ಸುಹಾಸಿನಿ ಜ್ಞಾನೇಶ್ವರ್ ಸಿನಾಲ್ಕರ್ (ಪತ್ನಿ)\nಶ್ರೀ ಸಂಜಯ್ ಜ್ಞಾನೇಶ್ವರ್ ಸಿನಾಲ್ಕರ್ (ಮಗ)\nಶ್ರೀ ಸತೀಶ್ ಜ್ಞಾನೇಶ್ವರ್ ಸಿನಾಲ್ಕರ್ (ಮಗ)\nಶ್ರೀಮತಿ ಪ್ರಿಯಾಂಕಾ ನಿಲೇಶ್ ರಾಮಾಣೇ (ಮಗಳು)\nಶ್ರೀ ಬಾಳಕೃಷ್ಣ ಕೊಂಡಿಬಾ ಸಿನಾಲ್ಕರ್ (ತಂದೆ)'
+        },
+        ml: {
+        'heading.title': 'അനുശോചന ബാനർ',
+          name: 'ജ്ഞാനേശ്വർ ബാലകൃഷ്ണ സിനാൽക്കർ',
+          age: '69 വയസ്സ്',
+          deathDate: 'ശനി 06/06/2026',
+          deathTime: 'അന്തരിച്ചു.',
+          memorialText: 'നിങ്ങളുടെ ലാളിത്യവും നല്ല ചിന്തകളും എന്നും ഞങ്ങൾക്ക് പ്രചോദനമാകും.\nആദരാഞ്ജലികൾ.',
+          ceremonyTitle: 'അനുശോചന യോഗം',
+          ceremonyDate: 'വെള്ളി 12/06/2026',
+          ceremonyTime: 'രാവിലെ 08.30 മണിക്ക്',
+          ceremonyPlace: 'വെൽ നദീതീരം, വാഫ്ഗാവ്, ഖേഡ്, പൂനെ.',
+          organizer: 'ശോകാകുലർ: സിനാൽക്കർ & രാമാണെ കുടുംബം',
+          villageInfo: 'വാഫ്ഗാവ് ഗ്രാമവാസികൾ',
+          familyMembers: 'ശ്രീമതി സുഹാസിനി ജ്ഞാനേശ്വർ സിനാൽക്കർ (ഭാര്യ)\nശ്രീ സഞ്ജയ് ജ്ഞാനേശ്വർ സിനാൽക്കർ (മകൻ)\nശ്രീ സതീഷ് ജ്ഞാനേശ്വർ സിനാൽക്കർ (മകൻ)\nശ്രീമതി പ്രിയങ്ക നിലേഷ് രാമാണെ (മകൾ)\nശ്രീ ബാലകൃഷ്ണ കൊണ്ടിക സിനാൽക്കർ (പിതാവ്)'
+        },
+        pa: {
+        'heading.title': 'ਸ਼ਰਧਾਂਜਲੀ ਬੈਨਰ',
+          name: 'ਗਿਆਨੇਸ਼ਵਰ ਬਾਲਕ੍ਰਿਸ਼ਨ ਸਿਨਾਲਕਰ',
+          age: '੬੯ ਸਾਲ',
+          deathDate: 'ਸ਼ਨੀਵਾਰ ੦੬/੦੬/੨੦੨੬',
+          deathTime: 'ਅਕਾਲ ਚਲਾਣਾ ਕਰ ਗਏ ਹਨ।',
+          memorialText: 'ਤੁਹਾਡਾ ਸਰਲ ਸੁਭਾਅ ਅਤੇ ਨੇਕ ਰਾਹ ਹਮੇਸ਼ਾ ਸਾਡਾ ਮਾਰਗਦਰਸ਼ਨ ਕਰੇਗਾ।\nਭਾਵਪੂਰਤ ਸ਼ਰਧਾਂਜਲੀ।',
+          ceremonyTitle: 'ਸ਼ਰਧਾਂਜਲੀ ਅਤੇ ਅੰਤਿਮ ਅਰਦਾਸ',
+          ceremonyDate: 'ਸ਼ੁੱਕਰਵਾਰ ੧੨/੦੬/੨੦੨੬',
+          ceremonyTime: 'ਸਵੇਰੇ ੦੮.੩੦ ਵਜੇ',
+          ceremonyPlace: 'ਵੇਲ ਨਦੀ ਤਟ, ਵਾਫਗਾਓਂ, ਖੇੜ, ਪੁਣੇ।',
+          organizer: 'ਸ਼ੋਕਗ੍ਰਸਤ: ਸਿਨਾਲਕਰ ਅਤੇ ਰਾਮਾਣੇ ਪਰਿਵਾਰ',
+          villageInfo: 'ਸਮੂਹ ਨਗਰ ਨਿਵਾਸੀ ਵਾਫਗਾਓਂ',
+          familyMembers: 'ਸ੍ਰੀਮਤੀ ਸੁਹਾਸਿਨੀ ਗਿਆਨੇਸ਼ਵਰ ਸਿਨਾਲਕਰ (ਪਤਨੀ)\nਸ੍ਰੀ ਸੰਜੇ ਗਿਆਨੇਸ਼ਵਰ ਸਿਨਾਲਕਰ (ਪੁੱਤਰ)\nਸ੍ਰੀ ਸਤੀਸ਼ ਗਿਆਨੇਸ਼ਵਰ ਸਿਨਾਲਕਰ (ਪੁੱਤਰ)\nਸ੍ਰੀਮਤੀ ਪ੍ਰਿਯੰਕਾ ਨਿਲੇਸ਼ ਰਾਮਾਣੇ (ਪੁੱਤਰੀ)\nਸ੍ਰੀ ਬਾਲਕ੍ਰਿਸ਼ਨ ਕੌਂਡੀਬਾ ਸਿਨਾਲਕਰ (ਪਿਤਾ)'
+        },
+        or: {
+        'heading.title': 'ଶ୍ରଦ୍ଧାଞ୍ଜଳି ବ୍ୟାନର',
+          name: 'ଜ୍ଞାନେଶ୍ୱର ବାଳକୃଷ୍ଣ ସିନାଲକର',
+          age: '୬୯ ବର୍ଷ',
+          deathDate: 'ଶନିବାର ୦୬/୦୬/୨୦୨୬',
+          deathTime: 'ଇହଲୀଳା ସାଙ୍ଗ କରିଛନ୍ତି।',
+          memorialText: 'ଆପଣଙ୍କ ସରଳ ସ୍ୱଭାବ ଓ ସତ୍ ମାର୍ଗ ସଦା ଆମକୁ ପ୍ରେରଣା ଦେବ।\nଭାବପୂର୍ଣ୍ଣ ଶ୍ରଦ୍ଧାଞ୍ଜଳି।',
+          ceremonyTitle: 'ଶ୍ରଦ୍ଧାଞ୍ଜଳି ଓ ପ୍ରାର୍ଥନା ସଭା',
+          ceremonyDate: 'ଶୁକ୍ରବାର ୧୨/୦୬/୨୦୨୬',
+          ceremonyTime: 'ସକାଳ ୦୮.୩୦ ଘଟିକା',
+          ceremonyPlace: 'ଭେଲ ନଦୀ କୂଳ, ୱାଫଗାଓଁ, ଖେଡ, ପୁଣେ।',
+          organizer: 'ଶୋକସନ୍ତପ୍ତ: ସିନାଲକର ଓ ରାମାଣେ ପରିବାର',
+          villageInfo: 'ସମସ୍ତ ଗ୍ରାମବାସୀ ୱାଫଗାଓଁ',
+          familyMembers: 'ଶ୍ରୀମତୀ ସୁହାସିନୀ ଜ୍ଞାନେଶ୍ୱର ସିନାଲକର (ପତ୍ନୀ)\nଶ୍ରୀ ସଞ୍ଜୟ ଜ୍ଞାନେଶ୍ୱର ସିନାଲକର (ପୁତ୍ର)\nଶ୍ରୀ ସତୀଶ ଜ୍ଞାନେଶ୍ୱର ସିନାଲକର (ପୁତ୍ର)\nଶ୍ରୀମତୀ ପ୍ରିୟଙ୍କା ନିଲେଶ ରାମାଣେ (କନ୍ୟା)\nଶ୍ରୀ ବାଳକୃଷ୍ଣ କୋଣ୍ଡିବା ସିନାଲକର (ପିତା)'
+        },
+        ur: {
+        'heading.title': 'تعزیتی بینر',
+          name: 'گیانیشور بال کرشنا سنالکر',
+          age: '69 سال',
+          deathDate: 'ہفتہ 06/06/2026',
+          deathTime: 'کا انتقال ہو گیا ہے۔',
+          memorialText: 'آپ کا سادہ مزاج اور نیک راستہ ہمیشہ ہماری رہنمائی کرے گا۔\nروح کے لیے مغفرت اور بلندی درجات کی دعا۔',
+          ceremonyTitle: 'تعزیتی نشست و دعائیہ مجلس',
+          ceremonyDate: 'جمعہ 12/06/2026',
+          ceremonyTime: 'صبح 08:30 بجے',
+          ceremonyPlace: 'ویل ندی گھاٹ، واف گاؤں، کھیر، پونے۔',
+          organizer: 'سوگواران: سنالکر و رامانے خاندان',
+          villageInfo: 'تمام اہل موضع واف گاؤں',
+          familyMembers: 'شریمتی سھاسنی گیانیشور سنالکر (اہلیہ)\nمسٹر سنجے گیانیشور سنالکر (فرزند)\nمسٹر ستیش گیانیشور سنالکر (فرزند)\nمسز پرینکا نیلیش رامانے (دختر)\nمسٹر بال کرشنا کونڈیبا سنالکر (والد)'
         }
       },
       {
         gender: 'female',
         photo: 'sample-photo-female.webp',
         mr: {
+        'heading.title': 'श्रद्धांजली बॅनर',
           name: 'सौ. लीलाबाई विठ्ठलराव देशमुख',
           age: '७६ वर्षे',
           deathDate: 'शुक्रवार ०५/०६/२०२६',
@@ -4343,6 +4825,7 @@
           familyMembers: 'श्री. विठ्ठलराव गणपतराव देशमुख (पती)\nश्री. राजेंद्र विठ्ठलराव देशमुख (मुलगा)\nश्री. जितेंद्र विठ्ठलराव देशमुख (मुलगा)\nसौ. कल्पना नितीन काळे (मुलगी)\nसौ. मनिषा शरद शेंडे (मुलगी)'
         },
         hi: {
+        'heading.title': 'श्रद्धांजलि बैनर',
           name: 'सौ. लीलाबाई विठ्ठलराव देशमुख',
           age: '७६ वर्ष',
           deathDate: 'शुक्रवार ०५/०६/२०२६',
@@ -4357,6 +4840,7 @@
           familyMembers: 'श्री. विठ्ठलराव गणपतराव देशमुख (पति)\nश्री. राजेंद्र विठ्ठलराव देशमुख (पुत्र)\nश्री. जितेंद्र विठ्ठलराव देशमुख (पुत्र)\nसौ. कल्पना नितिन काले (पुत्री)\nसौ. मनीषा शरद शेंडे (पुत्री)'
         },
         en: {
+        'heading.title': 'Shradhanjali Banner',
           name: 'Smt. Leelabai Vitthalrao Deshmukh',
           age: '76 Years',
           deathDate: 'Friday 05/06/2026',
@@ -4369,25 +4853,150 @@
           organizer: 'Grieved By: Deshmukh & Kale Families',
           villageInfo: 'All friends & villagers of Kopargaon',
           familyMembers: 'Mr. Vitthalrao Ganpatrao Deshmukh (Husband)\nMr. Rajendra Vitthalrao Deshmukh (Son)\nMr. Jitendra Vitthalrao Deshmukh (Son)\nMrs. Kalpana Nitin Kale (Daughter)\nMrs. Manisha Sharad Shende (Daughter)'
+        },
+        bn: {
+        'heading.title': 'শ্রদ্ধাঞ্জলি ব্যানার',
+          name: 'শ্রীমতী લીলাબાઇ વિઠ્ઠલરાવ દેશમુખ',
+          age: '৭৬ বছর',
+          deathDate: 'শুক্রবার ০৫/০৬/২০২৬',
+          deathTime: 'পরলোক গমন করেছেন।',
+          memorialText: 'আপনার ভালোবাসার আলো চিরকাল আমাদের পথ দেখাবে।\nঈশ্বরের কাছে আপনার আত্মার চিরশান্তি কামনা করি।',
+          ceremonyTitle: 'শ্রদ্ধাঞ্জলি ও প্রার্থনা সভা',
+          ceremonyDate: 'বৃহস্পতিবার ১১/০৬/২০২৬',
+          ceremonyTime: 'সকাল ০৮.১৫ ঘটিকা',
+          ceremonyPlace: 'গোদাবরী ঘাট, কোপরগাঁও, আহমেদনগর।',
+          organizer: 'শোকার্ত: দেশমুখ ও কালে পরিবার',
+          villageInfo: 'সমস্ত বন্ধু ও গ্রামবাসী কোপরগাঁও',
+          familyMembers: 'শ্রী ভিঠ্ঠলরাও গণপতরাও দেশমুখ (স্বামী)\nশ্রী রাজেন্দ্র ভিঠ্ঠলরাও দেশমুখ (পুত্র)\nশ্রী জীতেন্দ্র ভিঠ্ঠলরাও দেশমুখ (পুত্র)\nশ্রীমতী কল্পনা নিতিন কালে (কন্যা)\nশ্রীমতী মণীষা শরদ শেন্দে (কন্যা)'
+        },
+        te: {
+        'heading.title': 'శ్రద్ధాంజలి బ్యానర్',
+          name: 'శ్రీమతి లీలాబాయి విఠల్‌రావు దేశ్‌ముఖ్',
+          age: '76 సంవత్సరాలు',
+          deathDate: 'శుక్రవారం 05/06/2026',
+          deathTime: 'పరమపదించారు.',
+          memorialText: 'మీ ప్రేమపూర్వక జ్ఞాపకాలు మాకు ఎల్లప్పుడూ దారి చూపుతాయి.\nఆత్మ శాంతి కలగాలని దేవుడిని ప్రార్థిస్తున్నాము.',
+          ceremonyTitle: 'శ్రద్ధాంజలి మరియు ప్రార్థన సభ',
+          ceremonyDate: 'గురువారం 11/06/2026',
+          ceremonyTime: 'ఉదయం 08:15 గంటలకు',
+          ceremonyPlace: 'గోదావరి ఘాట్, కొపర్గావ్, అహ్మద్‌నగర్.',
+          organizer: 'శోకసంతప్తులు: దేశ్‌ముఖ్ మరియు కాలే కుటుంబం',
+          villageInfo: 'సమస్త స్నేహితులు మరియు గ్రామస్తులు కొపర్గావ్',
+          familyMembers: 'శ్రీ విఠల్‌రావు గణపత్రావ్ దేశ్‌ముఖ్ (భర్త)\nశ్రీ రాజేంద్ర విఠల్‌రావు దేశ్‌ముఖ్ (కుమారుడు)\nశ్రీ జితేంద్ర విఠల్‌రావు దేశ్‌ముఖ్ (కుమారుడు)\nశ్రీమతి కల్పనా నితిన్ కాలే (కుమార్తె)\nశ్రీమతి మనీషా శరద్ షెండే (కుమార్తె)'
+        },
+        ta: {
+        'heading.title': 'நினைவஞ்சலி பேனர்',
+          name: 'திருமதி லீலாபாய் வித்தலராவ் தேஷ்முக்',
+          age: '76 ஆண்டுகள்',
+          deathDate: 'வெள்ளிக்கிழமை 05/06/2026',
+          deathTime: 'இயற்கை எய்தினார்.',
+          memorialText: 'உங்கள் பாசமான நினைவுகள் என்றும் எங்களை வழிநடத்தும்.\nஉங்கள் ஆன்மா சாந்தியடைய இறைவனைப் பிரார்த்திக்கிறோம்.',
+          ceremonyTitle: 'நினைவஞ்சலி மற்றும் பிரார்த்தனை கூட்டம்',
+          ceremonyDate: 'வியாழக்கிழமை 11/06/2026',
+          ceremonyTime: 'காலை 08.15 மணி',
+          ceremonyPlace: 'கோதாவரி காட், கோபர்காவ், அகமத்நகர்.',
+          organizer: 'துயருற்றோர்: தேஷ்முக் மற்றும் காலே குடும்பத்தினர்',
+          villageInfo: 'கோபர்காவ் கிராம மக்கள்',
+          familyMembers: 'திரு வித்தலராவ் கணபதிராவ் தேஷ்முக் (கணவர்)\nதிரு ராஜேந்திர வித்தலராவ் தேஷ்முக் (மகன்)\nதிரு ஜிதேந்திர வித்தலராவ் தேஷ்முக் (மகன்)\nதிருமதி கல்பனா நிதின் காலே (மகள்)\nதிருமதி மனிஷா சரத் ஷெண்டே (மகள்)'
+        },
+        gu: {
+        'heading.title': 'શ્રદ્ધાંજલિ બેનર',
+          name: 'શ્રીમતી લીલાબાઈ વિઠ્ઠલરાવ દેશમુખ',
+          age: '૭૬ વર્ષ',
+          deathDate: 'શુક્રવાર ૦૫/૦૬/૨૦૨૬',
+          deathTime: 'નું દુઃખદ અવસાન થયેલ છે.',
+          memorialText: 'તમારી સ્નેહાળ છાયા સદા અમારી યાદોમાં જીવંત રહેશે.\nદિવંગત આત્માની શાંતિ માટે ઈશ્વરને પ્રાર્થના.',
+          ceremonyTitle: 'શ્રદ્ધાંજલિ અને પ્રાર્થના સભા',
+          ceremonyDate: 'ગુરુવાર ૧૧/૦૬/૨૦૨૬',
+          ceremonyTime: 'સવારે ૦૮.૧૫ વાગ્યે',
+          ceremonyPlace: 'ગોદાવરી ઘાટ, કોપરગાંવ, અહમદનગર.',
+          organizer: 'શોકસંતપ્ત: દેશમુખ અને કાલે પરિવાર',
+          villageInfo: 'સમસ્ત મિત્ર મંડળ કોપરગાંવ',
+          familyMembers: 'શ્રી વિઠ્ઠલરાવ ગણપતરાવ દેશમુખ (પતિ)\nશ્રી રાજેન્દ્ર વિઠ્ઠલરાવ દેશમુખ (પુત્ર)\nશ્રી જીતેન્દ્ર વિઠ્ઠલરાવ દેશમુખ (પુત્ર)\nશ્રીમતી કલ્પના નિતિન કાલે (પુત્રી)\nશ્રીમતી મનીષા શરદ શેંડે (પુત્રી)'
+        },
+        kn: {
+        'heading.title': 'ಶ್ರದ್ಧಾಂಜಲಿ ಬ್ಯಾನರ್',
+          name: 'ಶ್ರೀಮತಿ ಲೀಲಾಬಾಯಿ ವಿಠಲರಾವ್ ದೇಶಮುಖ್',
+          age: '೭೬ ವರ್ಷ',
+          deathDate: 'ಶುಕ್ರವಾರ ೦೫/೦೬/೨೦೨೬',
+          deathTime: 'ಲಿಂಗೈಕ್ಯರಾಗಿದ್ದಾರೆ.',
+          memorialText: 'ನಿಮ್ಮ ಮಮತೆಯ ನೆರಳು ನಮಗೆ ಸದಾ ದಾರಿದೀಪ.\nದಿವಂಗತ ಆತ್ಮಕ್ಕೆ ಶಾಂತಿ ಸಿಗಲೆಂದು ದೇವರಲ್ಲಿ ಪ್ರಾರ್ಥನೆ.',
+          ceremonyTitle: 'ಶ್ರದ್ಧಾಂಜಲಿ ಮತ್ತು ಪ್ರಾರ್ಥನಾ ಸಭೆ',
+          ceremonyDate: 'ಗುರುವಾರ ೧೧/೦೬/೨૦೨೬',
+          ceremonyTime: 'ಬೆಳಿಗ್ಗೆ ೦೮.೧೫ ಗಂಟೆಗೆ',
+          ceremonyPlace: 'ಗೋದಾವರಿ ಘಾಟ್, ಕೊಪರಗಾವ್, ಅಹಮದ್‌ನಗರ.',
+          organizer: 'ಶೋಕಾರ್ತರು: ದೇಶಮುಖ್ ಮತ್ತು ಕಾಲೆ ಕುಟುಂಬ',
+          villageInfo: 'ಸಮಸ್ತ ಸ್ನೇಹಿತರು ಕೊಪರಗಾವ್',
+          familyMembers: 'ಶ್ರೀ ವಿಠಲರಾವ್ ಗಣಪತರಾವ್ ದೇಶಮುಖ್ (ಪತಿ)\nಶ್ರೀ ರಾಜೇಂದ್ರ ವಿಠಲರಾವ್ ದೇಶಮುಖ್ (ಮಗ)\nಶ್ರೀ ಜಿತೇಂದ್ರ ವಿಠಲರಾವ್ ದೇಶಮುಖ್ (ಮಗ)\nಶ್ರೀಮತಿ ಕಲ್ಪನಾ ನಿತಿನ್ ಕಾಲೆ (ಮಗಳು)\nಶ್ರೀಮತಿ ಮನೀಷಾ ಶರದ್ ಶೇಂಡೆ (ಮಗಳು)'
+        },
+        ml: {
+        'heading.title': 'അനുശോചന ബാനർ',
+          name: 'ശ്രീമതി ലീല ഭായി വിഠൽറാവു ദേശ്മുഖ്',
+          age: '76 വയസ്സ്',
+          deathDate: 'വെള്ളി 05/06/2026',
+          deathTime: 'അന്തരിച്ചു.',
+          memorialText: 'നിങ്ങളുടെ വാത്സല്യം എന്നും ഞങ്ങളുടെ മനസ്സിൽ ജീവിക്കും.\nആത്മാവിന് ശാന്തി നേരുന്നു.',
+          ceremonyTitle: 'അനുശോചന യോഗം',
+          ceremonyDate: 'വ്യാഴം 11/06/2026',
+          ceremonyTime: 'രാവിലെ 08.15 മണിക്ക്',
+          ceremonyPlace: 'ഗോദാവരി ഘാട്ട്, കോപ്പർഗാവ്, അഹമ്മദ് നഗർ.',
+          organizer: 'ശോകാകുലർ: ദേശ്മുഖ് & കാലെ കുടുംബം',
+          villageInfo: 'കോപ്പർഗാവ് ഗ്രാമവാസികൾ',
+          familyMembers: 'ശ്രീ വിഠൽറാവു ഗണപത്റാവു ദേശ്മുഖ് (ഭർത്താവ്)\nശ്രീ രാജേന്ദ്ര വിഠൽറാവു ദേശ്മുഖ് (മകൻ)\nശ്രീ ജിതേന്ദ്ര വിഠൽറാവു ദേശ്മുഖ് (മകൻ)\nശ്രീമതി കൽപ്പന നിതിൻ കാലെ (മകൾ)\nശ്രീമതി മനീഷ ശരദ് ഷെണ്ഡെ (മകൾ)'
+        },
+        pa: {
+        'heading.title': 'ਸ਼ਰਧਾਂਜਲੀ ਬੈਨਰ',
+          name: 'ਸ੍ਰੀਮਤੀ ਲੀਲਾਬਾਈ ਵਿੱਠਲਰਾਓ ਦੇਸ਼ਮੁਖ',
+          age: '੭੬ ਸਾਲ',
+          deathDate: 'ਸ਼ੁੱਕਰਵਾਰ ੦੫/੦੬/੨੦੨੬',
+          deathTime: 'ਅਕਾਲ ਚਲਾਣਾ ਕਰ ਗਏ ਹਨ।',
+          memorialText: 'ਤੁਹਾਡਾ ਪਿਆਰ ਹਮੇਸ਼ਾ ਸਾਡੀਆਂ ਯਾਦਾਂ ਵਿੱਚ ਜਿਊਂਦਾ ਰਹੇਗਾ।\nਵਿਛੜੀ ਰੂਹ ਦੀ ਸ਼ਾਂਤੀ ਲਈ ਅਰਦਾਸ।',
+          ceremonyTitle: 'ਸ਼ਰਧਾਂਜਲੀ ਅਤੇ ਅੰਤਿਮ ਅਰਦਾਸ',
+          ceremonyDate: 'ਵੀਰਵਾਰ ੧੧/੦੬/੨੦੨੬',
+          ceremonyTime: 'ਸਵੇਰੇ ੦੮.੧੫ ਵਜੇ',
+          ceremonyPlace: 'ਗੋਦਾਵਰੀ ਘਾਟ, ਕੋਪਰਗਾਓਂ, ਅਹਿਮਦਨਗਰ।',
+          organizer: 'ਸ਼ੋਕਗ੍ਰਸਤ: ਦੇਸ਼ਮੁਖ ਅਤੇ ਕਾਲੇ ਪਰਿਵਾਰ',
+          villageInfo: 'ਸਮੂਹ ਨਗਰ ਨਿਵਾਸੀ ਕੋਪਰਗਾਓਂ',
+          familyMembers: 'ਸ੍ਰੀ ਵਿੱਠਲਰਾਓ ਗਣਪਤਰਾਓ ਦੇਸ਼ਮੁਖ (ਪਤੀ)\nਸ੍ਰੀ ਰਾਜੇਂਦਰ ਵਿੱਠਲਰਾਓ ਦੇਸ਼ਮੁਖ (ਪੁੱਤਰ)\nਸ੍ਰੀ ਜਿਤੇਂਦਰ ਵਿੱਠਲਰਾਓ ਦੇਸ਼ਮੁਖ (ਪੁੱਤਰ)\nਸ੍ਰੀਮਤੀ ਕਲਪਨਾ ਨਿਤਿਨ ਕਾਲੇ (ਪੁੱਤਰੀ)\nਸ੍ਰੀਮਤੀ ਮਨੀਸ਼ਾ ਸ਼ਰਦ ਸ਼ੇਂਡੇ (ਪੁੱਤਰੀ)'
+        },
+        or: {
+        'heading.title': 'ଶ୍ରଦ୍ଧାଞ୍ଜଳି ବ୍ୟାନର',
+          name: 'ଶ୍ରୀମତୀ ଲୀଳାବାଈ ବିଠଲରାଓ ଦେଶମୁଖ',
+          age: '୭୬ ବର୍ଷ',
+          deathDate: 'ଶୁକ୍ରବାର ୦୫/୦୬/୨୦୨୬',
+          deathTime: 'ଇହଲୀଳା ସାଙ୍ଗ କରିଛନ୍ତି।',
+          memorialText: 'ଆପଣଙ୍କ ସ୍ନେହର ଛାୟା ସଦା ଆମ ମନରେ ଜୀବନ୍ତ ରହିବ।\nଦିବଙ୍ଗତ ଆତ୍ମାର ଶାନ୍ତି ପାଇଁ ଈଶ୍ୱରଙ୍କ ନିକଟରେ ପ୍ରାର୍ଥନା।',
+          ceremonyTitle: 'ଶ୍ରଦ୍ଧାଞ୍ଜଳି ଓ ପ୍ରାର୍ଥନା ସଭା',
+          ceremonyDate: 'ଗୁରୁବାର ୧୧/୦୬/୨୦୨୬',
+          ceremonyTime: 'ସକାଳ ୦୮.୧୫ ଘଟିକା',
+          ceremonyPlace: 'ଗୋଦାବରୀ ଘାଟ, କୋପରଗାଓଁ, ଅହମ୍ମଦନଗର।',
+          organizer: 'ଶୋକସନ୍ତପ୍ତ: ଦେଶମୁଖ ଓ କାଲେ ପରିବାର',
+          villageInfo: 'ସମସ୍ତ ଗ୍ରାମବାସୀ କୋପରଗାଓଁ',
+          familyMembers: 'ଶ୍ରୀ ବିଠଲରାଓ ଗଣପତରାଓ ଦେଶମୁଖ (ପତି)\nଶ୍ରୀ ରାଜେନ୍ଦ୍ର ବିଠଲରାଓ ଦେଶମୁଖ (ପୁତ୍ର)\nଶ୍ରୀ ଜିତେନ୍ଦ୍ର ବିଠଲରାଓ ଦେଶମୁଖ (ପୁତ୍ର)\nଶ୍ରୀମତୀ କଳ୍ପନା ନିତିନ କାଲେ (କନ୍ୟା)\nଶ୍ରୀମତୀ ମନୀଷା ଶରଦ ଶେଣ୍ଡେ (କନ୍ୟା)'
+        },
+        ur: {
+        'heading.title': 'تعزیتی بینر',
+          name: 'شریمتی لیلا بائی وٹھل راؤ دیشمکھ',
+          age: '76 سال',
+          deathDate: 'جمعہ 05/06/2026',
+          deathTime: 'کا انتقال ہو گیا ہے۔',
+          memorialText: 'آپ کا سایہ شفقت ہمیشہ ہماری یادوں میں رہے گا۔\nروح کے لیے مغفرت اور بلندی درجات کی دعا۔',
+          ceremonyTitle: 'تعزیتی نشست و دعائیہ مجلس',
+          ceremonyDate: 'جمعرات 11/06/2026',
+          ceremonyTime: 'صبح 08:15 بجے',
+          ceremonyPlace: 'گوداوری گھاٹ، کوپر گاؤں، احمد نگر۔',
+          organizer: 'سوگواران: دیشمکھ و کالے خاندان',
+          villageInfo: 'تمام اہل موضع کوپر گاؤں',
+          familyMembers: 'مسٹر وٹھل راؤ گنپت راؤ دیشمکھ (شوہر)\nمسٹر راجیندر وٹھل راؤ دیشمکھ (فرزند)\nمسٹر جتیندر وٹھل راؤ دیشمکھ (فرزند)\nمسز کلپنا نتن کالے (دختر)\nمسز منیشا شرد شینڈے (دختر)'
         }
       }
     ];
 
     let currentProfileIndex = -1;
 
-    function loadRandomProfile(force = false) {
-      if (!force) {
-        currentProfileIndex = Math.floor(Math.random() * SAMPLE_PROFILES.length);
-      } else {
-        currentProfileIndex = (currentProfileIndex + 1) % SAMPLE_PROFILES.length;
-      }
+    function updateSampleProfileLanguage() {
+      if (currentProfileIndex === -1) currentProfileIndex = 0;
       const profile = SAMPLE_PROFILES[currentProfileIndex];
-
-      // Set the default photo previews
-      document.getElementById('mainPhotoPreview').src = profile.photo;
-      document.getElementById('socialPhotoPreview').src = profile.photo;
-
-      // Get language specific details, fallback to mr, then en
       const data = profile[currentLang] || profile.mr || profile.en;
 
       document.getElementById('name').value = data.name;
@@ -4402,6 +5011,22 @@
       document.getElementById('organizer').value = data.organizer;
       document.getElementById('villageInfo').value = data.villageInfo;
       document.getElementById('familyMembers').value = data.familyMembers;
+    }
+
+    function loadRandomProfile(force = false) {
+      if (force) {
+        trackEvent('load_sample_data', { manual_click: true });
+        currentProfileIndex = (currentProfileIndex + 1) % SAMPLE_PROFILES.length;
+      } else if (currentProfileIndex === -1) {
+        currentProfileIndex = Math.floor(Math.random() * SAMPLE_PROFILES.length);
+      }
+      const profile = SAMPLE_PROFILES[currentProfileIndex];
+
+      // Set the default photo previews
+      document.getElementById('mainPhotoPreview').src = profile.photo;
+      document.getElementById('socialPhotoPreview').src = profile.photo;
+
+      updateSampleProfileLanguage();
 
       // Regenerate banner preview
       applyI18n();
@@ -4465,9 +5090,41 @@
       const pageDesc = metaDescs[currentLang] || metaDescs.mr;
 
       document.title = pageTitle;
+
       const metaDesc = document.querySelector('meta[name="description"]');
-      if (metaDesc) {
-        metaDesc.setAttribute('content', pageDesc);
+      if (metaDesc) metaDesc.setAttribute('content', pageDesc);
+
+      const ogTitle = document.querySelector('meta[property="og:title"]');
+      if (ogTitle) ogTitle.setAttribute('content', pageTitle);
+
+      const ogDesc = document.querySelector('meta[property="og:description"]');
+      if (ogDesc) ogDesc.setAttribute('content', pageDesc);
+
+      const twTitle = document.querySelector('meta[name="twitter:title"]');
+      if (twTitle) twTitle.setAttribute('content', pageTitle);
+
+      const twDesc = document.querySelector('meta[name="twitter:description"]');
+      if (twDesc) twDesc.setAttribute('content', pageDesc);
+
+      // Set document element language for SEO, AEO (Answer Engines) & GEO (Generative Engines)
+      document.documentElement.lang = currentLang;
+
+      // Update Schema.org JSON-LD inLanguage property dynamically
+      const schemaScript = document.querySelector('script[type="application/ld+json"]');
+      if (schemaScript) {
+        try {
+          const schemaData = JSON.parse(schemaScript.textContent);
+          if (schemaData['@graph']) {
+            schemaData['@graph'].forEach(item => {
+              if (item['@type'] === 'WebApplication' || item['@type'] === 'WebSite' || item['@type'] === 'WebPage') {
+                item['inLanguage'] = currentLang;
+              }
+            });
+            schemaScript.textContent = JSON.stringify(schemaData, null, 2);
+          }
+        } catch (e) {
+          console.warn('Dynamic schema inLanguage update note', e);
+        }
       }
 
       // Update canonical link dynamically
@@ -4496,6 +5153,13 @@
       window.history.replaceState({}, '', url.toString());
 
       applyI18n();
+
+      // Automatically translate prefilled sample data and messages to target language if sample notice is active
+      const sampleNotice = document.getElementById('sampleNotice');
+      if (sampleNotice && !sampleNotice.hidden) {
+        updateSampleProfileLanguage();
+      }
+
       generateBanner();
     }
 
@@ -4532,6 +5196,7 @@
         famBg: '#2b2b2b', fam: '#ffffff', village: '#ff8a80', floral: 0, bgSolid: '#f5f5f5'
       },
       golden: {
+        'heading.title': 'Shradhanjali Banner',
         bg: 'linear-gradient(135deg, #1e0a00, #3d1a00)',
         name: '#e0b84c', base: '#cdab5e', memBg: 'rgba(212,160,23,0.1)', mem: '#f3d896',
         cerBg: 'rgba(212,160,23,0.12)', cer: '#f3d896', title: '#e0b84c',
