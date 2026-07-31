@@ -11,6 +11,9 @@ Deploying needs **no build step** — Netlify serves the files as they are in th
 ## Files
 
 - **[index.html](index.html)** — The primary production page. Self-contained single-page app: inline CSS, inline JS, inline translations for 12 languages.
+- **`<lang>/index.html`** (hi, en, bn, te, ta, gu, kn, ml, pa, or, ur) — **Generated, committed.** One real page per language. Do not hand-edit; run `npm run build:i18n`.
+- **[i18n/seo.json](i18n/seo.json)** — Per-language FAQ, definition and About copy. The source of truth for that content.
+- **[scripts/build-i18n.js](scripts/build-i18n.js)** — The generator. Also rewrites `index.html` (Marathi) and `sitemap.xml`.
 - **[assets/daisyui.css](assets/daisyui.css)** — **Generated, committed.** Tree-shaken daisyUI build. Do not hand-edit; run `npm run build:css`.
 - **[src/daisyui.css](src/daisyui.css)** / **[tailwind.config.js](tailwind.config.js)** — Input + config for that build.
 - **[banner.html](banner.html)** — Frozen early prototype using a raw `<canvas>`. `noindex`, disallowed in robots.txt. Reference only.
@@ -32,6 +35,8 @@ Deploying needs **no build step** — Netlify serves the files as they are in th
 - **daisyUI stays on 4.x and Tailwind on 3.x**, pinned exactly in `package.json`. daisyUI 5 / Tailwind 4 emit `oklch()` throughout, so a major bump would start exporting black banners — the one failure a user cannot work around. A CI job (`Pinned major versions`) fails the build if either is bumped past its major.
 - **`data-theme` is the site's own light/dark attribute.** daisyUI's stock themes bind to the same attribute, so `tailwind.config.js` defines a single custom theme (`shraddha`) that emits under `:root` instead. Do not add daisyUI's built-in themes.
 - **`generateBanner()` runs on every keystroke**, so it must stay cheap and must not scroll. Use `generateBannerAndReveal()` for user-initiated regeneration that should scroll to the preview on mobile.
+- **`index.html` is both the template and an output.** `npm run build:i18n` reads it, then rewrites its FAQ section, hreflang links and canonical along with the other 11 pages. The generator is idempotent and CI fails on drift, so edit the app freely — but put FAQ/definition/About copy in `i18n/seo.json`, never directly in the FAQ markup, or the next build will overwrite it.
+- **Every language must stay self-canonical.** The 11 sub-directory pages exist precisely because `?lang=` variants served identical HTML and Google folded them into one URL. A CI job checks `lang`, `dir`, canonical, the hreflang cluster and that translated copy is pre-rendered.
 - **Text colour tokens must be defined for both themes.** The FAQ/E-E-A-T section sits on `--page-bg` outside the white card; a token that is only defined for dark mode becomes invisible in light mode.
 
 ### Theme system
@@ -52,7 +57,9 @@ npm run serve        # http://localhost:8080
 Serve over HTTP rather than opening the file directly; html2canvas behaves differently under `file://`.
 
 ```bash
+npm run build        # both of the below
 npm run build:css    # regenerate assets/daisyui.css after changing daisyUI classes
+npm run build:i18n   # regenerate the 12 language pages + sitemap.xml
 npm run lint:js      # eslint (sw.js + build config)
 npm run lint:html    # html-validate
 npm run format       # prettier

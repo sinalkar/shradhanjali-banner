@@ -1,4 +1,4 @@
-const CACHE_NAME = 'shradhanjali-cache-v7';
+const CACHE_NAME = 'shradhanjali-cache-v8';
 
 // Static resources to cache immediately on installation
 const PRECACHE_ASSETS = [
@@ -92,7 +92,12 @@ self.addEventListener('fetch', (event) => {
       }).catch((err) => {
         // Fallback for document requests when fully offline
         if (event.request.mode === 'navigate') {
-          return caches.match('./index.html');
+          // Serve the language page matching the requested path when offline,
+        // falling back to the Marathi root.
+        const p = new URL(event.request.url).pathname;
+        const m = p.match(/^\/([a-z]{2})\/?$/);
+        return caches.match(m ? `/${m[1]}/index.html` : '/index.html')
+          .then((r) => r || caches.match('/index.html'));
         }
         throw err;
       });

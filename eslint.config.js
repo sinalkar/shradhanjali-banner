@@ -20,7 +20,7 @@ module.exports = [
   },
   {
     // Build tooling runs in Node
-    files: ['tailwind.config.js', 'eslint.config.js'],
+    files: ['tailwind.config.js', 'eslint.config.js', 'scripts/**/*.js'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'commonjs',
