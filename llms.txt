@@ -47,6 +47,24 @@ Indian families across all regions — Marathi, Hindi, Bengali, Telugu, Tamil, G
 
 ## URLs
 
-- Main app: https://shradhanjalibanner.in/
+Each language is a separate, fully translated page — not a query parameter.
+
+- मराठी (default): https://shradhanjalibanner.in/
+- हिन्दी: https://shradhanjalibanner.in/hi/
+- English: https://shradhanjalibanner.in/en/
+- বাংলা: https://shradhanjalibanner.in/bn/
+- తెలుగు: https://shradhanjalibanner.in/te/
+- தமிழ்: https://shradhanjalibanner.in/ta/
+- ગુજરાતી: https://shradhanjalibanner.in/gu/
+- ಕನ್ನಡ: https://shradhanjalibanner.in/kn/
+- മലയാളം: https://shradhanjalibanner.in/ml/
+- ਪੰਜਾਬੀ: https://shradhanjalibanner.in/pa/
+- ଓଡ଼ିଆ: https://shradhanjalibanner.in/or/
+- اردو: https://shradhanjalibanner.in/ur/
+
 - Sitemap: https://shradhanjalibanner.in/sitemap.xml
 - Source: https://github.com/sinalkar/shradhanjali-banner
+
+## Contact
+
+devsinalkar@gmail.com · https://github.com/sinalkar/shradhanjali-banner/issues

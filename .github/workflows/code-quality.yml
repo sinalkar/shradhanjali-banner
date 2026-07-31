@@ -73,6 +73,108 @@ jobs:
           fi
           echo "assets/daisyui.css is up to date"
 
+  i18n-in-sync:
+    name: Language pages are in sync
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+
+      # The 12 language pages are generated from index.html + i18n/seo.json and
+      # committed so deploys stay build-free. index.html is both template and
+      # output, so the generator is idempotent; if this drifts, someone edited
+      # a generated page by hand or forgot to re-run the build.
+      - name: Rebuild and diff
+        run: |
+          npm run build:i18n
+          if ! git diff --quiet; then
+            echo "::error::Generated language pages are stale. Run 'npm run build:i18n' and commit."
+            git diff --stat
+            exit 1
+          fi
+          echo "All 12 language pages are up to date"
+
+  i18n-seo:
+    name: Per-language SEO signals
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      # Guards the invariant that made this work in the first place: every
+      # language page must be self-canonical, declare its own lang, and carry
+      # the full hreflang cluster. Break any of those and Google folds the
+      # languages back into one URL.
+      - name: Check every language page
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const SEO = JSON.parse(fs.readFileSync('i18n/seo.json', 'utf8'));
+          // Use the generator's manifest, not seo.json: seo.json may hold copy
+          // for languages the app no longer ships (Urdu, currently).
+          const langs = JSON.parse(fs.readFileSync('i18n/languages.json', 'utf8')).languages;
+          const ORIGIN = 'https://shradhanjalibanner.in';
+          let fail = 0;
+
+          for (const lang of langs) {
+            const file = lang === 'mr' ? 'index.html' : `${lang}/index.html`;
+            if (!fs.existsSync(file)) {
+              console.log(`::error::Missing ${file}`); fail = 1; continue;
+            }
+            const html = fs.readFileSync(file, 'utf8');
+            const want = lang === 'mr' ? `${ORIGIN}/` : `${ORIGIN}/${lang}/`;
+            const problems = [];
+
+            const langAttr = (html.match(/<html[^>]*\blang="([^"]+)"/) || [])[1];
+            if (langAttr !== lang) problems.push(`lang="${langAttr}" should be "${lang}"`);
+
+            const canon = (html.match(/<link rel="canonical" href="([^"]+)"/) || [])[1];
+            if (canon !== want) problems.push(`canonical "${canon}" should be "${want}"`);
+
+            const hreflangs = (html.match(/rel="alternate" hreflang="/g) || []).length;
+            if (hreflangs !== langs.length + 1) {
+              problems.push(`${hreflangs} hreflang links, expected ${langs.length + 1}`);
+            }
+
+            if (lang === 'ur' && !/<html[^>]*dir="rtl"/.test(html)) problems.push('missing dir="rtl"');
+
+            // Structured data must parse and declare the language.
+            const blocks = html.match(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g) || [];
+            if (blocks.length < 2) problems.push(`${blocks.length} JSON-LD blocks, expected 2`);
+            for (const b of blocks) {
+              try { JSON.parse(b.replace(/<script[^>]*>/, '').replace(/<\/script>/, '')); }
+              catch (e) { problems.push('invalid JSON-LD: ' + e.message); }
+            }
+
+            // The whole point: translated copy must be in the markup already.
+            if (!html.includes(SEO[lang].faq[0].q)) problems.push('FAQ not pre-rendered');
+            if (!html.includes(SEO[lang].glossaryDef.slice(0, 40))) problems.push('definition not pre-rendered');
+
+            if (problems.length) {
+              console.log(`::error file=${file}::${lang}: ${problems.join('; ')}`);
+              fail = 1;
+            } else {
+              console.log(`  ${lang.padEnd(3)} ${file.padEnd(16)} OK`);
+            }
+          }
+
+          const sitemap = fs.readFileSync('sitemap.xml', 'utf8');
+          for (const lang of langs) {
+            const want = lang === 'mr' ? `${ORIGIN}/` : `${ORIGIN}/${lang}/`;
+            if (!sitemap.includes(`<loc>${want}</loc>`)) {
+              console.log(`::error::sitemap.xml missing ${want}`); fail = 1;
+            }
+          }
+          if (!fail) console.log(`\nAll ${langs.length} languages verified.`);
+          process.exit(fail);
+          NODE
+
   structured-data:
     name: Structured data & SEO files
     runs-on: ubuntu-latest
