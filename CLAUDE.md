@@ -4,14 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-A static memorial/tribute banner generator web app for Indian families, with a UI in 12 languages (Marathi default). It renders a customizable funeral announcement banner in the browser and allows download as a JPG image. Deployed at `https://shradhanjalibanner.in/`.
+A static memorial/tribute banner generator web app for Indian families, with a UI in 11 languages (Marathi default). It renders a customizable funeral announcement banner in the browser and allows download as a JPG image. Deployed at `https://shradhanjalibanner.in/`.
 
 Deploying needs **no build step** — Netlify serves the files as they are in the repo. There is a small optional build (`npm run build:css`) that regenerates the committed daisyUI stylesheet; see below.
 
 ## Files
 
-- **[index.html](index.html)** — The primary production page. Self-contained single-page app: inline CSS, inline JS, inline translations for 12 languages.
-- **`<lang>/index.html`** (hi, en, bn, te, ta, gu, kn, ml, pa, or, ur) — **Generated, committed.** One real page per language. Do not hand-edit; run `npm run build:i18n`.
+- **[index.html](index.html)** — The primary production page. Self-contained single-page app: inline CSS, inline JS, inline translations for 11 languages.
+- **`<lang>/index.html`** (hi, en, bn, te, ta, gu, kn, ml, pa, or) — **Generated, committed.** One real page per language. Do not hand-edit; run `npm run build:i18n`.
 - **[i18n/seo.json](i18n/seo.json)** — Per-language FAQ, definition and About copy. The source of truth for that content.
 - **[scripts/build-i18n.js](scripts/build-i18n.js)** — The generator. Also rewrites `index.html` (Marathi) and `sitemap.xml`.
 - **[assets/daisyui.css](assets/daisyui.css)** — **Generated, committed.** Tree-shaken daisyUI build. Do not hand-edit; run `npm run build:css`.

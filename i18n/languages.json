@@ -1,16 +1,4 @@
 {
   "default": "mr",
-  "languages": [
-    "mr",
-    "hi",
-    "en",
-    "bn",
-    "te",
-    "ta",
-    "gu",
-    "kn",
-    "ml",
-    "pa",
-    "or"
-  ]
+  "languages": ["mr", "hi", "en", "bn", "te", "ta", "gu", "kn", "ml", "pa", "or"]
 }

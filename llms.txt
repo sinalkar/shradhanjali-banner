@@ -1,6 +1,6 @@
 # श्रद्धांजलि बॅनर (Shradhanjali Banner)
 
-> Free online memorial/tribute banner generator supporting 12 major Indian languages — for families across Maharashtra and all Indian regions. No account, no watermark, no cost, and no data ever leaves the device.
+> Free online memorial/tribute banner generator supporting 11 major Indian languages — for families across Maharashtra and all Indian regions. No account, no watermark, no cost, and no data ever leaves the device.
 
 ## What this site does
 
@@ -10,7 +10,7 @@ Creates customizable funeral and memorial announcement banners that families can
 
 - **11 visual banner themes:** परंपरागत (Traditional), झेंडू (Marigold), सूर्यास्त (Sunset), केशरी (Saffron), तुळस (Tulsi), गुलाब (Rose), सागर (Ocean), आकाश (Lavender), सोने (Golden), हस्तिदंत (Ivory), क्लासिक (Classic)
 - **7 decorative photo frames:** Classic, Gold ring, Marigold, Pearl, Lotus, Silver, Rose & gold
-- **12 Indian language UI:** मराठी (Marathi, default), हिन्दी (Hindi), English, বাংলা (Bengali), తెలుగు (Telugu), தமிழ் (Tamil), ગુજરાતી (Gujarati), ಕನ್ನಡ (Kannada), മലയാളം (Malayalam), ਪੰਜਾਬੀ (Punjabi), ଓଡ଼ିଆ (Odia), اردو (Urdu)
+- **11 Indian language UI:** मराठी (Marathi, default), हिन्दी (Hindi), English, বাংলা (Bengali), తెలుగు (Telugu), தமிழ் (Tamil), ગુજરાતી (Gujarati), ಕನ್ನಡ (Kannada), മലയാളം (Malayalam), ਪੰਜਾਬੀ (Punjabi), ଓଡ଼ିଆ (Odia)
 - Live preview that updates as you type
 - Photo upload with decorative frame overlay; optional second photo for the speaker/organizer
 - Language preference and in-progress drafts persist locally (localStorage), with a "Clear form" button
@@ -30,11 +30,11 @@ All image generation and data processing happens in the visitor's browser. There
 
 ## Audience
 
-Indian families across all regions — Marathi, Hindi, Bengali, Telugu, Tamil, Gujarati, Kannada, Malayalam, Punjabi, Odia and Urdu speaking — who need to create memorial announcement banners (श्रद्धांजलि बॅनर) for religious ceremonies: दशक्रिया विधी, अंत्यसंस्कार, shradhanjali programmes, punyatithi.
+Indian families across all regions — Marathi, Hindi, Bengali, Telugu, Tamil, Gujarati, Kannada, Malayalam, Punjabi, and Odia speaking — who need to create memorial announcement banners (श्रद्धांजलि बॅनर) for religious ceremonies: दशक्रिया विधी, अंत्यसंस्कार, shradhanjali programmes, punyatithi.
 
 ## Common search terms this serves
 
-श्रद्धांजलि बॅनर, शोक संदेश बॅनर, अंत्यसंस्कार बॅनर, shradhanjali card maker, shradhanjali photo kaise banaye, rip card creator, punyatithi card creation, death anniversary card, funeral card design, memorial card creator, nidhan banner generator, dashkriya banner, free marathi memorial banner, Bengali shradhanjali card, Telugu memorial banner, Tamil funeral card, Gujarati shradhanjali poster
+श्रद्धांजली बॅनर, शोक संदेश बॅनर, अंत्यसंस्कार बॅनर, shradhanjali card maker, shradhanjali photo kaise banaye, rip card creator, punyatithi card creation, death anniversary card, funeral card design, memorial card creator, nidhan banner generator, dashkriya banner, free marathi memorial banner, Bengali shradhanjali card, Telugu memorial banner, Tamil funeral card, Gujarati shradhanjali poster
 
 ## Technical
 
@@ -60,11 +60,10 @@ Each language is a separate, fully translated page — not a query parameter.
 - മലയാളം: https://shradhanjalibanner.in/ml/
 - ਪੰਜਾਬੀ: https://shradhanjalibanner.in/pa/
 - ଓଡ଼ିଆ: https://shradhanjalibanner.in/or/
-- اردو: https://shradhanjalibanner.in/ur/
 
 - Sitemap: https://shradhanjalibanner.in/sitemap.xml
 - Source: https://github.com/sinalkar/shradhanjali-banner
 
 ## Contact
 
-devsinalkar@gmail.com · https://github.com/sinalkar/shradhanjali-banner/issues
+https://github.com/sinalkar/shradhanjali-banner/issues

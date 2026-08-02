@@ -8,6 +8,10 @@
   Cross-Origin-Opener-Policy: same-origin
   Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com; frame-ancestors 'none'; base-uri 'self'; form-action 'none'; object-src 'none'
 
+# Early prototype reference page — do not index
+/banner.html
+  X-Robots-Tag: noindex, nofollow
+
 # Content-addressed by name — safe to cache hard.
 /frames/*
   Cache-Control: public, max-age=31536000, immutable

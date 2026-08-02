@@ -121,6 +121,74 @@ function esc(s) {
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
+const GALLERY_TITLES = {
+  mr: 'नमुना श्रद्धांजली बॅनर डिझाईन्स',
+  hi: 'नमूना श्रद्धांजलि बैनर डिज़ाइन',
+  en: 'Sample Shradhanjali Banner Designs',
+  bn: 'নমুনা শ্রদ্ধাঞ্জলি ব্যানার ডিজাইন',
+  te: 'నమూనా శ్రద్ధాంజలి బ్యానర్ డిజైన్లు',
+  ta: 'மாதிரி இரங்கல் கார்டு வடிவமைப்பு',
+  gu: 'નમૂના શ્રદ્ધાંજલિ બેનર ડિઝાઇન',
+  kn: 'ನಮೂನೆ ಶ್ರದ್ಧಾಂಜಲಿ ಬ್ಯಾನರ್ ಡಿಸೈನ್ಸ್',
+  ml: 'മാതൃകാ ആദരാഞ്ജലി ബാനർ ഡിസൈനുകൾ',
+  pa: 'ਨਮੂਨਾ ਸ਼ਰਧਾਂਜਲੀ ਬੈਨਰ ਡਿਜ਼ਾਈਨ',
+  or: 'ନମୁନା ଶ୍ରଦ୍ଧାଞ୍ଜଳି ବ୍ୟାନର ଡିଜାଇନ୍',
+};
+
+const GALLERY_SUBS = {
+  mr: 'विविध रंगसंगती, फोटो फ्रेम व आकारामधील तयार नमुने',
+  hi: 'विभिन्न रंग, फोटो फ्रेम और आकार में तैयार नमूने',
+  en: 'Pre-rendered sample banners across themes, frames and dimensions',
+};
+
+function buildGallerySection(lang) {
+  const title = GALLERY_TITLES[lang] || GALLERY_TITLES.en;
+  const sub = GALLERY_SUBS[lang] || GALLERY_SUBS.en;
+
+  const samples = [
+    {
+      file: `assets/samples/${lang}_whatsapp.jpg`,
+      alt: `${title} - WhatsApp Status (9:16)`,
+      tag: 'WhatsApp Status (9:16)',
+    },
+    {
+      file: `assets/samples/${lang}_instagram.jpg`,
+      alt: `${title} - Instagram Post (1:1)`,
+      tag: 'Instagram Post (1:1)',
+    },
+    {
+      file: `assets/samples/${lang}_print.jpg`,
+      alt: `${title} - Print Banner`,
+      tag: 'Print Banner (Landscape)',
+    },
+    {
+      file: `assets/samples/${lang}_flex.jpg`,
+      alt: `${title} - Flex Banner (6x4 ft)`,
+      tag: 'Flex Print (6x4 ft)',
+    },
+  ];
+
+  const cards = samples
+    .map(
+      (s) => `
+                <div class="gallery-card">
+                    <img src="${s.file}" alt="${esc(s.alt)}" loading="lazy" width="320" height="240">
+                    <span class="gallery-tag">${esc(s.tag)}</span>
+                </div>`
+    )
+    .join('\n');
+
+  return `
+            <section class="sample-gallery-section" id="sampleGallery">
+                <h3 class="gallery-heading">🖼️ ${esc(title)}</h3>
+                <p class="gallery-sub">${esc(sub)}</p>
+                <div class="gallery-grid">
+${cards}
+                </div>
+            </section>
+`;
+}
+
 function buildFaqSection(lang) {
   const d = SEO[lang];
   const items = d.faq
@@ -137,6 +205,7 @@ function buildFaqSection(lang) {
     .join('\n');
 
   return `
+${buildGallerySection(lang)}
             <hr class="faq-rule">
 
             <h3 id="faqHeading" class="faq-heading">${esc(d.faqHeading)}</h3>
@@ -163,41 +232,64 @@ function buildFaqSection(lang) {
 function buildJsonLd(lang) {
   const d = SEO[lang];
   const url = canonicalFor(lang);
+  const graph = [
+    {
+      '@type': 'WebPage',
+      '@id': `${url}#webpage`,
+      url,
+      name: metaTitles[lang],
+      description: metaDescs[lang],
+      inLanguage: d.locale,
+      isPartOf: { '@id': `${ORIGIN}/#website` },
+      about: { '@id': `${ORIGIN}/#app` },
+      speakable: {
+        '@type': 'SpeakableSpecification',
+        cssSelector: ['.faq-a p strong', '.about-block p'],
+      },
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': `${url}#faq`,
+      inLanguage: d.locale,
+      mainEntity: d.faq.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: `${f.a} ${f.a2}` },
+      })),
+    },
+    {
+      '@type': 'DefinedTerm',
+      '@id': `${url}#term`,
+      name: d.glossaryTerm,
+      description: d.glossaryDef,
+      inLanguage: d.locale,
+    },
+  ];
+
+  if (lang !== DEFAULT_LANG) {
+    graph.push({
+      '@type': 'BreadcrumbList',
+      '@id': `${url}#breadcrumb`,
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Shradhanjali Banner',
+          item: `${ORIGIN}/`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: metaTitles[lang],
+          item: url,
+        },
+      ],
+    });
+  }
+
   return {
     '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'WebPage',
-        '@id': `${url}#webpage`,
-        url,
-        name: metaTitles[lang],
-        description: metaDescs[lang],
-        inLanguage: d.locale,
-        isPartOf: { '@id': `${ORIGIN}/#website` },
-        about: { '@id': `${ORIGIN}/#app` },
-        speakable: {
-          '@type': 'SpeakableSpecification',
-          cssSelector: ['.faq-a p strong', '.about-block p'],
-        },
-      },
-      {
-        '@type': 'FAQPage',
-        '@id': `${url}#faq`,
-        inLanguage: d.locale,
-        mainEntity: d.faq.map((f) => ({
-          '@type': 'Question',
-          name: f.q,
-          acceptedAnswer: { '@type': 'Answer', text: `${f.a} ${f.a2}` },
-        })),
-      },
-      {
-        '@type': 'DefinedTerm',
-        '@id': `${url}#term`,
-        name: d.glossaryTerm,
-        description: d.glossaryDef,
-        inLanguage: d.locale,
-      },
-    ],
+    '@graph': graph,
   };
 }
 
@@ -308,8 +400,6 @@ const entries = LANGS.map((lang) => {
 ${alts}
     <xhtml:link rel="alternate" hreflang="x-default" href="${ORIGIN}/" />
     <lastmod>${today}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>${lang === DEFAULT_LANG ? '1.0' : '0.8'}</priority>
   </url>`;
 }).join('\n\n');
 
