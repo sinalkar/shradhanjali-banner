@@ -2261,6 +2261,40 @@
       opacity: 0.75;
     }
 
+    .site-footer .support-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      min-height: 44px;
+      margin-top: 1rem;
+      padding: 0.65rem 1rem;
+      border-radius: 10px;
+      background: var(--btn-dl);
+      color: #211407;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0;
+      text-decoration: none;
+      transition: background 0.2s ease;
+    }
+
+    .site-footer .support-link:hover {
+      background: #dda038;
+      opacity: 1;
+    }
+
+    .site-footer .support-link:focus-visible {
+      outline: 3px solid #894dce;
+      outline-offset: 3px;
+    }
+
+    .site-footer .support-link svg {
+      width: 1.15rem;
+      height: 1.15rem;
+      flex: none;
+    }
+
     /* ─── REDUCED MOTION ─────────────────────────────────────── */
     /* ════════════════════════════════════════════════════════════
        3D DEPTH SYSTEM
@@ -3360,6 +3394,15 @@
         <span data-i18n="footer.owner">মালিক: </span>
         <a href="https://sinalkar.com" target="_blank" rel="noopener">Sanjay Sinalkar</a>
       </p>
+      <a class="support-link" href="https://buymeacoffee.com/sinalkar" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 8h12v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8Z"></path>
+          <path d="M16 10h1a3 3 0 0 1 0 6h-2"></path>
+          <path d="M6 2v2M10 2v2M14 2v2"></path>
+        </svg>
+        <span data-i18n="footer.support">এই বিনামূল্যের সেবাকে সহায়তা করুন</span>
+      </a>
     </footer>
 
   </div><!-- /.app-shell -->
@@ -3482,6 +3525,7 @@
         'msg.previewLoad': 'पूर्वावलोकन लोड होत आहे...',
         'footer.text': 'shradhanjalibanner.in · विनामूल्य स्मारक बॅनर जनरेटर',
         'footer.owner': 'मालक: ',
+        'footer.support': 'या विनामूल्य सेवेला मदत करा',
         'theme.traditional': 'परंपरागत',
         'theme.sunset': 'सूर्यास्त',
         'theme.ocean': 'सागर',
@@ -3566,6 +3610,7 @@
         'msg.previewLoad': 'पूर्वावलोकन लोड हो रहा है...',
         'footer.text': 'shradhanjalibanner.in · निःशुल्क स्मारक बैनर जनरेटर',
         'footer.owner': 'मालिक: ',
+        'footer.support': 'इस निःशुल्क सेवा को सहयोग दें',
         'theme.traditional': 'परंपरागत',
         'theme.sunset': 'सूर्यास्त',
         'theme.ocean': 'सागर',
@@ -3650,6 +3695,7 @@
         'msg.previewLoad': 'Loading preview...',
         'footer.text': 'shradhanjalibanner.in · Free Memorial Banner Generator',
         'footer.owner': 'Owner: ',
+        'footer.support': 'Support this free tool',
         'theme.traditional': 'Traditional',
         'theme.sunset': 'Sunset',
         'theme.ocean': 'Ocean',
@@ -3730,6 +3776,7 @@
         'msg.previewLoad': 'প্রিভিউ লোড হচ্ছে...',
         'footer.text': 'shradhanjalibanner.in · বিনামূল্যে স্মারক ব্যানার জেনারেটর',
         'footer.owner': 'মালিক: ',
+        'footer.support': 'এই বিনামূল্যের সেবাকে সহায়তা করুন',
         'theme.traditional': 'ঐতিহ্যবাহী',
         'theme.sunset': 'সূর্যাস্ত',
         'theme.ocean': 'মহাসাগর',
@@ -3810,6 +3857,7 @@
         'msg.previewLoad': 'ప్రివ్యూ లోడ్ అవుతోంది...',
         'footer.text': 'shradhanjalibanner.in · ఉచిత స్మారక బ్యానర్ జనరేటర్',
         'footer.owner': 'యజమాని: ',
+        'footer.support': 'ఈ ఉచిత సేవకు మద్దతు ఇవ్వండి',
         'theme.traditional': 'సాంప్రదాయ',
         'theme.sunset': 'සූර්ଯ୍ୟାସ୍තମය',
         'theme.ocean': 'सागर',
@@ -3890,6 +3938,7 @@
         'msg.previewLoad': 'முன்னோட்டம் ஏற்றப்படுகிறது...',
         'footer.text': 'shradhanjalibanner.in · இலவச நினைவு பேனர் உருவாக்குபவர்',
         'footer.owner': 'உரிமையாளர்: ',
+        'footer.support': 'இந்த இலவச சேவையை ஆதரிக்கவும்',
         'theme.traditional': 'பாரம்பரிய',
         'theme.sunset': 'சூரிய அஸ்தமனம்',
         'theme.ocean': 'கடல்',
@@ -3970,6 +4019,7 @@
         'msg.previewLoad': 'પૂર્વાવલોકન લોડ થઈ રહ્યું છે...',
         'footer.text': 'shradhanjalibanner.in · નિઃશુલ્ક સ્મારક બેનર જનરેટર',
         'footer.owner': 'માલિક: ',
+        'footer.support': 'આ નિઃશુલ્ક સેવાને સહયોગ આપો',
         'theme.traditional': 'પરંપરાગત',
         'theme.sunset': 'સૂર્યાસ્ત',
         'theme.ocean': 'સાગર',
@@ -4050,6 +4100,7 @@
         'msg.previewLoad': 'ಮುನ್ನೋಟ ಲೋಡ್ ಆಗುತ್ತಿದೆ...',
         'footer.text': 'shradhanjalibanner.in · ಉಚಿತ ಸ್ಮರಣಾರ್ಥ ಬ್ಯಾನರ್ ಜನರೇಟರ್',
         'footer.owner': 'ಮಾಲೀಕರು: ',
+        'footer.support': 'ಈ ಉಚಿತ ಸೇವೆಯನ್ನು ಬೆಂಬಲಿಸಿ',
         'theme.traditional': 'ಸಾಂಪ್ರದಾಯಿಕ',
         'theme.sunset': 'ಸೂರ್ಯಾಸ್ತ',
         'theme.ocean': 'ಸಾಗರ',
@@ -4130,6 +4181,7 @@
         'msg.previewLoad': 'പ്രിവ്യൂ ലോഡ് ചെയ്യുന്നു...',
         'footer.text': 'shradhanjalibanner.in · സൗജന്യ സ്മരണാഞ്ജലി ബാനർ ജനറേറ്റർ',
         'footer.owner': 'ഉടമ: ',
+        'footer.support': 'ഈ സൗജന്യ സേവനത്തെ പിന്തുണയ്ക്കുക',
         'theme.traditional': 'പരമ്പരാഗതം',
         'theme.sunset': 'സൂര്യാസ്തമയം',
         'theme.ocean': 'സമുദ്രം',
@@ -4210,6 +4262,7 @@
         'msg.previewLoad': 'ਪ੍ਰਿਵਿਊ ਲੋਡ ਹੋ ਰਹੀ ਹੈ...',
         'footer.text': 'shradhanjalibanner.in · ਮੁਫ਼ਤ ਯਾਦਗਾਰੀ ਬੈਨਰ ਜਨਰੇਟਰ',
         'footer.owner': 'ਮਾਲਕ: ',
+        'footer.support': 'ਇਸ ਮੁਫ਼ਤ ਸੇਵਾ ਦਾ ਸਮਰਥਨ ਕਰੋ',
         'theme.traditional': 'ਰਵਾਇਤੀ',
         'theme.sunset': 'ਸੂਰਜ ਡੁੱਬਣ',
         'theme.ocean': 'ਸਮੁੰਦਰ',
@@ -4290,6 +4343,7 @@
         'msg.previewLoad': 'ପୂର୍ବାବଲୋକନ ଲୋଡ୍ ହେଉଛି...',
         'footer.text': 'shradhanjalibanner.in · ମାଗଣା ସ୍ମୃତି ବ୍ୟାନର୍ ଜେନେରେଟର୍',
         'footer.owner': 'ମାଲିକ: ',
+        'footer.support': 'ଏହି ମାଗଣା ସେବାକୁ ସମର୍ଥନ କରନ୍ତୁ',
         'theme.traditional': 'ପାରମ୍ପରିକ',
         'theme.sunset': 'ସୂର୍ଯ୍ୟାସ୍ତ',
         'theme.ocean': 'ମହାସାଗର',
