@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0 # Fetches entire history so Gitleaks can perform a deep scan of commits
 
@@ -61,10 +61,10 @@ jobs:
     name: npm audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          node-version: "22"
+          node-version: "24"
           cache: npm
       - run: npm ci
       # Every dependency here is build tooling — none of it reaches a visitor's
@@ -76,7 +76,10 @@ jobs:
     name: Pinned major versions
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
       # daisyUI 5 and Tailwind 4 express colours as oklch() throughout.
       # html2canvas 1.4.1 cannot parse oklch(), so a major bump would silently
       # start exporting black banners — the one bug a user could not work
@@ -103,7 +106,10 @@ jobs:
     name: Third-party & Header Checks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
 
       # grep cannot see tags that span lines, so parse the markup instead —
       # a multi-line <script> tag would otherwise slip through unchecked.
@@ -167,7 +173,7 @@ jobs:
       security-events: write
       id-token: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
 

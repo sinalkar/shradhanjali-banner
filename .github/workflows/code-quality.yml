@@ -19,11 +19,11 @@ jobs:
     name: Lint & Format
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: "22"
+          node-version: "24"
           cache: npm
 
       - name: Install dependencies
@@ -51,11 +51,11 @@ jobs:
     name: daisyUI CSS is in sync
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: "22"
+          node-version: "24"
           cache: npm
 
       - run: npm ci
@@ -77,10 +77,10 @@ jobs:
     name: Language pages are in sync
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          node-version: "22"
+          node-version: "24"
           cache: npm
       - run: npm ci
 
@@ -102,10 +102,10 @@ jobs:
     name: Per-language SEO signals
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          node-version: "22"
+          node-version: "24"
 
       # Guards the invariant that made this work in the first place: every
       # language page must be self-canonical, declare its own lang, and carry
@@ -179,11 +179,11 @@ jobs:
     name: Structured data & SEO files
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: "22"
+          node-version: "24"
 
       - name: Validate JSON-LD blocks parse
         run: |
@@ -214,7 +214,7 @@ jobs:
     name: Page weight budget
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # The audience is largely on mobile data; regressions here are the single
       # biggest risk to Core Web Vitals. Budget covers what a first visit pulls.
