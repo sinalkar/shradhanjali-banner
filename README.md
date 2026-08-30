@@ -70,7 +70,7 @@ Below are actual cropped banner card previews and specs for each format supporte
 
 ### 1. 🖨️ Standard Print Banner (High-Res HD Sample)
 
-![Shradhanjali Print Banner Card HD Sample — Deceased Photo, Ritual Quote, Ceremony Info & Family List](assets/banner-sample-print.jpg)
+![Shradhanjali Print Banner Card HD Sample — Deceased Photo, Ritual Quote, Ceremony Info & Family List](assets/banner-sample-print.webp)
 
 - **Format Label**: `Standard Print Banner (High-Res HD)`
 - **Aspect Ratio**: Landscape (`4:3` / `16:9` printable ratio)
@@ -103,7 +103,7 @@ Below are actual cropped banner card previews and specs for each format supporte
 
 ### 4. 🎪 Outdoor Flex Print Banner (Venue Hoarding 4x6 ft Sample)
 
-![Shradhanjali Outdoor Flex Banner Card Sample for Funeral Venue Entrance Arch](assets/banner-sample-flex.jpg)
+![Shradhanjali Outdoor Flex Banner Card Sample for Funeral Venue Entrance Arch](assets/banner-sample-flex.webp)
 
 - **Format Label**: `Outdoor Flex Print Banner (Venue Hoarding & Standee)`
 - **Custom Flex Sizes**: `2×3 ft`, `3×4 ft`, `4×6 ft`, `6×4 ft`

@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://shradhanjalibanner.in/banner-preview.jpg" alt="Shradhanjali Banner Preview" width="600"/>
+  <img src="https://shradhanjalibanner.in/banner-preview.webp" alt="Shradhanjali Banner Preview" width="600"/>
 </p>
 
 # श्रद्धांजलि बॅनर — Shradhanjali Banner

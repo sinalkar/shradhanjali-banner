@@ -157,12 +157,12 @@ function buildGallerySection(lang) {
       tag: 'Instagram Post (1:1)',
     },
     {
-      file: `assets/samples/${lang}_print.jpg`,
+      file: `assets/samples/${lang}_print.webp`,
       alt: `${title} - Print Banner`,
       tag: 'Print Banner (Landscape)',
     },
     {
-      file: `assets/samples/${lang}_flex.jpg`,
+      file: `assets/samples/${lang}_flex.webp`,
       alt: `${title} - Flex Banner (6x4 ft)`,
       tag: 'Flex Print (6x4 ft)',
     },
