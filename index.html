@@ -5597,6 +5597,24 @@
       setCaptureMode(false);
     }
 
+    /* html2canvas waits for every <img> in its cloned copy of the page before
+       drawing, with no timeout. Safari never loads a loading="lazy" image inside
+       that hidden clone, so a sample-gallery thumbnail the visitor has not
+       scrolled to hung every export on "Downloading…" forever. Images outside
+       the capture target cannot appear in the output, so unfinished ones are
+       left out of the clone. The timeout is a backstop so a capture can never
+       hang silently again. */
+    const CAPTURE_TIMEOUT_MS = 30000;
+    function captureElement(el, opts) {
+      const ignoreElements = node => node.tagName === 'IMG' && !node.complete && !el.contains(node);
+      let timer;
+      const timeout = new Promise((_, reject) => {
+        timer = setTimeout(() => reject(new Error('capture timed out')), CAPTURE_TIMEOUT_MS);
+      });
+      return Promise.race([html2canvas(el, { ...opts, ignoreElements }), timeout])
+        .finally(() => clearTimeout(timer));
+    }
+
     function triggerDownload(canvas, filename) {
       const link = document.createElement('a');
       link.download = filename;
@@ -5669,7 +5687,7 @@
       if (isSocial) {
         const social = document.getElementById('bannerSocial');
         const savedSocial = socialCapturePrep();   // capture at natural 1080px, untransformed
-        html2canvas(social, { scale: 1.6, useCORS: true, logging: false, backgroundColor: null, windowWidth: 1080 })
+        captureElement(social, { scale: 1.6, useCORS: true, logging: false, backgroundColor: null, windowWidth: 1080 })
           .then(srcCanvas => {
             let finalCanvas, filename;
             if (fmt === 'ig-post') {
@@ -5697,7 +5715,7 @@
         ? (FLEX_SCALE[document.getElementById('flexDpi').value] || 3.0)
         : 2.5;
 
-      html2canvas(bannerEl, { scale: captureScale, useCORS: true, logging: false })
+      captureElement(bannerEl, { scale: captureScale, useCORS: true, logging: false })
         .then(srcCanvas => {
           let finalCanvas = srcCanvas;
           let filename = 'memorial-banner.jpg';
@@ -5961,7 +5979,7 @@
 
       social.classList.add('capturing-anim');      // hide CSS flames for the static base
 
-      html2canvas(social, { scale: 1.6, useCORS: true, logging: false, backgroundColor: null, windowWidth: 1080 })
+      captureElement(social, { scale: 1.6, useCORS: true, logging: false, backgroundColor: null, windowWidth: 1080 })
         .then(srcCanvas => {
           social.classList.remove('capturing-anim');
 
@@ -6120,7 +6138,7 @@
         ? { scale: 0.6, useCORS: true, logging: false, backgroundColor: null, windowWidth: 1080 }
         : { scale: 1.4, useCORS: true, logging: false };
 
-      html2canvas(target, opts)
+      captureElement(target, opts)
         .then(canvas => {
           imgEl.src = canvas.toDataURL('image/jpeg', 0.9);
           imgEl.style.display = 'block';
@@ -6734,7 +6752,7 @@
         ? { scale: 1.6, useCORS: true, logging: false, backgroundColor: null, windowWidth: 1080 }
         : { scale: 2, useCORS: true, logging: false };
 
-      html2canvas(target, opts)
+      captureElement(target, opts)
         .then(srcCanvas => {
           let canvas = srcCanvas;
           if (fmt === 'ig-post') canvas = composeToFormat(srcCanvas, 1080, 1080, bg);
