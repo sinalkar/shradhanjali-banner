@@ -5615,13 +5615,40 @@
         .finally(() => clearTimeout(timer));
     }
 
+    /* iPhone/iPad Safari cannot save an <a download> into Photos: it asks
+       "View / Download" and files the JPG away in the Files app, where most
+       visitors never find it. The share sheet's "Save Image" puts it straight
+       into Photos, so iOS gets that instead (iPadOS reports itself as a Mac,
+       hence the touch check). Everywhere else, and whenever the sheet cannot
+       open, fall back to a normal download — from a Blob URL rather than a
+       multi-megabyte data: URL, which Safari may navigate to instead. */
+    const IS_IOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
+      || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
     function triggerDownload(canvas, filename) {
+      return new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.92))
+        .then(blob => {
+          if (!blob) throw new Error('encode failed');
+          const file = new File([blob], filename, { type: 'image/jpeg' });
+          if (IS_IOS && canShareFiles() && navigator.canShare({ files: [file] })) {
+            return navigator.share({ files: [file] }).catch(err => {
+              if (err && err.name === 'AbortError') return;   // user closed the sheet
+              saveBlob(blob, filename);
+            });
+          }
+          saveBlob(blob, filename);
+        });
+    }
+
+    function saveBlob(blob, filename) {
+      const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.download = filename;
-      link.href = canvas.toDataURL('image/jpeg', 0.92);
+      link.href = url;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      setTimeout(() => URL.revokeObjectURL(url), 60000);
     }
 
     // Compose a source canvas into a target aspect ratio with letterboxing
@@ -5697,7 +5724,7 @@
               finalCanvas = composeToFormat(srcCanvas, 1080, 1920, bg);
               filename = fmt === 'whatsapp' ? 'whatsapp-status.jpg' : 'instagram-story.jpg';
             }
-            triggerDownload(finalCanvas, filename);
+            return triggerDownload(finalCanvas, filename);
           })
           .catch(() => showToast(t('msg.error'), 'error'))
           .finally(() => {
@@ -5726,7 +5753,7 @@
             finalCanvas = composeToFormat(srcCanvas, outW, outH, bg);
             filename = `flex-print-${w}x${h}ft.jpg`;
           }
-          triggerDownload(finalCanvas, filename);
+          return triggerDownload(finalCanvas, filename);
         })
         .catch(() => showToast(t('msg.error'), 'error'))
         .finally(() => {
