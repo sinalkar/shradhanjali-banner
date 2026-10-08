@@ -18,7 +18,7 @@
     "watch:css": "tailwindcss -c tailwind.config.js -i src/daisyui.css -o assets/daisyui.css --watch",
     "check:css": "npm run build:css && git diff --exit-code --stat assets/daisyui.css",
     "lint:js": "eslint .",
-    "lint:html": "html-validate index.html 404.html \"*/index.html\"",
+    "lint:html": "html-validate index.html 404.html privacy.html \"*/index.html\"",
     "format:check": "prettier --check \"**/*.{json,css,yml,yaml,md}\"",
     "format": "prettier --write \"**/*.{json,css,yml,yaml,md}\"",
     "serve": "python3 -m http.server 8080",

@@ -1610,6 +1610,101 @@
       background: rgba(201, 160, 106, 0.2);
     }
 
+    /* ─── SUPPORT (₹99) DIALOG ──────────────────────────────── */
+    .support-dialog {
+      background: #1a0a14;
+      color: #f5ead7;
+      border: 1px solid rgba(201, 160, 106, 0.35);
+      border-radius: 16px;
+      padding: 0;
+      width: min(92vw, 400px);
+      max-height: 92vh;
+      overflow-y: auto;
+      position: fixed;
+      inset: 0;
+      margin: auto;   /* the global reset zeroes the UA's centring margin */
+    }
+
+    .support-dialog::backdrop {
+      background: rgba(0, 0, 0, 0.75);
+    }
+
+    .support-inner {
+      padding: 2.4rem 1.5rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.75rem;
+      text-align: center;
+    }
+
+    .support-icon {
+      font-size: 2.2rem;
+      line-height: 1;
+    }
+
+    .support-inner h2 {
+      font-family: 'Tiro Devanagari Marathi', serif;
+      font-size: 1.25rem;
+      line-height: 1.4;
+      color: var(--gold);
+      margin: 0;
+    }
+
+    .support-body {
+      font-size: 0.95rem;
+      line-height: 1.55;
+      margin: 0 0 0.4rem;
+      color: #e8dcc6;
+    }
+
+    .support-donate,
+    .support-skip {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0.7rem 1rem;
+      border-radius: 10px;
+      font: inherit;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .support-donate {
+      background: var(--btn-dl);
+      color: #211407;
+      border: 0;
+    }
+
+    .support-donate:hover {
+      background: #dda038;
+    }
+
+    .support-skip {
+      background: transparent;
+      color: #f5ead7;
+      border: 1px solid rgba(201, 160, 106, 0.45);
+    }
+
+    .support-skip:hover {
+      background: rgba(201, 160, 106, 0.12);
+    }
+
+    .support-donate:focus-visible,
+    .support-skip:focus-visible {
+      outline: 3px solid #894dce;
+      outline-offset: 3px;
+    }
+
+    .support-note {
+      font-size: 0.8rem;
+      opacity: 0.75;
+      margin: 0;
+    }
+
     .dialog-loading {
       color: var(--gold);
       font-family: 'Tiro Devanagari Marathi', serif;
@@ -2740,7 +2835,13 @@
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-    gtag('config', 'G-67SQSS4D5L');
+    /* Visitors can switch analytics off for their browser on /privacy.html.
+       Google signals and ad personalisation stay off: this site only needs
+       aggregate usage counts, not cross-device or advertising profiles. */
+    try {
+      if (localStorage.getItem('shradhNoAnalytics') === '1') window['ga-disable-G-67SQSS4D5L'] = true;
+    } catch (e) { /* storage blocked */ }
+    gtag('config', 'G-67SQSS4D5L', { allow_google_signals: false, allow_ad_personalization_signals: false });
 
     function trackEvent(name, params = {}) {
       try {
@@ -3065,11 +3166,11 @@
         <div class="action-row">
           <button type="button" class="btn-generate" id="btnGenerate" onclick="generateBannerAndReveal()"
             data-i18n="btn.generate">பேனரை உருவாக்கு</button>
-          <button type="button" class="btn-download" id="btnDownload" onclick="downloadBanner(event)"
+          <button type="button" class="btn-download" id="btnDownload" onclick="askSupportThen(event, downloadBanner)"
             data-i18n="btn.download">பேனரைப் பதிவிறக்கு</button>
           <button type="button" class="btn-share" id="btnShare" onclick="shareBanner(event)" data-i18n="btn.share"
             hidden>📤 WhatsApp-இல் அனுப்பவும்</button>
-          <button type="button" class="btn-animate" id="btnAnimate" onclick="downloadAnimatedSocial(event)"
+          <button type="button" class="btn-animate" id="btnAnimate" onclick="askSupportThen(event, downloadAnimatedSocial)"
             data-i18n="btn.animate" hidden>🎞️ अ‍ॅनिमेटेड व्हिडिओ</button>
         </div>
         <div class="secondary-row">
@@ -3397,6 +3498,7 @@
       <p style="margin-top: 0.5rem; opacity: 0.85;">
         <span data-i18n="footer.owner">உரிமையாளர்: </span>
         <a href="https://sinalkar.com" target="_blank" rel="noopener">Sanjay Sinalkar</a>
+        · <a href="/privacy.html" data-i18n="footer.privacy">தனியுரிமைக் கொள்கை</a>
       </p>
       <a class="support-link" href="https://buymeacoffee.com/sinalkar" target="_blank" rel="noopener noreferrer">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -3448,13 +3550,27 @@
 
   <!-- Sticky mobile action bar — appears once the form is scrolled past -->
   <div class="mobile-action-bar" id="mobileActionBar">
-    <button type="button" class="mab-download" onclick="downloadBanner(event)" data-i18n="btn.download">பேனரைப் பதிவிறக்கு</button>
+    <button type="button" class="mab-download" onclick="askSupportThen(event, downloadBanner)" data-i18n="btn.download">பேனரைப் பதிவிறக்கு</button>
     <button type="button" class="mab-share" id="mabShare" onclick="shareBanner(event)" data-i18n="btn.shareShort"
       hidden>📤 பகிர்</button>
   </div>
 
   <!-- Transient status messages (daisyUI toast + alert) -->
   <div class="toast toast-end toast-bottom" id="toastHost" aria-live="polite" hidden></div>
+
+  <!-- Optional ₹99 contribution prompt, shown before every download -->
+  <dialog id="supportDialog" class="support-dialog" aria-labelledby="supportTitle">
+    <button type="button" class="dialog-close" id="supportClose" aria-label="Close">✕</button>
+    <div class="support-inner">
+      <div class="support-icon" aria-hidden="true">🪔</div>
+      <h2 id="supportTitle" data-i18n="support.title">இந்த இலவச சேவைக்கு ₹99 ஆதரவு தருவீர்களா?</h2>
+      <p class="support-body" data-i18n="support.body">இந்த கருவி முற்றிலும் இலவசம், எப்போதும் இலவசமாகவே இருக்கும். உங்கள் சிறிய ஆதரவு இதைத் தொடர்ந்து இயங்க உதவுகிறது.</p>
+      <a class="support-donate" id="supportDonate" href="https://buymeacoffee.com/sinalkar" target="_blank"
+        rel="noopener noreferrer" data-i18n="support.donate">☕ ₹99 ஆதரவு தாருங்கள்</a>
+      <button type="button" class="support-skip" id="supportSkip" data-i18n="support.skip">வேண்டாம், நேரடியாகப் பதிவிறக்கு</button>
+      <p class="support-note" data-i18n="support.note">முற்றிலும் விருப்பத்தேர்வு — ஆதரவு இல்லாமலும் பேனர் பதிவிறக்கமாகும்.</p>
+    </div>
+  </dialog>
 
   <!-- Full-screen preview dialog -->
   <dialog id="previewDialog" class="preview-dialog">
@@ -3530,6 +3646,12 @@
         'footer.text': 'shradhanjalibanner.in · विनामूल्य स्मारक बॅनर जनरेटर',
         'footer.owner': 'मालक: ',
         'footer.support': 'या विनामूल्य सेवेला मदत करा',
+        'support.title': 'या विनामूल्य सेवेला ₹99 चा सहयोग देणार का?',
+        'support.body': 'हे साधन पूर्णपणे विनामूल्य आहे आणि राहील. तुमचा छोटासा सहयोग ते चालू ठेवण्यास मदत करतो.',
+        'support.donate': '☕ ₹99 सहयोग करा',
+        'support.skip': 'नको, थेट डाउनलोड करा',
+        'support.note': 'पूर्णपणे ऐच्छिक — सहयोग न करताही बॅनर डाउनलोड होईल.',
+        'footer.privacy': 'गोपनीयता धोरण',
         'theme.traditional': 'परंपरागत',
         'theme.sunset': 'सूर्यास्त',
         'theme.ocean': 'सागर',
@@ -3615,6 +3737,12 @@
         'footer.text': 'shradhanjalibanner.in · निःशुल्क स्मारक बैनर जनरेटर',
         'footer.owner': 'मालिक: ',
         'footer.support': 'इस निःशुल्क सेवा को सहयोग दें',
+        'support.title': 'क्या आप इस निःशुल्क सेवा को ₹99 का सहयोग देंगे?',
+        'support.body': 'यह टूल पूरी तरह निःशुल्क है और रहेगा। आपका छोटा-सा सहयोग इसे चलाते रहने में मदद करता है।',
+        'support.donate': '☕ ₹99 सहयोग दें',
+        'support.skip': 'नहीं, सीधे डाउनलोड करें',
+        'support.note': 'पूरी तरह वैकल्पिक — सहयोग के बिना भी बैनर डाउनलोड होगा।',
+        'footer.privacy': 'गोपनीयता नीति',
         'theme.traditional': 'परंपरागत',
         'theme.sunset': 'सूर्यास्त',
         'theme.ocean': 'सागर',
@@ -3700,6 +3828,12 @@
         'footer.text': 'shradhanjalibanner.in · Free Memorial Banner Generator',
         'footer.owner': 'Owner: ',
         'footer.support': 'Support this free tool',
+        'support.title': 'Support this free tool with ₹99?',
+        'support.body': 'This tool is and will stay completely free. A small contribution helps keep it running.',
+        'support.donate': '☕ Contribute ₹99',
+        'support.skip': 'No thanks, just download',
+        'support.note': 'Completely optional — your banner downloads either way.',
+        'footer.privacy': 'Privacy Policy',
         'theme.traditional': 'Traditional',
         'theme.sunset': 'Sunset',
         'theme.ocean': 'Ocean',
@@ -3781,6 +3915,12 @@
         'footer.text': 'shradhanjalibanner.in · বিনামূল্যে স্মারক ব্যানার জেনারেটর',
         'footer.owner': 'মালিক: ',
         'footer.support': 'এই বিনামূল্যের সেবাকে সহায়তা করুন',
+        'support.title': 'এই বিনামূল্যের সেবাকে ₹99 দিয়ে সহায়তা করবেন?',
+        'support.body': 'এই টুলটি সম্পূর্ণ বিনামূল্যে এবং তা-ই থাকবে। আপনার ছোট্ট সহায়তা এটি চালু রাখতে সাহায্য করে।',
+        'support.donate': '☕ ₹99 সহায়তা করুন',
+        'support.skip': 'না, সরাসরি ডাউনলোড করুন',
+        'support.note': 'সম্পূর্ণ ঐচ্ছিক — সহায়তা ছাড়াও ব্যানার ডাউনলোড হবে।',
+        'footer.privacy': 'গোপনীয়তা নীতি',
         'theme.traditional': 'ঐতিহ্যবাহী',
         'theme.sunset': 'সূর্যাস্ত',
         'theme.ocean': 'মহাসাগর',
@@ -3862,6 +4002,12 @@
         'footer.text': 'shradhanjalibanner.in · ఉచిత స్మారక బ్యానర్ జనరేటర్',
         'footer.owner': 'యజమాని: ',
         'footer.support': 'ఈ ఉచిత సేవకు మద్దతు ఇవ్వండి',
+        'support.title': 'ఈ ఉచిత సేవకు ₹99 మద్దతు ఇస్తారా?',
+        'support.body': 'ఈ టూల్ పూర్తిగా ఉచితం, ఎప్పటికీ ఉచితంగానే ఉంటుంది. మీ చిన్న సహాయం దీన్ని కొనసాగించడానికి తోడ్పడుతుంది.',
+        'support.donate': '☕ ₹99 మద్దతు ఇవ్వండి',
+        'support.skip': 'వద్దు, నేరుగా డౌన్‌లోడ్ చేయండి',
+        'support.note': 'పూర్తిగా ఐచ్ఛికం — మద్దతు ఇవ్వకపోయినా బ్యానర్ డౌన్‌లోడ్ అవుతుంది.',
+        'footer.privacy': 'గోప్యతా విధానం',
         'theme.traditional': 'సాంప్రదాయ',
         'theme.sunset': 'සූර්ଯ୍ୟାସ୍තମය',
         'theme.ocean': 'सागर',
@@ -3943,6 +4089,12 @@
         'footer.text': 'shradhanjalibanner.in · இலவச நினைவு பேனர் உருவாக்குபவர்',
         'footer.owner': 'உரிமையாளர்: ',
         'footer.support': 'இந்த இலவச சேவையை ஆதரிக்கவும்',
+        'support.title': 'இந்த இலவச சேவைக்கு ₹99 ஆதரவு தருவீர்களா?',
+        'support.body': 'இந்த கருவி முற்றிலும் இலவசம், எப்போதும் இலவசமாகவே இருக்கும். உங்கள் சிறிய ஆதரவு இதைத் தொடர்ந்து இயங்க உதவுகிறது.',
+        'support.donate': '☕ ₹99 ஆதரவு தாருங்கள்',
+        'support.skip': 'வேண்டாம், நேரடியாகப் பதிவிறக்கு',
+        'support.note': 'முற்றிலும் விருப்பத்தேர்வு — ஆதரவு இல்லாமலும் பேனர் பதிவிறக்கமாகும்.',
+        'footer.privacy': 'தனியுரிமைக் கொள்கை',
         'theme.traditional': 'பாரம்பரிய',
         'theme.sunset': 'சூரிய அஸ்தமனம்',
         'theme.ocean': 'கடல்',
@@ -4024,6 +4176,12 @@
         'footer.text': 'shradhanjalibanner.in · નિઃશુલ્ક સ્મારક બેનર જનરેટર',
         'footer.owner': 'માલિક: ',
         'footer.support': 'આ નિઃશુલ્ક સેવાને સહયોગ આપો',
+        'support.title': 'આ નિઃશુલ્ક સેવાને ₹99 નો સહયોગ આપશો?',
+        'support.body': 'આ ટૂલ સંપૂર્ણપણે નિઃશુલ્ક છે અને રહેશે. તમારો નાનો સહયોગ તેને ચાલુ રાખવામાં મદદ કરે છે.',
+        'support.donate': '☕ ₹99 સહયોગ આપો',
+        'support.skip': 'ના, સીધું ડાઉનલોડ કરો',
+        'support.note': 'સંપૂર્ણપણે વૈકલ્પિક — સહયોગ વિના પણ બેનર ડાઉનલોડ થશે.',
+        'footer.privacy': 'ગોપનીયતા નીતિ',
         'theme.traditional': 'પરંપરાગત',
         'theme.sunset': 'સૂર્યાસ્ત',
         'theme.ocean': 'સાગર',
@@ -4105,6 +4263,12 @@
         'footer.text': 'shradhanjalibanner.in · ಉಚಿತ ಸ್ಮರಣಾರ್ಥ ಬ್ಯಾನರ್ ಜನರೇಟರ್',
         'footer.owner': 'ಮಾಲೀಕರು: ',
         'footer.support': 'ಈ ಉಚಿತ ಸೇವೆಯನ್ನು ಬೆಂಬಲಿಸಿ',
+        'support.title': 'ಈ ಉಚಿತ ಸೇವೆಗೆ ₹99 ಬೆಂಬಲ ನೀಡುವಿರಾ?',
+        'support.body': 'ಈ ಸಾಧನ ಸಂಪೂರ್ಣ ಉಚಿತ ಮತ್ತು ಹಾಗೆಯೇ ಇರುತ್ತದೆ. ನಿಮ್ಮ ಸಣ್ಣ ಬೆಂಬಲ ಇದನ್ನು ಮುಂದುವರಿಸಲು ಸಹಾಯ ಮಾಡುತ್ತದೆ.',
+        'support.donate': '☕ ₹99 ಬೆಂಬಲ ನೀಡಿ',
+        'support.skip': 'ಬೇಡ, ನೇರವಾಗಿ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ',
+        'support.note': 'ಸಂಪೂರ್ಣ ಐಚ್ಛಿಕ — ಬೆಂಬಲ ನೀಡದಿದ್ದರೂ ಬ್ಯಾನರ್ ಡೌನ್‌ಲೋಡ್ ಆಗುತ್ತದೆ.',
+        'footer.privacy': 'ಗೌಪ್ಯತಾ ನೀತಿ',
         'theme.traditional': 'ಸಾಂಪ್ರದಾಯಿಕ',
         'theme.sunset': 'ಸೂರ್ಯಾಸ್ತ',
         'theme.ocean': 'ಸಾಗರ',
@@ -4186,6 +4350,12 @@
         'footer.text': 'shradhanjalibanner.in · സൗജന്യ സ്മരണാഞ്ജലി ബാനർ ജനറേറ്റർ',
         'footer.owner': 'ഉടമ: ',
         'footer.support': 'ഈ സൗജന്യ സേവനത്തെ പിന്തുണയ്ക്കുക',
+        'support.title': 'ഈ സൗജന്യ സേവനത്തിന് ₹99 പിന്തുണ നൽകാമോ?',
+        'support.body': 'ഈ ടൂൾ പൂർണ്ണമായും സൗജന്യമാണ്, എന്നും അങ്ങനെ തന്നെ തുടരും. നിങ്ങളുടെ ചെറിയ പിന്തുണ ഇത് തുടർന്നു പ്രവർത്തിക്കാൻ സഹായിക്കുന്നു.',
+        'support.donate': '☕ ₹99 പിന്തുണ നൽകുക',
+        'support.skip': 'വേണ്ട, നേരിട്ട് ഡൗൺലോഡ് ചെയ്യുക',
+        'support.note': 'പൂർണ്ണമായും ഐച്ഛികം — പിന്തുണയില്ലാതെയും ബാനർ ഡൗൺലോഡ് ആകും.',
+        'footer.privacy': 'സ്വകാര്യതാ നയം',
         'theme.traditional': 'പരമ്പരാഗതം',
         'theme.sunset': 'സൂര്യാസ്തമയം',
         'theme.ocean': 'സമുദ്രം',
@@ -4267,6 +4437,12 @@
         'footer.text': 'shradhanjalibanner.in · ਮੁਫ਼ਤ ਯਾਦਗਾਰੀ ਬੈਨਰ ਜਨਰੇਟਰ',
         'footer.owner': 'ਮਾਲਕ: ',
         'footer.support': 'ਇਸ ਮੁਫ਼ਤ ਸੇਵਾ ਦਾ ਸਮਰਥਨ ਕਰੋ',
+        'support.title': 'ਕੀ ਤੁਸੀਂ ਇਸ ਮੁਫ਼ਤ ਸੇਵਾ ਨੂੰ ₹99 ਦਾ ਸਮਰਥਨ ਦਿਓਗੇ?',
+        'support.body': 'ਇਹ ਟੂਲ ਪੂਰੀ ਤਰ੍ਹਾਂ ਮੁਫ਼ਤ ਹੈ ਅਤੇ ਰਹੇਗਾ। ਤੁਹਾਡਾ ਛੋਟਾ ਜਿਹਾ ਸਮਰਥਨ ਇਸਨੂੰ ਚਲਦਾ ਰੱਖਣ ਵਿੱਚ ਮਦਦ ਕਰਦਾ ਹੈ।',
+        'support.donate': '☕ ₹99 ਸਮਰਥਨ ਦਿਓ',
+        'support.skip': 'ਨਹੀਂ, ਸਿੱਧਾ ਡਾਊਨਲੋਡ ਕਰੋ',
+        'support.note': 'ਪੂਰੀ ਤਰ੍ਹਾਂ ਵਿਕਲਪਿਕ — ਸਮਰਥਨ ਤੋਂ ਬਿਨਾਂ ਵੀ ਬੈਨਰ ਡਾਊਨਲੋਡ ਹੋਵੇਗਾ।',
+        'footer.privacy': 'ਪਰਦੇਦਾਰੀ ਨੀਤੀ',
         'theme.traditional': 'ਰਵਾਇਤੀ',
         'theme.sunset': 'ਸੂਰਜ ਡੁੱਬਣ',
         'theme.ocean': 'ਸਮੁੰਦਰ',
@@ -4348,6 +4524,12 @@
         'footer.text': 'shradhanjalibanner.in · ମାଗଣା ସ୍ମୃତି ବ୍ୟାନର୍ ଜେନେରେଟର୍',
         'footer.owner': 'ମାଲିକ: ',
         'footer.support': 'ଏହି ମାଗଣା ସେବାକୁ ସମର୍ଥନ କରନ୍ତୁ',
+        'support.title': 'ଏହି ମାଗଣା ସେବାକୁ ₹99 ସମର୍ଥନ ଦେବେ କି?',
+        'support.body': 'ଏହି ଟୁଲ୍ ସମ୍ପୂର୍ଣ୍ଣ ମାଗଣା ଏବଂ ସେପରି ରହିବ। ଆପଣଙ୍କ ଛୋଟ ସମର୍ଥନ ଏହାକୁ ଚାଲୁ ରଖିବାରେ ସାହାଯ୍ୟ କରେ।',
+        'support.donate': '☕ ₹99 ସମର୍ଥନ ଦିଅନ୍ତୁ',
+        'support.skip': 'ନା, ସିଧାସଳଖ ଡାଉନଲୋଡ୍ କରନ୍ତୁ',
+        'support.note': 'ସମ୍ପୂର୍ଣ୍ଣ ଇଚ୍ଛାଧୀନ — ସମର୍ଥନ ବିନା ମଧ୍ୟ ବ୍ୟାନର ଡାଉନଲୋଡ୍ ହେବ।',
+        'footer.privacy': 'ଗୋପନୀୟତା ନୀତି',
         'theme.traditional': 'ପାରମ୍ପରିକ',
         'theme.sunset': 'ସୂର୍ଯ୍ୟାସ୍ତ',
         'theme.ocean': 'ମହାସାଗର',
@@ -5295,6 +5477,7 @@
     }
 
     document.getElementById('langSelect').addEventListener('change', function () {
+      trackEvent('select_language', { from: currentLang, to: this.value });
       setLanguage(this.value);
     });
 
@@ -5785,6 +5968,57 @@
           setExportProgress(false);
         });
     }
+
+    /* ════════════════════════════════════════════════════════════
+       OPTIONAL ₹99 SUPPORT PROMPT — shown before every download.
+       Skipping always downloads; closing (✕ / Esc) cancels. The download
+       itself runs from the dialog's own click, so iOS still treats it as
+       user-initiated and can open the share sheet.
+    ════════════════════════════════════════════════════════════ */
+    let pendingDownload = null;
+    let supportClicked = false;
+
+    function askSupportThen(event, run) {
+      const btn = event.currentTarget;
+      const dialog = document.getElementById('supportDialog');
+      if (!dialog || typeof dialog.showModal !== 'function') { run({ currentTarget: btn }); return; }
+      pendingDownload = () => run({ currentTarget: btn });
+      supportClicked = false;
+      document.getElementById('supportSkip').textContent = t('support.skip');
+      dialog.showModal();
+      trackEvent('support_prompt_shown', { format: document.getElementById('bannerFormat').value });
+    }
+
+    function dismissSupport() {
+      if (!pendingDownload) return;
+      pendingDownload = null;
+      trackEvent('support_dismiss', { format: document.getElementById('bannerFormat').value });
+    }
+
+    document.getElementById('supportDonate').addEventListener('click', function () {
+      supportClicked = true;
+      trackEvent('support_click', {
+        format: document.getElementById('bannerFormat').value, value: 99, currency: 'INR'
+      });
+      // They are off to the payment page; when they come back, one tap downloads.
+      document.getElementById('supportSkip').textContent = t('btn.download');
+    });
+
+    document.getElementById('supportSkip').addEventListener('click', function () {
+      const run = pendingDownload;
+      pendingDownload = null;
+      trackEvent(supportClicked ? 'support_then_download' : 'support_skip', {
+        format: document.getElementById('bannerFormat').value
+      });
+      document.getElementById('supportDialog').close();
+      if (run) run();
+    });
+
+    document.getElementById('supportClose').addEventListener('click', function () {
+      dismissSupport();
+      document.getElementById('supportDialog').close();
+    });
+    document.getElementById('supportDialog').addEventListener('cancel', dismissSupport);   // Esc
 
     /* ════════════════════════════════════════════════════════════
        FORMAT PICKER — flex sub-options + contextual hint
