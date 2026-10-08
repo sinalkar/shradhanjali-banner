@@ -1915,6 +1915,10 @@
 
     .photo-frame-container {
       position: relative;
+      /* Own formatting context: without it the photo's top margin collapses
+         through this box wherever it is not a flex item (the social card),
+         dropping the frame overlay but not the photo, so they misalign. */
+      display: flow-root;
       width: 100%;
       aspect-ratio: 480 / 640;
     }
