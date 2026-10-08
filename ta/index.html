@@ -1699,6 +1699,18 @@
       outline-offset: 3px;
     }
 
+    .save-dialog-img {
+      display: block;
+      max-width: 100%;
+      max-height: 50vh;
+      margin: 0 auto;
+      border-radius: 8px;
+      object-fit: contain;
+      /* Long-press must reach Safari's own image menu (Save to Photos). */
+      -webkit-touch-callout: default;
+      user-select: auto;
+    }
+
     .support-note {
       font-size: 0.8rem;
       opacity: 0.75;
@@ -3572,6 +3584,18 @@
     </div>
   </dialog>
 
+  <!-- iPhone/iPad: finished banner + a fresh tap to open the share sheet -->
+  <dialog id="saveDialog" class="support-dialog save-dialog" aria-labelledby="saveDialogTitle">
+    <button type="button" class="dialog-close" id="saveDialogClose" aria-label="Close">✕</button>
+    <div class="support-inner">
+      <h2 id="saveDialogTitle" data-i18n="save.title">உங்கள் பேனர் தயார்</h2>
+      <img id="saveDialogImg" class="save-dialog-img" alt="Banner"
+        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+      <button type="button" class="support-donate" id="saveDialogBtn" data-i18n="save.button">📥 புகைப்படங்களில் சேமி</button>
+      <p class="support-note" data-i18n="save.hint">அல்லது படத்தை அழுத்திப் பிடித்து “Save to Photos” என்பதைத் தேர்ந்தெடுக்கவும்.</p>
+    </div>
+  </dialog>
+
   <!-- Full-screen preview dialog -->
   <dialog id="previewDialog" class="preview-dialog">
     <button type="button" class="dialog-close" id="closeDialog" aria-label="Close">✕</button>
@@ -3652,6 +3676,9 @@
         'support.skip': 'नको, थेट डाउनलोड करा',
         'support.note': 'पूर्णपणे ऐच्छिक — सहयोग न करताही बॅनर डाउनलोड होईल.',
         'footer.privacy': 'गोपनीयता धोरण',
+        'save.title': 'तुमचा बॅनर तयार आहे',
+        'save.button': '📥 फोटोमध्ये सेव्ह करा',
+        'save.hint': 'किंवा फोटोवर बोट दाबून ठेवा आणि “Save to Photos” निवडा.',
         'theme.traditional': 'परंपरागत',
         'theme.sunset': 'सूर्यास्त',
         'theme.ocean': 'सागर',
@@ -3743,6 +3770,9 @@
         'support.skip': 'नहीं, सीधे डाउनलोड करें',
         'support.note': 'पूरी तरह वैकल्पिक — सहयोग के बिना भी बैनर डाउनलोड होगा।',
         'footer.privacy': 'गोपनीयता नीति',
+        'save.title': 'आपका बैनर तैयार है',
+        'save.button': '📥 फ़ोटो में सेव करें',
+        'save.hint': 'या फ़ोटो को दबाकर रखें और “Save to Photos” चुनें।',
         'theme.traditional': 'परंपरागत',
         'theme.sunset': 'सूर्यास्त',
         'theme.ocean': 'सागर',
@@ -3834,6 +3864,9 @@
         'support.skip': 'No thanks, just download',
         'support.note': 'Completely optional — your banner downloads either way.',
         'footer.privacy': 'Privacy Policy',
+        'save.title': 'Your banner is ready',
+        'save.button': '📥 Save to Photos',
+        'save.hint': 'Or press and hold the image and choose “Save to Photos”.',
         'theme.traditional': 'Traditional',
         'theme.sunset': 'Sunset',
         'theme.ocean': 'Ocean',
@@ -3921,6 +3954,9 @@
         'support.skip': 'না, সরাসরি ডাউনলোড করুন',
         'support.note': 'সম্পূর্ণ ঐচ্ছিক — সহায়তা ছাড়াও ব্যানার ডাউনলোড হবে।',
         'footer.privacy': 'গোপনীয়তা নীতি',
+        'save.title': 'আপনার ব্যানার তৈরি',
+        'save.button': '📥 ফটোতে সেভ করুন',
+        'save.hint': 'অথবা ছবিটি চেপে ধরে “Save to Photos” বেছে নিন।',
         'theme.traditional': 'ঐতিহ্যবাহী',
         'theme.sunset': 'সূর্যাস্ত',
         'theme.ocean': 'মহাসাগর',
@@ -4008,6 +4044,9 @@
         'support.skip': 'వద్దు, నేరుగా డౌన్‌లోడ్ చేయండి',
         'support.note': 'పూర్తిగా ఐచ్ఛికం — మద్దతు ఇవ్వకపోయినా బ్యానర్ డౌన్‌లోడ్ అవుతుంది.',
         'footer.privacy': 'గోప్యతా విధానం',
+        'save.title': 'మీ బ్యానర్ సిద్ధంగా ఉంది',
+        'save.button': '📥 ఫోటోలలో సేవ్ చేయండి',
+        'save.hint': 'లేదా చిత్రాన్ని నొక్కి పట్టుకుని “Save to Photos” ఎంచుకోండి.',
         'theme.traditional': 'సాంప్రదాయ',
         'theme.sunset': 'සූර්ଯ୍ୟାସ୍තମය',
         'theme.ocean': 'सागर',
@@ -4095,6 +4134,9 @@
         'support.skip': 'வேண்டாம், நேரடியாகப் பதிவிறக்கு',
         'support.note': 'முற்றிலும் விருப்பத்தேர்வு — ஆதரவு இல்லாமலும் பேனர் பதிவிறக்கமாகும்.',
         'footer.privacy': 'தனியுரிமைக் கொள்கை',
+        'save.title': 'உங்கள் பேனர் தயார்',
+        'save.button': '📥 புகைப்படங்களில் சேமி',
+        'save.hint': 'அல்லது படத்தை அழுத்திப் பிடித்து “Save to Photos” என்பதைத் தேர்ந்தெடுக்கவும்.',
         'theme.traditional': 'பாரம்பரிய',
         'theme.sunset': 'சூரிய அஸ்தமனம்',
         'theme.ocean': 'கடல்',
@@ -4182,6 +4224,9 @@
         'support.skip': 'ના, સીધું ડાઉનલોડ કરો',
         'support.note': 'સંપૂર્ણપણે વૈકલ્પિક — સહયોગ વિના પણ બેનર ડાઉનલોડ થશે.',
         'footer.privacy': 'ગોપનીયતા નીતિ',
+        'save.title': 'તમારું બેનર તૈયાર છે',
+        'save.button': '📥 ફોટોમાં સેવ કરો',
+        'save.hint': 'અથવા ફોટાને દબાવી રાખો અને “Save to Photos” પસંદ કરો.',
         'theme.traditional': 'પરંપરાગત',
         'theme.sunset': 'સૂર્યાસ્ત',
         'theme.ocean': 'સાગર',
@@ -4269,6 +4314,9 @@
         'support.skip': 'ಬೇಡ, ನೇರವಾಗಿ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ',
         'support.note': 'ಸಂಪೂರ್ಣ ಐಚ್ಛಿಕ — ಬೆಂಬಲ ನೀಡದಿದ್ದರೂ ಬ್ಯಾನರ್ ಡೌನ್‌ಲೋಡ್ ಆಗುತ್ತದೆ.',
         'footer.privacy': 'ಗೌಪ್ಯತಾ ನೀತಿ',
+        'save.title': 'ನಿಮ್ಮ ಬ್ಯಾನರ್ ಸಿದ್ಧವಾಗಿದೆ',
+        'save.button': '📥 ಫೋಟೋಗಳಲ್ಲಿ ಸೇವ್ ಮಾಡಿ',
+        'save.hint': 'ಅಥವಾ ಚಿತ್ರವನ್ನು ಒತ್ತಿ ಹಿಡಿದು “Save to Photos” ಆಯ್ಕೆಮಾಡಿ.',
         'theme.traditional': 'ಸಾಂಪ್ರದಾಯಿಕ',
         'theme.sunset': 'ಸೂರ್ಯಾಸ್ತ',
         'theme.ocean': 'ಸಾಗರ',
@@ -4356,6 +4404,9 @@
         'support.skip': 'വേണ്ട, നേരിട്ട് ഡൗൺലോഡ് ചെയ്യുക',
         'support.note': 'പൂർണ്ണമായും ഐച്ഛികം — പിന്തുണയില്ലാതെയും ബാനർ ഡൗൺലോഡ് ആകും.',
         'footer.privacy': 'സ്വകാര്യതാ നയം',
+        'save.title': 'നിങ്ങളുടെ ബാനർ തയ്യാർ',
+        'save.button': '📥 ഫോട്ടോകളിൽ സേവ് ചെയ്യുക',
+        'save.hint': 'അല്ലെങ്കിൽ ചിത്രത്തിൽ അമർത്തിപ്പിടിച്ച് “Save to Photos” തിരഞ്ഞെടുക്കുക.',
         'theme.traditional': 'പരമ്പരാഗതം',
         'theme.sunset': 'സൂര്യാസ്തമയം',
         'theme.ocean': 'സമുദ്രം',
@@ -4443,6 +4494,9 @@
         'support.skip': 'ਨਹੀਂ, ਸਿੱਧਾ ਡਾਊਨਲੋਡ ਕਰੋ',
         'support.note': 'ਪੂਰੀ ਤਰ੍ਹਾਂ ਵਿਕਲਪਿਕ — ਸਮਰਥਨ ਤੋਂ ਬਿਨਾਂ ਵੀ ਬੈਨਰ ਡਾਊਨਲੋਡ ਹੋਵੇਗਾ।',
         'footer.privacy': 'ਪਰਦੇਦਾਰੀ ਨੀਤੀ',
+        'save.title': 'ਤੁਹਾਡਾ ਬੈਨਰ ਤਿਆਰ ਹੈ',
+        'save.button': '📥 ਫ਼ੋਟੋਆਂ ਵਿੱਚ ਸੇਵ ਕਰੋ',
+        'save.hint': 'ਜਾਂ ਤਸਵੀਰ ਨੂੰ ਦਬਾ ਕੇ ਰੱਖੋ ਅਤੇ “Save to Photos” ਚੁਣੋ।',
         'theme.traditional': 'ਰਵਾਇਤੀ',
         'theme.sunset': 'ਸੂਰਜ ਡੁੱਬਣ',
         'theme.ocean': 'ਸਮੁੰਦਰ',
@@ -4530,6 +4584,9 @@
         'support.skip': 'ନା, ସିଧାସଳଖ ଡାଉନଲୋଡ୍ କରନ୍ତୁ',
         'support.note': 'ସମ୍ପୂର୍ଣ୍ଣ ଇଚ୍ଛାଧୀନ — ସମର୍ଥନ ବିନା ମଧ୍ୟ ବ୍ୟାନର ଡାଉନଲୋଡ୍ ହେବ।',
         'footer.privacy': 'ଗୋପନୀୟତା ନୀତି',
+        'save.title': 'ଆପଣଙ୍କ ବ୍ୟାନର ପ୍ରସ୍ତୁତ',
+        'save.button': '📥 ଫଟୋରେ ସେଭ୍ କରନ୍ତୁ',
+        'save.hint': 'କିମ୍ବା ଛବିକୁ ଦବାଇ ରଖନ୍ତୁ ଏବଂ “Save to Photos” ବାଛନ୍ତୁ।',
         'theme.traditional': 'ପାରମ୍ପରିକ',
         'theme.sunset': 'ସୂର୍ଯ୍ୟାସ୍ତ',
         'theme.ocean': 'ମହାସାଗର',
@@ -5822,11 +5879,14 @@
 
     /* iPhone/iPad Safari cannot save an <a download> into Photos: it asks
        "View / Download" and files the JPG away in the Files app, where most
-       visitors never find it. The share sheet's "Save Image" puts it straight
-       into Photos, so iOS gets that instead (iPadOS reports itself as a Mac,
-       hence the touch check). Everywhere else, and whenever the sheet cannot
-       open, fall back to a normal download — from a Blob URL rather than a
-       multi-megabyte data: URL, which Safari may navigate to instead. */
+       visitors never find it. The share sheet's "Save Image" puts it in Photos,
+       but Safari only opens the sheet within about a second of a tap, and
+       drawing the banner on a phone takes longer than that. So on iOS the
+       finished image is shown in a dialog whose own "Save to Photos" button
+       opens the sheet from a fresh tap; long-pressing the image works too.
+       iPadOS reports itself as a Mac, hence the touch check. Everywhere else
+       it is a normal download, from a Blob URL rather than a multi-megabyte
+       data: URL, which Safari may navigate to instead. */
     const IS_IOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
       || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
@@ -5834,16 +5894,47 @@
       return new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.92))
         .then(blob => {
           if (!blob) throw new Error('encode failed');
-          const file = new File([blob], filename, { type: 'image/jpeg' });
-          if (IS_IOS && canShareFiles() && navigator.canShare({ files: [file] })) {
-            return navigator.share({ files: [file] }).catch(err => {
-              if (err && err.name === 'AbortError') return;   // user closed the sheet
-              saveBlob(blob, filename);
-            });
-          }
-          saveBlob(blob, filename);
+          if (IS_IOS) showSaveDialog(blob, filename);
+          else saveBlob(blob, filename);
         });
     }
+
+    const BLANK_GIF = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+    let savePending = null;   // { blob, filename, url } shown in #saveDialog
+
+    function showSaveDialog(blob, filename) {
+      const dialog = document.getElementById('saveDialog');
+      if (savePending) URL.revokeObjectURL(savePending.url);
+      savePending = { blob, filename, url: URL.createObjectURL(blob) };
+      document.getElementById('saveDialogImg').src = savePending.url;
+      if (dialog.open) return;
+      dialog.showModal();
+      trackEvent('ios_save_shown', { format: document.getElementById('bannerFormat').value });
+    }
+
+    document.getElementById('saveDialogBtn').addEventListener('click', function () {
+      if (!savePending) return;
+      const { blob, filename } = savePending;
+      const file = new File([blob], filename, { type: 'image/jpeg' });
+      trackEvent('ios_save_click', { format: document.getElementById('bannerFormat').value });
+      if (canShareFiles() && navigator.canShare({ files: [file] })) {
+        navigator.share({ files: [file] }).catch(err => {
+          if (err && err.name === 'AbortError') return;   // user closed the sheet
+          saveBlob(blob, filename);
+        });
+      } else {
+        saveBlob(blob, filename);
+      }
+    });
+
+    document.getElementById('saveDialogClose').addEventListener('click', function () {
+      document.getElementById('saveDialog').close();
+    });
+    document.getElementById('saveDialog').addEventListener('close', function () {
+      if (savePending) URL.revokeObjectURL(savePending.url);
+      savePending = null;
+      document.getElementById('saveDialogImg').src = BLANK_GIF;
+    });
 
     function saveBlob(blob, filename) {
       const url = URL.createObjectURL(blob);
@@ -7044,6 +7135,9 @@
         })
         .then(blob => {
           if (!blob) throw new Error('encode failed');
+          // iOS: the tap has expired by now, so hand over to the save dialog,
+          // whose button opens the same share sheet (WhatsApp included).
+          if (IS_IOS) { showSaveDialog(blob, 'shradhanjali-banner.jpg'); return; }
           const file = new File([blob], 'shradhanjali-banner.jpg', { type: 'image/jpeg' });
           if (!canShareFiles() || !navigator.canShare({ files: [file] })) {
             throw new Error('unsupported');
