@@ -416,6 +416,16 @@ ${alts}
   </url>`;
 }).join('\n\n');
 
+/* Static, single-language pages. Their lastmod is carried over rather than
+   bumped, since this script does not generate them. */
+const STATIC_PAGES = [`${ORIGIN}/privacy.html`];
+const staticEntries = STATIC_PAGES.map(
+  (loc) => `  <url>
+    <loc>${loc}</loc>
+    <lastmod>${existingLastmods.get(loc) || today}</lastmod>
+  </url>`
+).join('\n\n');
+
 fs.writeFileSync(
   sitemapPath,
   `<?xml version="1.0" encoding="UTF-8"?>
@@ -428,6 +438,8 @@ fs.writeFileSync(
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
 ${entries}
+
+${staticEntries}
 
 </urlset>
 `
