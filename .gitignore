@@ -28,3 +28,11 @@ cf60c3a0-bdb1-4dd6-a98b-c856ecc8cf3e.jpg
 node_modules/
 npm-debug.log*
 *.sarif
+v6/
+
+public/
+v4/
+v2
+openspec
+.agent
+
